@@ -419,7 +419,8 @@ export default function Chat() {
       </header>
 
       {mode === "map" ? (
-        <div className="min-h-0 flex-1 p-3">
+        <div className="flex min-h-0 flex-1">
+        <div className="min-h-0 min-w-0 flex-1 p-3">
           <div className="relative h-full min-h-0">
             {mapTurn ? (
               <>
@@ -432,7 +433,7 @@ export default function Chat() {
                   className="h-full"
                 />
                 {/* A pin opens a card on the map, not a panel over it: the reader stays where they are. */}
-                {place && <PlaceCard place={place} onClose={() => setPlace(null)} />}
+                {place && <PlaceCard place={place} onClose={() => setPlace(null)} onRead={(citation) => openSource(citation, mapTurn ?? undefined)} />}
                 <TourBar
                   steps={tourSteps}
                   index={tour.index}
@@ -462,6 +463,10 @@ export default function Chat() {
               </div>
             )}
           </div>
+        </div>
+        {wide && sourcePane && (
+          <aside className="w-[26rem] shrink-0 border-l border-border xl:w-[30rem]">{sourcePane}</aside>
+        )}
         </div>
       ) : (
         <div className="flex min-h-0 flex-1">
@@ -659,7 +664,7 @@ export default function Chat() {
         </div>
       )}
 
-      {!wide && mode === "chat" && (
+      {!wide && (
         <Sheet open={!!sourcePane} onOpenChange={(open) => !open && setSource(null)}>
           <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-lg">
             <SheetTitle className="sr-only">Source</SheetTitle>

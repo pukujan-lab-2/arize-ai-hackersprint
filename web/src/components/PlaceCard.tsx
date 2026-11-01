@@ -3,13 +3,13 @@
 // the passage that was retrieved — so the reader can check a holding without leaving the map.
 
 import { useState } from "react";
-import { ExternalLink, X } from "lucide-react";
+import { BookOpen, ExternalLink, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { sourceHref } from "@/components/Memo";
 import type { MapPlace } from "@/components/CitationMap";
 import { citeType, courtName, type Citation } from "@/lib/citations";
 
-function Row({ citation }: { citation: Citation }) {
+function Row({ citation, onRead }: { citation: Citation; onRead?: (citation: Citation) => void }) {
   const [open, setOpen] = useState(false);
   const passage = String(citation.passage || "").trim();
   const title = citation.title || citation.citation || "Authority";
@@ -48,6 +48,12 @@ function Row({ citation }: { citation: Citation }) {
               No passage was retrieved for this authority — it came from the citation graph.
             </p>
           )}
+          {onRead && (
+            <Button variant="secondary" size="sm" className="mr-1.5 h-7 gap-1.5 px-2 text-xs" onClick={() => onRead(citation)}>
+              <BookOpen className="h-3.5 w-3.5" />
+              Read with checks
+            </Button>
+          )}
           <Button asChild variant="outline" size="sm" className="h-7 gap-1.5 px-2 text-xs">
             <a href={sourceHref(citation)} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="h-3.5 w-3.5" />
@@ -60,7 +66,16 @@ function Row({ citation }: { citation: Citation }) {
   );
 }
 
-export default function PlaceCard({ place, onClose }: { place: MapPlace; onClose: () => void }) {
+export default function PlaceCard({
+  place,
+  onClose,
+  onRead,
+}: {
+  place: MapPlace;
+  onClose: () => void;
+  /** Open one authority in the source pane, with its reference checks. */
+  onRead?: (citation: Citation) => void;
+}) {
   const count = place.citations.length;
 
   return (
@@ -89,7 +104,7 @@ export default function PlaceCard({ place, onClose }: { place: MapPlace; onClose
 
       <ul className="min-h-0 flex-1 divide-y divide-border overflow-y-auto">
         {place.citations.map((citation, index) => (
-          <Row key={`${citation.id}-${index}`} citation={citation} />
+          <Row key={`${citation.id}-${index}`} citation={citation} onRead={onRead} />
         ))}
       </ul>
     </aside>
