@@ -873,6 +873,46 @@
         ],
         "title": "ValidationError",
         "type": "object"
+      },
+      "WarmResponse": {
+        "additionalProperties": true,
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "retry_in_s": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retry In S"
+          },
+          "started": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started"
+          }
+        },
+        "title": "WarmResponse",
+        "type": "object"
       }
     }
   },
@@ -1074,6 +1114,25 @@
           }
         },
         "summary": "Api Claim"
+      }
+    },
+    "/api/engine/warm": {
+      "post": {
+        "description": "Start the sleeping retrieval engine loading when a reader opens the page, so their first question does\nnot wait the full ~75 s. Opens at most one connection per 5 minutes for everyone; status reads never do.",
+        "operationId": "engine_warm_api_engine_warm_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarmResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Engine Warm"
       }
     },
     "/api/health": {

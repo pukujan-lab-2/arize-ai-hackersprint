@@ -1,14 +1,16 @@
 // The colours the map paints with. WebGL paint values are plain strings, so the map's data encoding
 // cannot come from the Tailwind tokens the rest of the app uses; these constants are the single
 // source of truth for both the pins/links drawn on the canvas and the legend drawn over it.
+//
+// The map is a dark canvas whatever the page theme is, so every colour here is chosen to glow on it.
 
 import type { ArcType, Category } from "@/lib/citations";
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  county: "#2563eb",
-  state: "#7c3aed",
-  statute: "#0d9488",
-  federal: "#b45309",
+  county: "#60a5fa",
+  state: "#a78bfa",
+  statute: "#2dd4bf",
+  federal: "#fbbf24",
 };
 
 export const CATEGORY_LABELS: Record<Category, string> = {
@@ -19,11 +21,11 @@ export const CATEGORY_LABELS: Record<Category, string> = {
 };
 
 export const ARC_COLORS: Record<ArcType, string> = {
-  cc: "#2563eb",
-  cs: "#7c3aed",
-  st: "#0d9488",
-  fed: "#b45309",
-  other: "#64748b",
+  cc: "#60a5fa",
+  cs: "#a78bfa",
+  st: "#2dd4bf",
+  fed: "#fbbf24",
+  other: "#94a3b8",
 };
 
 export const ARC_LABELS: Record<ArcType, string> = {
@@ -34,16 +36,29 @@ export const ARC_LABELS: Record<ArcType, string> = {
   other: "Link",
 };
 
+/** The ground under the pins: land, water, the state shape and the lines that divide it. */
+export const GROUND = {
+  land: "#0c1322",
+  water: "#060a14",
+  green: "#0f1a2c",
+  road: "#1e2a44",
+  /** Colorado, lifted a step above the land so the state the law comes from reads first. */
+  state: "#16223d",
+  stateLine: "#4f6aa3",
+  border: "#33415f",
+  country: "#52618a",
+  label: "#7d8db0",
+  labelHalo: "#0c1322",
+};
+
 /**
- * The colours of the land under the pins: the county lines drawn from the Census's own boundaries, the
- * names those lines carry, and the path the tour has walked. The counties are greyer than the pins on
- * purpose — the map's job is to answer "where", not to compete with its own answer — and the walked
- * path is inked like a graph edge, because that is what it is.
+ * Counties and the walked path. County lines are dashed and dim, so they read as a division of land
+ * rather than a route; the walked path is inked white like a graph edge, because that is what it is.
  */
 export const CONTEXT_COLORS = {
-  /** County lines: dashed, so they read as a division of land rather than a route. */
-  county: "#aab4c1",
-  countyLabel: "#5b6675",
+  county: "#6b7fae",
+  countyLabel: "#8da0c8",
   /** The path the tour has walked so far, and its arrowheads. */
-  trail: "#0f172a",
+  trail: "#f8fafc",
+  trailGlow: "#a5b4fc",
 };

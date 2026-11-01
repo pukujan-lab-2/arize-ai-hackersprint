@@ -79,7 +79,7 @@ export default function SourcePane({
     <section aria-label="Source" className={cn("flex min-h-0 flex-col bg-background", className)}>
       <header className={cn("flex shrink-0 items-start gap-2 border-b border-border px-4 py-3", !onClose && "pr-12")}>
         <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
             {citation.ref && (
               <span className="rounded bg-muted px-1.5 py-0.5 font-mono font-medium text-foreground">{citation.ref}</span>
             )}
@@ -92,14 +92,14 @@ export default function SourcePane({
           </p>
         </div>
         <div className="flex shrink-0 items-center">
-          <Button variant="ghost" size="icon" className="h-8 w-8" disabled={index <= 0} onClick={() => onSelect(index - 1)} aria-label="Previous source">
+          <Button variant="ghost" size="icon" className="h-8 w-8 roomy:h-10 roomy:w-10" disabled={index <= 0} onClick={() => onSelect(index - 1)} aria-label="Previous source">
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8" disabled={index >= citations.length - 1} onClick={() => onSelect(index + 1)} aria-label="Next source">
+          <Button variant="ghost" size="icon" className="h-8 w-8 roomy:h-10 roomy:w-10" disabled={index >= citations.length - 1} onClick={() => onSelect(index + 1)} aria-label="Next source">
             <ChevronRight className="h-4 w-4" />
           </Button>
           {onClose && (
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose} aria-label="Close source">
+            <Button variant="ghost" size="icon" className="h-8 w-8 roomy:h-10 roomy:w-10" onClick={onClose} aria-label="Close source">
               <X className="h-4 w-4" />
             </Button>
           )}
@@ -109,7 +109,7 @@ export default function SourcePane({
       <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-4">
         {!!report.claims.length && (
           <div>
-            <h3 className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">What the memo says</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What the memo says</h3>
             <ul className="mt-1.5 space-y-1.5">
               {report.claims.map((claim) => (
                 <li key={claim} className="border-l-2 border-border pl-3 text-sm leading-relaxed">
@@ -121,12 +121,12 @@ export default function SourcePane({
         )}
 
         <div>
-          <h3 className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">The passage</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">The passage</h3>
           {passage ? (
             <>
               <p className="mt-1.5 whitespace-pre-wrap text-sm leading-7 text-foreground">{marked(passage, marks)}</p>
               {!!marks.length && (
-                <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+                <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                   {marks.some((m) => m.kind === "quote") && (
                     <span className="inline-flex items-center gap-1">
                       <span className="h-2.5 w-2.5 rounded-sm bg-amber-400/60" /> quoted in the memo
@@ -140,7 +140,7 @@ export default function SourcePane({
                   )}
                 </p>
               )}
-              <p className="mt-2 text-[11px] text-muted-foreground">
+              <p className="mt-2 text-xs text-muted-foreground">
                 This is the passage the retriever returned, not the whole opinion.
               </p>
             </>
@@ -154,8 +154,8 @@ export default function SourcePane({
 
         <div>
           <div className="flex items-baseline justify-between gap-2">
-            <h3 className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Reference checks</h3>
-            <span className="text-[11px] tabular-nums text-muted-foreground">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Reference checks</h3>
+            <span className="text-xs tabular-nums text-muted-foreground">
               {passed} passed{failed ? ` · ${failed} failed` : ""}
             </span>
           </div>
@@ -176,7 +176,7 @@ export default function SourcePane({
               );
             })}
           </ul>
-          <p className="mt-2 text-[11px] text-muted-foreground">
+          <p className="mt-2 text-xs text-muted-foreground">
             These check references, not legal accuracy or whether the law is current.
           </p>
         </div>

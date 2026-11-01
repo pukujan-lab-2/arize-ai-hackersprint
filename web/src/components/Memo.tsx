@@ -4,6 +4,7 @@
 // the reader unfolds only what they came for.
 
 import { Fragment, useMemo, type ReactNode } from "react";
+import { BookOpen, FileText, Scale, TriangleAlert, type LucideIcon } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import type { Citation } from "@/lib/citations";
 import { cn } from "@/lib/utils";
@@ -131,6 +132,14 @@ function split(blocks: Block[]): Section[] {
   return sections;
 }
 
+/** A small picture for each kind of section the writer uses, so the headings scan at a glance. */
+function sectionIcon(title: string): LucideIcon {
+  if (/authorit|source|citation/i.test(title)) return BookOpen;
+  if (/opinion|analysis|discussion|reasoning/i.test(title)) return Scale;
+  if (/caveat|limit|note|warning/i.test(title)) return TriangleAlert;
+  return FileText;
+}
+
 /** A section title is a button, so its text cannot hold links: the marks come off, the words stay. */
 function headingText(text: string): string {
   return text
@@ -142,6 +151,10 @@ function headingText(text: string): string {
 
 /** Counts the keys handed out so far; `onCite`, when given, opens a source in the page instead of leaving it. */
 type Cursor = { n: number; onCite?: (citation: Citation) => void };
+
+/** A reference like [3] reads as a small chip, so it is easy to see and easy to hit with a thumb. */
+const refClass =
+  "relative ml-0.5 inline-flex min-w-[1.6rem] before:absolute before:-inset-x-1 before:-inset-y-3 before:content-[''] items-center justify-center rounded-md bg-primary/10 px-1.5 align-baseline text-xs font-semibold leading-5 text-foreground no-underline transition-colors hover:bg-primary/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const linkClass =
   "rounded-sm underline decoration-border underline-offset-2 hover:decoration-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
@@ -161,9 +174,21 @@ function inlineNodes(text: string, citations: Citation[], cursor: Cursor): React
       const inner = <strong className="font-semibold">{inlineNodes(bold[1], citations, cursor)}</strong>;
       out.push(
         cite && cursor.onCite ? (
-          <button key={key()} type="button" onClick={() => cursor.onCite?.(cite)} className={linkClass}>
+          <span
+            key={key()}
+            role="button"
+            tabIndex={0}
+            onClick={() => cursor.onCite?.(cite)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                cursor.onCite?.(cite);
+              }
+            }}
+            className={cn(linkClass, "cursor-pointer")}
+          >
             {inner}
-          </button>
+          </span>
         ) : cite ? (
           <a
             key={key()}
@@ -204,35 +229,27 @@ function inlineNodes(text: string, citations: Citation[], cursor: Cursor): React
     if (ref) {
       const n = Number(ref[1]);
       const cite = citations.find((c) => (c.ref || "").trim() === ref[0]) || citations[n - 1];
-      if (cite && cursor.onCite) {
-        out.push(
-          <button
-            key={key()}
-            type="button"
-            onClick={() => cursor.onCite?.(cite)}
-            title={cite.title || cite.citation || "Authority"}
-            className={cn(linkClass, "font-medium")}
-          >
-            {ref[0]}
-          </button>,
-        );
-        i += ref[0].length;
-        continue;
-      }
       if (cite) {
-        out.push(
-          <a
-            key={key()}
-            href={sourceHref(cite)}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={cite.title || cite.citation || "Authority"}
-            className={linkClass}
-          >
+        const title = cite.title || cite.citation || "Authority";
+        const chip = cursor.onCite ? (
+          <button type="button" onClick={() => cursor.onCite?.(cite)} title={title} className={refClass}>
             {ref[0]}
-          </a>,
+          </button>
+        ) : (
+          <a href={sourceHref(cite)} target="_blank" rel="noopener noreferrer" title={title} className={refClass}>
+            {ref[0]}
+          </a>
         );
-        i += ref[0].length;
+        // The punctuation that follows a reference stays on its line, so a full stop is never left alone
+        // at the start of the next one.
+        const mark = rest.slice(ref[0].length).match(/^[.,;:)]+/)?.[0] ?? "";
+        out.push(
+          <span key={key()} className="whitespace-nowrap">
+            {chip}
+            {mark}
+          </span>,
+        );
+        i += ref[0].length + mark.length;
         continue;
       }
     }
@@ -248,8 +265,8 @@ function inlineNodes(text: string, citations: Citation[], cursor: Cursor): React
 
 const headingClass: Record<number, string> = {
   1: "text-base font-semibold",
-  2: "text-base font-semibold",
-  3: "pt-1 text-sm font-semibold uppercase tracking-wide text-muted-foreground",
+  2: "pt-1 text-lg font-semibold tracking-tight",
+  3: "pt-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground",
 };
 
 function renderBlock(block: Block, key: string, citations: Citation[], cursor: Cursor): ReactNode {
@@ -263,7 +280,7 @@ function renderBlock(block: Block, key: string, citations: Citation[], cursor: C
   }
   if (block.kind === "ul") {
     return (
-      <ul key={key} className="list-disc space-y-1 pl-5">
+      <ul key={key} className="list-disc space-y-2 pl-6 marker:text-muted-foreground">
         {block.items.map((item, i) => (
           <li key={`i${i}`}>{inlineNodes(item, citations, cursor)}</li>
         ))}
@@ -272,7 +289,7 @@ function renderBlock(block: Block, key: string, citations: Citation[], cursor: C
   }
   if (block.kind === "ol") {
     return (
-      <ol key={key} className="list-decimal space-y-1 pl-5">
+      <ol key={key} className="list-decimal space-y-2 pl-6 marker:text-muted-foreground">
         {block.items.map((item, i) => (
           <li key={`i${i}`}>{inlineNodes(item, citations, cursor)}</li>
         ))}
@@ -281,7 +298,7 @@ function renderBlock(block: Block, key: string, citations: Citation[], cursor: C
   }
   if (block.kind === "quote") {
     return (
-      <blockquote key={key} className="border-l-2 border-border pl-3 italic text-muted-foreground">
+      <blockquote key={key} className="border-l-4 border-border bg-muted/40 py-1 pl-4 pr-3 italic text-muted-foreground">
         {inlineNodes(block.text, citations, cursor)}
       </blockquote>
     );
@@ -320,22 +337,30 @@ export default function Memo({
   const lead = sections[0];
   const titled = sections.slice(1);
   if (!collapsible || !titled.length) {
-    return <div className="max-w-[70ch] text-sm leading-relaxed text-foreground">{plain(blocks, "")}</div>;
+    return <div className="max-w-[70ch] text-base leading-7 text-foreground">{plain(blocks, "")}</div>;
   }
 
   return (
-    <div className="max-w-[70ch] text-sm leading-relaxed text-foreground">
-      {!!lead.blocks.length && plain(lead.blocks, "lead")}
+    <div className="max-w-[70ch] text-base leading-7 text-foreground">
+      {!!lead.blocks.length && (
+        <div>{plain(lead.blocks, "lead")}</div>
+      )}
 
-      {/* The first section is open, so an answer still leads with its substance; the rest are one click away. */}
-      <Accordion type="multiple" defaultValue={[titled[0].key]} className={cn(lead.blocks.length > 0 && "mt-2")}>
+      {/* Every section starts closed: the short answer above is the substance, and the rest is one tap away. */}
+      <Accordion type="multiple" defaultValue={[]} className={cn(lead.blocks.length > 0 && "mt-3")}>
         {titled.map((section) => (
           <AccordionItem key={section.key} value={section.key} className="border-border/70">
-            <AccordionTrigger className="rounded-md py-1.5 text-sm font-semibold hover:bg-accent/60 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-              {headingText(section.title ?? "")}
+            <AccordionTrigger className="rounded-md py-3 text-base font-semibold hover:bg-accent/60 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+              <span className="flex min-w-0 items-center gap-2.5">
+                {(() => {
+                  const Icon = sectionIcon(section.title ?? "");
+                  return <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-foreground" />;
+                })()}
+                <span className="truncate">{headingText(section.title ?? "")}</span>
+              </span>
             </AccordionTrigger>
-            <AccordionContent className="pb-2 motion-reduce:animate-none">
-              <div className="space-y-2">{section.blocks.map((block, i) => renderBlock(block, `${section.key}b${i}`, citations, cursor))}</div>
+            <AccordionContent className="pb-4 motion-reduce:animate-none">
+              <div className="space-y-3">{section.blocks.map((block, i) => renderBlock(block, `${section.key}b${i}`, citations, cursor))}</div>
             </AccordionContent>
           </AccordionItem>
         ))}

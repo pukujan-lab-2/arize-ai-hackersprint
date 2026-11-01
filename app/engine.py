@@ -11,6 +11,8 @@ the reason it failed, and a checker that did not run is never reported as a pass
 
 import json
 import os
+import shutil
+import subprocess
 import threading
 import time
 import urllib.error
@@ -19,6 +21,13 @@ import urllib.request
 DEFAULT_TIMEOUT = float(os.environ.get("ENGINE_TIMEOUT_S", "120"))
 HEALTH_TIMEOUT = float(os.environ.get("ENGINE_HEALTH_TIMEOUT_S", "2.5"))
 HEALTH_TTL = 10.0
+
+# On the VPS the engine sits behind systemd socket activation: any connection to it starts it (about 75 s) and
+# keeps it awake for 20 more minutes. Status reads therefore ask systemd, never the engine itself.
+SYSTEMD_UNIT = os.environ.get("ENGINE_SYSTEMD_UNIT", "legal-engine.service")
+SYSTEMD_TTL = 5.0
+WARM_EVERY_S = float(os.environ.get("ENGINE_WARM_EVERY_S", "300"))
+WAKING_REASON = "The retrieval engine is waking up (about 1-2 minutes). Ask again shortly for its full search."
 
 SCORER = os.environ.get("ENGINE_SCORER", "minicheck")
 CHECK_THRESHOLD = float(os.environ.get("ENGINE_CHECK_THRESHOLD", "0.5"))
@@ -45,11 +54,13 @@ STAGE_ORDER = ("parse", "bm25", "dense", "hybrid", "graph", "rerank", "jev")
 class EngineError(RuntimeError):
     """The engine did not answer, or answered with an error. `reason` is safe to show to a reader."""
 
-    def __init__(self, reason, status=None, detail=""):
+    def __init__(self, reason, status=None, detail="", waking=False):
         super().__init__(reason)
         self.reason = str(reason)[:300]
         self.status = status
         self.detail = str(detail or "")[:400]
+        # No HTTP answer at all (timeout, refused, reset): what a sleeping engine that is still starting looks like.
+        self.waking = bool(waking)
 
 
 def base_url():
@@ -89,7 +100,7 @@ def _request(method, path, body=None, timeout=None):
             detail = ""
         raise EngineError(f"{error.code} {path}", status=error.code, detail=detail)
     except Exception as error:  # connection refused, DNS, timeout, TLS
-        raise EngineError(f"{type(error).__name__}: {error}")
+        raise EngineError(f"{type(error).__name__}: {error}", waking=True)
     try:
         return json.loads(raw or b"{}")
     except Exception:
@@ -117,6 +128,63 @@ def probe(force=False):
     with _health_lock:
         _health.update(at=time.time(), data=data, error=error)
     return {"ok": error is None, "data": data, "error": error}
+
+
+_unit_lock = threading.Lock()
+_unit = {"at": 0.0, "state": None}
+
+
+def systemd_state():
+    """`legal-engine.service`'s ActiveState (active, activating, inactive, failed...), or None when systemd does
+    not manage the engine on this host. Asking systemd opens no connection to the engine, so it never wakes it."""
+    with _unit_lock:
+        if _unit["at"] and time.time() - _unit["at"] < SYSTEMD_TTL:
+            return _unit["state"]
+    state = None
+    if SYSTEMD_UNIT and shutil.which("systemctl"):
+        try:
+            out = subprocess.run(
+                ["systemctl", "show", SYSTEMD_UNIT, "--property=LoadState,ActiveState"],
+                capture_output=True,
+                text=True,
+                timeout=2,
+            ).stdout
+            props = dict(line.split("=", 1) for line in out.splitlines() if "=" in line)
+            if props.get("LoadState") == "loaded":
+                state = props.get("ActiveState") or None
+        except Exception:
+            state = None
+    with _unit_lock:
+        _unit.update(at=time.time(), state=state)
+    return state
+
+
+_warm_lock = threading.Lock()
+_warm = {"at": 0.0}
+
+
+def _warm_once():
+    try:
+        data = _request("GET", "/health", None, DEFAULT_TIMEOUT)
+        error = None
+    except EngineError as failure:
+        data, error = None, failure.reason
+    with _health_lock:
+        _health.update(at=time.time(), data=data, error=error)
+
+
+def warm():
+    """Open one background connection so a sleeping engine starts loading before the first question.
+    At most once per WARM_EVERY_S for the whole process; returns whether this call started one."""
+    if not configured():
+        return {"started": False, "reason": "not configured"}
+    with _warm_lock:
+        wait = WARM_EVERY_S - (time.time() - _warm["at"])
+        if _warm["at"] and wait > 0:
+            return {"started": False, "reason": "recently warmed", "retry_in_s": round(wait)}
+        _warm["at"] = time.time()
+    threading.Thread(target=_warm_once, daemon=True, name="engine-warm").start()
+    return {"started": True}
 
 
 def _engine_block(data):
@@ -233,14 +301,32 @@ def status(stages=None):
     }
     if not configured():
         return reported
+    unit = systemd_state()
+    if unit is not None:
+        # Socket-activated: report systemd's view, and fill the details from the last health answer the engine
+        # gave (to a warm-up or an earlier probe) without asking it again.
+        with _health_lock:
+            data = _health["data"]
+        _fill(reported, _engine_block(data))
+        reported["ok"] = unit == "active"
+        reported["status"] = {"active": "ready", "activating": "waking", "inactive": "asleep"}.get(unit, unit)
+        if unit == "inactive":
+            reported["last_error"] = None
+        return reported
     health = probe()
     if not health["ok"]:
         reported["status"] = "unreachable"
         reported["last_error"] = health["error"]
         return reported
     block = _engine_block(health["data"])
+    _fill(reported, block)
+    reported["ok"] = str(block.get("status") or "").lower() in ("ready", "ok", "healthy") or bool(block.get("chunks") or block.get("chunk_count"))
+    return reported
+
+
+def _fill(reported, block):
+    """Copy the engine's own health fields into the reported object."""
     reported.update(
-        ok=str(block.get("status") or "").lower() in ("ready", "ok", "healthy") or bool(block.get("chunks") or block.get("chunk_count")),
         status=str(block.get("status") or "unknown"),
         chunk_count=block.get("chunks", block.get("chunk_count")),
         case_count=block.get("cases", block.get("case_count")),
@@ -253,4 +339,3 @@ def status(stages=None):
         scorer=block.get("scorer") or SCORER,
         last_error=block.get("last_error") or last_error(),
     )
-    return reported

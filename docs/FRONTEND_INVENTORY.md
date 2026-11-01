@@ -103,10 +103,10 @@ place — opens in a drawer, so the page never grows a second column of dashboar
 | Follow-up questions, asked with the previous run in context, held in a drawer | `Follow-ups (n)` | `Chat.tsx` | `POST /api/ask` with `prev_run_id` |
 | One section of the memo, unfolded and folded again | the section's own heading | `Memo.tsx` | none |
 | One authority: kind, court, date, citation, passage and link | `Authority` | `AuthorityDetail.tsx` | none |
-| The authorities at one place, from a pin — a small card over the map, each authority opening in place | the place label | `PlaceCard.tsx` | none |
-| Walk the answer: the short answer, the retrieval path, the opinion, the rest of the memo, then each authority in turn, the camera flying to each authority at the county scale | `Play the tour`, `Stop the tour` | `Chat.tsx`, `TourBar.tsx`, `map/tour.ts`, `hooks/use-tour.ts`, `CitationMap.tsx` | none (the browser's own voice; `POST /api/tts_ts` only if it cannot speak) |
-| Step between locations: the camera, the caption and the voice move to the next place the authorities stand, or back to the one before it | `Previous location`, `Next location` | `TourBar.tsx`, `hooks/use-tour.ts` | none |
-| The stop being spoken, as a subtitle along the bottom of the map, the heard part bright, with the place the camera is on | `Tour` (region) | `TourBar.tsx` | none |
+| The authorities at one place, from a pin or the Places tab — listed in the map panel, each opening in the Sources tab | the place label | `MapPanel.tsx` | none |
+| Walk the answer: the short answer, the retrieval path, the opinion, the rest of the memo, then each authority in turn, the camera flying to each authority at the county scale | `Play the tour`, `Stop the tour` | `Chat.tsx`, `MapPanel.tsx`, `map/tour.ts`, `hooks/use-tour.ts`, `CitationMap.tsx` | none (the browser's own voice; `POST /api/tts_ts` only if it cannot speak) |
+| Step between locations: the camera, the caption and the voice move to the next place the authorities stand, or back to the one before it | `Previous location`, `Next location` | `MapPanel.tsx`, `hooks/use-tour.ts` | none |
+| The stop being spoken, as a caption in the Tour tab of the map panel (a sidebar on a wide screen, a pull-up sheet on a phone), the heard part bright, with the place the camera is on | `Tour` (tab) | `MapPanel.tsx`, `PullSheet.tsx` | none |
 | The path the retriever took and how many citation links join the authorities | the line in the tour strip while it is idle | `Chat.tsx`, `map/tour.ts` | `GET /api/run/{id}` (`retrieval`, `edges`) |
 | Fit the camera to every authority | `Fit to the authorities` | `CitationMap.tsx` | none |
 | Zoom and the map's own scale | `Zoom in`, `Zoom out`, the scale bar | `CitationMap.tsx` | none |

@@ -23,6 +23,9 @@ ap.add_argument("--priority", default="P2")
 ap.add_argument("--title", default=None)
 ap.add_argument("--force", action="store_true")
 ap.add_argument("--json", action="store_true")
+ap.add_argument("--project", default=None, help="project the log is about (defaults to this repo)")
+ap.add_argument("--destination", default=None, help="repository the log is filed into (defaults to ACS)")
+ap.add_argument("--directing-human", default=None, help="who directed this log; omitted when nobody did")
 a = ap.parse_args()
 try:
     if a.cmd in ("list", "status"):
@@ -48,7 +51,22 @@ try:
         print(f"OK {a.task} -> {a.status}")
     elif a.cmd == "log":
         st = a.status if a.status in ("open", "resolved") else "open"
-        print("OK wrote", B.log(a.task, a.title or a.task, st, a.note, a.agent))
+        if not (a.task or "").strip():
+            print('ERROR: log needs a topic, e.g. `log HACK-04 --title "..."`', file=sys.stderr)
+            sys.exit(2)
+        print(
+            "OK wrote",
+            B.log(
+                a.task,
+                a.title or a.task,
+                st,
+                a.note,
+                a.agent,
+                project_id=a.project,
+                destination=a.destination,
+                directing_human=a.directing_human,
+            ),
+        )
     elif a.cmd == "add":
         B.add(a.task, a.title, a.priority, a.agent)
         print(f"OK added {a.task}")

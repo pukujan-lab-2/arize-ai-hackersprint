@@ -73,6 +73,12 @@ class HealthResponse(Model):
     data_schema: Optional[Dict[str, Any]] = None  # {repo, store, ok, pending}: Octo schema_version vs schema.SCHEMA_VERSION
 
 
+class WarmResponse(Model):
+    started: Optional[bool] = None  # whether this call opened a connection to wake the engine
+    reason: Optional[str] = None
+    retry_in_s: Optional[int] = None
+
+
 class TtsTsResponse(Model):
     audio_b64: Optional[str] = None
     chars: Optional[List[Any]] = None

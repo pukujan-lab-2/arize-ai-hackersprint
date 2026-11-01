@@ -14,6 +14,7 @@ CAPS = {
 
 PER_IP_PER_MIN = int(os.environ.get("ASK_PER_IP_PER_MIN", "30"))  # backstop per IP (many devices may share one)
 ASK_PER_MIN = int(os.environ.get("ASK_PER_MIN", "6"))  # per session (or per IP if no session)
+WARM_PER_IP_PER_MIN = int(os.environ.get("WARM_PER_IP_PER_MIN", "4"))  # POST /api/engine/warm
 pipeline_runs = 0
 _l = threading.Lock()
 run_lock = threading.Lock()
@@ -46,6 +47,18 @@ def ip_ok(ip):
         _trim(d, 60)
         if len(d) >= PER_IP_PER_MIN:
             blocked["per_ip"] += 1
+            return False
+        d.append(time.time())
+        return True
+
+
+def warm_ok(ip):
+    """Per-IP cap on engine warm-up calls; the engine itself is woken at most once per 5 minutes anyway."""
+    with _l:
+        d = _ip["warm:" + ip]
+        _trim(d, 60)
+        if len(d) >= WARM_PER_IP_PER_MIN:
+            blocked["warm_per_ip"] += 1
             return False
         d.append(time.time())
         return True

@@ -98,7 +98,8 @@ export function pathLine(result: RunResult): string {
   if (record.graphSource && !/^none$/i.test(record.graphSource)) {
     parts.push(`citation graph ${record.graphSource}${record.graphRevision ? ` at ${record.graphRevision}` : ""}`);
   }
-  if (record.engineOk === false) parts.push(`the retrieval engine did not answer (${record.engineReason || "no reason given"})`);
+  if (record.engineWaking) parts.push(record.engineReason.replace(/\.$/, ""));
+  else if (record.engineOk === false) parts.push(`the retrieval engine did not answer (${record.engineReason || "no reason given"})`);
   return `${parts.join("; ")}.`;
 }
 

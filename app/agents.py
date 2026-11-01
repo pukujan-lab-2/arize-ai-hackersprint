@@ -419,9 +419,19 @@ def answer(run, question, ret, prior=None):
 
 _QUOTE = re.compile(r'["\u201c]([^"\u201d]{12,})["\u201d]')
 
+# Characters of passage kept either side of a quoted phrase. The quote picks the passage; this is
+# what the support checker actually reads, so it has to be prose, not the phrase on its own.
+_CITED_CONTEXT_CHARS = 600
+
 
 def _cited_span(cite, sentence):
-    """The exact span of the cited passage the claim leans on, and the chunk it comes from."""
+    """The span of the cited passage the claim leans on, and the chunk it comes from.
+
+    A quotation in the sentence anchors which passage is meant, but the checker needs surrounding
+    context to judge support: returning only the quoted words asks it whether six words entail the
+    claim, which it cannot answer and abstains on. So the quote locates the passage and the window
+    around it is what gets checked.
+    """
     passages = [p for p in (cite.get("passages") or []) if p.get("chunk_id")]
     if not passages and cite.get("chunk_id"):
         passages = [{"chunk_id": cite["chunk_id"], "text": cite.get("passage") or ""}]
@@ -434,7 +444,9 @@ def _cited_span(cite, sentence):
                 raw = p.get("text") or ""
                 at = raw.find(needle)
                 if at >= 0:
-                    return p["chunk_id"], raw[at : at + len(needle)]
+                    start = max(0, at - _CITED_CONTEXT_CHARS)
+                    end = min(len(raw), at + len(needle) + _CITED_CONTEXT_CHARS)
+                    return p["chunk_id"], raw[start:end]
     for p in passages:  # no quote in the claim: the passage itself is the cited text, verbatim
         raw = p.get("text") or ""
         if raw.strip():
@@ -442,11 +454,50 @@ def _cited_span(cite, sentence):
     return None, None
 
 
+_LEADING_REFS = re.compile(r"^(?:\[\d+\][\s,;]*)+")
+
+
+def split_sentences(text):
+    """Sentences, each keeping the citations written after its full stop ("... exception. [1][4]").
+
+    A citation group that opens a piece belongs to the sentence before it, so it is never a sentence of its
+    own and the sentence it follows is never mistaken for an uncited one.
+    """
+    out = []
+    for piece in re.split(r"(?<=[.!?])\s+", text or ""):
+        lead = _LEADING_REFS.match(piece) if out else None
+        if lead:
+            out[-1] += " " + lead.group(0).strip()
+            piece = piece[lead.end() :]
+        if piece.strip():
+            out.append(piece)
+    return out
+
+
+def uncited_claims(text):
+    """Sentences of more than six words that carry no citation."""
+    return [s for s in split_sentences(text) if len(s.split()) > 6 and not re.search(r"\[\d+\]", s)]
+
+
+def _quote_is_verbatim(sentence, cited_text):
+    """True when the claim's own quotation appears word for word in the cited passage.
+
+    Such a claim is supported by construction: the passage contains that sentence. Asking the checker
+    about it invites a low score for a claim that is literally the evidence, which is what made 36 of
+    50 claims on the stored runs look unsupported when they were quotations.
+    """
+    quote = _QUOTE.search(sentence)
+    if not quote:
+        return False
+    needle = " ".join(quote.group(1).split())
+    return bool(needle) and needle in " ".join((cited_text or "").split())
+
+
 def support_claims(text, cites):
     """One claim per cited sentence: the sentence, the span it cites, and the chunk that span lives in."""
     by_ref = {c["ref"]: c for c in cites if c.get("ref")}
     claims, unchecked = [], []
-    for sentence in re.split(r"(?<=[.!?])\s+", " ".join((text or "").split())):
+    for sentence in split_sentences(" ".join((text or "").split())):
         refs = re.findall(r"\[\d+\]", sentence)
         if not refs:
             continue
@@ -457,7 +508,15 @@ def support_claims(text, cites):
         if not chunk_id or not cited_text:
             unchecked.append(refs[0])
             continue
-        claims.append({"text": sentence[:4000], "cited_text": cited_text[:20000], "citation": refs[0], "chunk_id": chunk_id})
+        claims.append(
+            {
+                "text": sentence[:4000],
+                "cited_text": cited_text[:20000],
+                "citation": refs[0],
+                "chunk_id": chunk_id,
+                "verbatim": _quote_is_verbatim(sentence, cited_text),
+            }
+        )
         if len(claims) >= 50:
             break
     return claims, unchecked
@@ -466,12 +525,24 @@ def support_claims(text, cites):
 def _support(text, cites):
     """Ask the engine's checker whether the cited passages support each claim. Never a pass by default."""
     claims, unchecked = support_claims(text, cites)
-    support = {"ran": False, "claims": len(claims), "unchecked": unchecked, "scorer": engine.SCORER, "threshold": engine.CHECK_THRESHOLD}
+    checked = [claim for claim in claims if not claim.get("verbatim")]
+    support = {
+        "ran": False,
+        "claims": len(checked),
+        "verbatim_claims": len(claims) - len(checked),
+        "unchecked": unchecked,
+        "scorer": engine.SCORER,
+        "threshold": engine.CHECK_THRESHOLD,
+    }
     if not claims:
         support["reason"] = "no cited passage to check"
         return support
+    if not checked:
+        # Every claim quotes its own cited passage word for word, so there is nothing to judge.
+        support.update(ran=True, abstain=False, answer_confidence=1.0, reason="every claim is a verbatim quotation")
+        return support
     try:
-        result = engine.check(claims)
+        result = engine.check([{"text": claim["text"], "cited_text": claim["cited_text"]} for claim in checked])
     except engine.EngineError as failure:
         support["reason"] = failure.reason
         if failure.detail:
@@ -515,8 +586,7 @@ def safeguard(run, question, ret, ans):
             return [p for p in pats if p.strip() not in known]
 
         def check_claims():
-            sents = [s for s in re.split(r"(?<=[.!?])\s+", text) if len(s.split()) > 6]
-            return [s for s in sents if not re.search(r"\[\d+\]", s)]
+            return uncited_claims(text)
 
         with ThreadPoolExecutor(3) as ex:  # parallel checks
             f1, f2, f3 = ex.submit(check_refs), ex.submit(check_named), ex.submit(check_claims)

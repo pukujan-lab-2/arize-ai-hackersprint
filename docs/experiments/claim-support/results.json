@@ -1,0 +1,1408 @@
+{
+ "comparison": {
+  "rows": [
+   {
+    "scorer": "MiniCheck",
+    "tp": 29,
+    "fn": 1,
+    "fp": 0,
+    "tn": 50,
+    "precision": 1.0,
+    "recall": 0.9666666666666667,
+    "f1": 0.983050847457627,
+    "accuracy": 0.9875
+   },
+   {
+    "scorer": "JEV",
+    "tp": 30,
+    "fn": 0,
+    "fp": 2,
+    "tn": 48,
+    "precision": 0.9375,
+    "recall": 1.0,
+    "f1": 0.967741935483871,
+    "accuracy": 0.975
+   },
+   {
+    "scorer": "GLiNER",
+    "tp": 20,
+    "fn": 10,
+    "fp": 30,
+    "tn": 20,
+    "precision": 0.4,
+    "recall": 0.6666666666666666,
+    "f1": 0.5,
+    "accuracy": 0.5
+   }
+  ],
+  "timing_ms_per_pair": {
+   "minicheck": 331.74419765000493,
+   "jev": 190.85528846262605,
+   "gliner": 1444.959756731987
+  },
+  "jev_cost_usd_per_1k": 0.0231,
+  "pairs": 80
+ },
+ "per_pair": [
+  {
+   "id": "pos-00",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9295787811279297,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.19820648431777954,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-01",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9797673225402833,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.9403240084648132,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-02",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9799336194992065,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8653137683868408,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-03",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9445506334304811,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.7040101885795593,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-04",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9742931127548218,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.4348483681678772,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-05",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9702420234680177,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.98,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.6962972283363342,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-06",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9826651811599731,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8699653744697571,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-07",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9638853073120116,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.5825915336608887,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-08",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9836453199386597,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.22589224576950073,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-09",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9677152633666993,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.6304077506065369,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-10",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9855604767799377,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.97,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.2676604986190796,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-11",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9586471319198607,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.7352448105812073,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-12",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.8823761343955995,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.7656267881393433,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-13",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9233371019363402,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.99,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.6632025837898254,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-14",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9827446341514586,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.4519646167755127,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-15",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9887436628341676,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.9028939604759216,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-16",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9882982373237611,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8217180967330933,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-17",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9855738282203674,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8164582252502441,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-18",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.224204421043396,
+    "accept": false
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.692257285118103,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-19",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9723399281501771,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.2063274383544922,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-20",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9720954298973083,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.7448365092277527,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-21",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9765269756317139,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.26529788970947266,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-22",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9822930693626403,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.84,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8255879878997803,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-23",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9845765829086304,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.682445764541626,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-24",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9645699262619019,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.8767199516296387,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-25",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9488064050674437,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.98,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.3704649806022644,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-26",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.984988808631897,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.014984369277954102,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-27",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9775821566581726,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.5118739604949951,
+    "accept": true
+   }
+  },
+  {
+   "id": "pos-28",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9815955758094788,
+    "accept": true
+   },
+   "jev": {
+    "prob": 0.99,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.41940611600875854,
+    "accept": false
+   }
+  },
+  {
+   "id": "pos-29",
+   "kind": "positive",
+   "label": "supported",
+   "minicheck": {
+    "prob": 0.9791063070297241,
+    "accept": true
+   },
+   "jev": {
+    "prob": 1,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.6350287795066833,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-00",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.005057360045611859,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.027047038078308105,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-01",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0035065247211605293,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.2866777777671814,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-02",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0038179582916200157,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.5596602559089661,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-03",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.009545386768877508,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.2364645004272461,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-04",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003909689374268055,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.812869131565094,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-05",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.004076583310961723,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.15,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7794374227523804,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-06",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0024554058909416207,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.03,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7035030126571655,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-07",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003934665117412807,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.39537668228149414,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-08",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0033768853172659887,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.9345637559890747,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-09",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.002733197528868914,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8549298644065857,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-10",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003966385964304209,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8265734314918518,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-11",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.005763716064393522,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.5882187485694885,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-12",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.005122110247612002,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.24616026878356934,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-13",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.009048997424542906,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.3097759485244751,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-14",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0066291322000324735,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.19539415836334229,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-15",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.009177203290164474,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7653964161872864,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-16",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.004354012664407493,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.687280535697937,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-17",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.01952583529055119,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.9118416905403137,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-18",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.08200758695602417,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.51917564868927,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-19",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.02441302500665188,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.05460786819458008,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-20",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.00835069082677364,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.03,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.5452563166618347,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-21",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.018271692097187042,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.01,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.45233267545700073,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-22",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0034473389387130733,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.01,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7355400323867798,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-23",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003895275993272661,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.10383003950119019,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-24",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.1359179317951202,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.04,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.9585142135620117,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-25",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.007970074191689488,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8424620032310486,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-26",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003249229863286019,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.675723671913147,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-27",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.013954639434814455,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.3510335087776184,
+    "accept": false
+   }
+  },
+  {
+   "id": "neg-28",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.003773910691961645,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6272919178009033,
+    "accept": true
+   }
+  },
+  {
+   "id": "neg-29",
+   "kind": "negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.0035398872569203377,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8139188885688782,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-00",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.018807198852300647,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.22220522165298462,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-01",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.01015316788107157,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.07,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6831821799278259,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-02",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.018422801047563553,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6912364959716797,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-03",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.036836579442024224,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.22497564554214478,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-04",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.02665438689291477,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.11,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.011678159236907959,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-05",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.022024324163794518,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.9161596894264221,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-06",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.019997099414467808,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.14549869298934937,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-07",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.034529421478509896,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.4337562918663025,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-08",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.024904400110244754,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8652574419975281,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-09",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.014385540038347251,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.22317516803741455,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-10",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.12184800952672958,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.18,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.09060055017471313,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-11",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.01758720353245735,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6864533424377441,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-12",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.10274039953947069,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.81,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.02599155902862549,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-13",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.02698000706732273,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7979280948638916,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-14",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.03539044037461281,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6754328608512878,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-15",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.015464141033589838,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6042267680168152,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-16",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.019781421869993206,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.03,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.6522926092147827,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-17",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.024308325722813606,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0.52,
+    "accept": true
+   },
+   "gliner": {
+    "prob": 0.08405393362045288,
+    "accept": false
+   }
+  },
+  {
+   "id": "hard-18",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.018528796732425693,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.7234438061714172,
+    "accept": true
+   }
+  },
+  {
+   "id": "hard-19",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "minicheck": {
+    "prob": 0.03222634270787239,
+    "accept": false
+   },
+   "jev": {
+    "prob": 0,
+    "accept": false
+   },
+   "gliner": {
+    "prob": 0.8370785117149353,
+    "accept": true
+   }
+  }
+ ]
+}

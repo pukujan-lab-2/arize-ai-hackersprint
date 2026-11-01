@@ -17,6 +17,8 @@ export type Retrieval = {
   graphRevision: string;
   engineOk: boolean | null;
   engineReason: string;
+  /** The engine was asleep and starting up; the passages came from the fallback search. */
+  engineWaking: boolean;
 };
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -84,6 +86,7 @@ export function toRetrieval(raw: unknown): Retrieval | null {
     graphRevision: text(graph.revision),
     engineOk: typeof engineBlock.ok === "boolean" ? engineBlock.ok : null,
     engineReason: text(engineBlock.reason),
+    engineWaking: engineBlock.waking === true,
   };
 }
 

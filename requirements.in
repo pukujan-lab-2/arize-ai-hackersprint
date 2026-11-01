@@ -5,7 +5,8 @@ python-multipart
 requests
 httpx
 networkx
-arize-otel
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-http
 openinference-instrumentation
 numpy
 scipy

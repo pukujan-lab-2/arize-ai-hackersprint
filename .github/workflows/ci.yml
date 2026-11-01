@@ -15,7 +15,7 @@ concurrency:
 jobs:
   gates:
     name: gates
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, org-pool]
     # The browser suite (four pages x five widths x two themes) runs the whole suite in one job; it passed
     # 15 minutes once the v3 acceptance tests joined, so the ceiling sits well above the observed time.
     timeout-minutes: 30

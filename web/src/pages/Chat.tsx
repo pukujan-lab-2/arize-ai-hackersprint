@@ -6,6 +6,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 import {
   ArrowUp,
+  Clock,
+  Menu,
+  ShieldAlert,
+  ShieldCheck,
   BookOpen,
   CheckCircle2,
   Circle,
@@ -25,13 +29,16 @@ import {
 } from "lucide-react";
 import type { ShellContext } from "@/components/AppShell";
 import AuthorityDetail from "@/components/AuthorityDetail";
-import CitationMap, { type MapPlace } from "@/components/CitationMap";
+import CitationMap, { placesOf, type MapPlace } from "@/components/CitationMap";
 import DetailDrawer from "@/components/DetailDrawer";
 import EvidenceList from "@/components/EvidenceList";
 import Memo from "@/components/Memo";
-import PlaceCard from "@/components/PlaceCard";
+import CheckPopover from "@/components/CheckPopover";
+import ExportMenu from "@/components/ExportMenu";
+import PrintReport from "@/components/PrintReport";
+import QuestionBank from "@/components/QuestionBank";
 import SourcePane from "@/components/SourcePane";
-import TourBar from "@/components/TourBar";
+import MapPanel, { type PanelTab } from "@/components/MapPanel";
 import TurnDetails from "@/components/TurnDetails";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,12 +46,11 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useNarration } from "@/hooks/use-narration";
 import { useTour } from "@/hooks/use-tour";
-import { useWide } from "@/hooks/use-wide";
+import { useMedia, useWide } from "@/hooks/use-wide";
 import { pathLine, plainText, tourPlan } from "@/map/tour";
-import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, type AskTick, type Source, type StageTick } from "@/lib/api";
+import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, warmEngine, type AskTick, type Source, type StageTick } from "@/lib/api";
 import { citeType, locate, type Citation, type RunResult } from "@/lib/citations";
-import { SUGGESTIONS } from "@/lib/demo";
-import { seconds } from "@/lib/runs";
+import { seconds, toRetrieval } from "@/lib/runs";
 import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 
@@ -121,7 +127,7 @@ function ToolRow({
 }
 
 export default function Chat() {
-  const { refreshRuns, resetToken } = useOutletContext<ShellContext>();
+  const { refreshRuns, resetToken, openNav, source: corpus } = useOutletContext<ShellContext>();
   const [params, setParams] = useSearchParams();
 
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -136,12 +142,22 @@ export default function Chat() {
   /** The source open beside the memo: which answer it belongs to and where it sits in that answer's list. */
   const [source, setSource] = useState<{ turnId: string; index: number } | null>(null);
   const wide = useWide();
+  // A phone turned sideways is wide but only a few hundred pixels tall: a bottom sheet would leave the map
+  // a sliver, so the map panel stands beside it, as on a desktop.
+  const landscape = useMedia("(max-height: 500px) and (min-width: 560px)");
+  const sidePanel = wide || landscape;
   const [sources, setSources] = useState<Citation[] | null>(null);
   const [place, setPlace] = useState<MapPlace | null>(null);
+  /** The map panel: which tab is open, which opinion in its Sources tab, and how tall the phone sheet is. */
+  const [panelTab, setPanelTab] = useState<PanelTab>("tour");
+  const [panelSource, setPanelSource] = useState<number | null>(null);
+  const [sheetH, setSheetH] = useState(0);
   const [details, setDetails] = useState<AssistantTurn | null>(null);
   const [followUps, setFollowUps] = useState<string[] | null>(null);
   /** The answer whose tools are open in the drawer: sources, follow-ups, the figures, the voice, the map. */
   const [actions, setActions] = useState<AssistantTurn | null>(null);
+  /** The answer being printed or saved as a PDF: its report is on the page only while this is set. */
+  const [printing, setPrinting] = useState<AssistantTurn | null>(null);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -210,6 +226,11 @@ export default function Chat() {
     },
     [lastRunId, refreshRuns, setParams],
   );
+
+  // The retrieval engine sleeps when idle; start it loading while the reader is still reading the page.
+  useEffect(() => {
+    warmEngine("load");
+  }, []);
 
   // A saved run named in the address opens as its own conversation.
   useEffect(() => {
@@ -363,7 +384,65 @@ export default function Chat() {
     />
   );
 
-  const selectPlace = useCallback((next: MapPlace) => setPlace(next), []);
+  const selectPlace = useCallback((next: MapPlace) => {
+    setPlace(next);
+    setPanelTab("places");
+  }, []);
+
+  const mapPlaces = useMemo(() => placesOf(mapTurn?.result.citations || []), [mapTurn]);
+
+  // The one panel that holds the tour, the places, the sources and the key: a sidebar beside the map on a
+  // wide screen, a sheet that pulls up from the bottom of it on a phone.
+  const mapPanel = (variant: "side" | "sheet") =>
+    mapTurn ? (
+      <MapPanel
+        variant={variant}
+        onHeight={variant === "sheet" ? setSheetH : undefined}
+        tour={{
+          steps: tourSteps,
+          index: tour.index,
+          status: tour.status,
+          heard: tour.heard,
+          at: tourAt,
+          path: mapPath,
+          start: () => {
+            setPanelTab("tour");
+            tour.start();
+          },
+          stop: tour.stop,
+          prev: tour.prev,
+          next: tour.next,
+          canPrev: tour.canPrev,
+          canNext: tour.canNext,
+        }}
+        places={mapPlaces}
+        place={place}
+        onPlace={setPlace}
+        citations={mapTurn.result.citations || []}
+        answer={mapTurn.result.answer || ""}
+        safeguard={mapTurn.result.safeguard}
+        tab={panelTab}
+        onTab={setPanelTab}
+        sourceIndex={panelSource}
+        onSourceIndex={setPanelSource}
+        onAsk={(question) => {
+          setMode("chat");
+          void askQuestion(question);
+        }}
+      />
+    ) : null;
+
+  // The report is mounted first, then the print dialog opens over it; closing the dialog unmounts it.
+  useEffect(() => {
+    if (!printing) return;
+    const done = () => setPrinting(null);
+    window.addEventListener("afterprint", done);
+    const timer = window.setTimeout(() => window.print(), 80);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("afterprint", done);
+    };
+  }, [printing]);
 
   const copyAnswer = async (answer: string) => {
     try {
@@ -376,80 +455,71 @@ export default function Chat() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <header className="flex shrink-0 items-center gap-2 border-b border-border px-3 py-2">
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-sm font-semibold leading-tight tracking-tight">
-            {mode === "map" ? "Citation map" : title}
-          </h1>
-          <p className="truncate text-xs leading-tight text-muted-foreground">
-            {mode === "map"
-              ? mapTurn?.result.question || "Where this answer's authorities sit"
-              : "Four agents, one memo, every authority behind it"}
-          </p>
-        </div>
+      <header className="flex h-12 shrink-0 items-center gap-1 border-b border-border px-2 roomy:h-14 sm:px-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 shrink-0 roomy:h-11 roomy:w-11 lg:hidden"
+          aria-label="Open conversations"
+          onClick={openNav}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+        <h1 className="min-w-0 flex-1 truncate px-1 text-sm font-semibold tracking-tight">
+          {mode === "map" ? mapTurn?.result.question || title : title}
+        </h1>
 
         <ToggleGroup
           type="single"
           size="sm"
           value={mode}
           onValueChange={(value) => value && setMode(value as "chat" | "map")}
-          className="rounded-md border border-border p-0.5"
+          className="rounded-full border border-border p-0.5"
           aria-label="Show the conversation or the map"
         >
-          <ToggleGroupItem value="chat" className="gap-1.5 px-2.5 text-xs" aria-label="Chat">
+          <ToggleGroupItem value="chat" className="h-8 w-8 rounded-full p-0 roomy:h-11 roomy:w-11" aria-label="Chat" title="Chat">
             <MessagesSquare className="h-4 w-4" />
-            <span className="hidden sm:inline">Chat</span>
           </ToggleGroupItem>
-          <ToggleGroupItem value="map" className="gap-1.5 px-2.5 text-xs" aria-label="Map">
+          <ToggleGroupItem value="map" className="h-8 w-8 rounded-full p-0 roomy:h-11 roomy:w-11" aria-label="Map" title="Map">
             <MapPin className="h-4 w-4" />
-            <span className="hidden sm:inline">Map</span>
           </ToggleGroupItem>
         </ToggleGroup>
 
         <Button
           variant="ghost"
-          size="sm"
-          className="gap-1.5"
+          size="icon"
+          className="h-9 w-9 shrink-0 roomy:h-11 roomy:w-11"
           onClick={clearThread}
           disabled={!turns.length && !busy}
+          aria-label="New chat"
+          title="New chat"
         >
-          <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">New chat</span>
+          <Plus className="h-5 w-5" />
         </Button>
       </header>
 
       {mode === "map" ? (
-        <div className="min-h-0 flex-1 p-3">
-          <div className="relative h-full min-h-0">
+        <div className="relative flex min-h-0 flex-1">
+          {mapTurn && sidePanel && (
+            <aside className="w-[24rem] shrink-0 border-r border-border bg-background max-lg:w-[19rem] xl:w-[26rem]">{mapPanel("side")}</aside>
+          )}
+          <div className="relative min-h-0 min-w-0 flex-1">
             {mapTurn ? (
               <>
                 <CitationMap
                   citations={mapTurn.result.citations}
                   edges={mapTurn.result.edges}
-                  focus={tour.active ? tour.current?.place ?? null : null}
+                  focus={tour.active ? tour.current?.place ?? null : place?.key ?? null}
+                  walking={tour.active}
+                  inset={sidePanel ? 0 : sheetH}
                   trail={trail}
                   onSelect={selectPlace}
-                  className="h-full"
+                  className="h-full rounded-none border-0"
                 />
-                {/* A pin opens a card on the map, not a panel over it: the reader stays where they are. */}
-                {place && <PlaceCard place={place} onClose={() => setPlace(null)} />}
-                <TourBar
-                  steps={tourSteps}
-                  index={tour.index}
-                  status={tour.status}
-                  heard={tour.heard}
-                  at={tourAt}
-                  path={mapPath}
-                  onStart={tour.start}
-                  onStop={tour.stop}
-                  onPrev={tour.prev}
-                  onNext={tour.next}
-                  canPrev={tour.canPrev}
-                  canNext={tour.canNext}
-                />
+                {!sidePanel && mapPanel("sheet")}
               </>
             ) : (
-              <div className="grid h-full place-items-center rounded-lg border border-border bg-card p-6 text-center">
+              <div className="grid h-full place-items-center bg-card p-6 text-center">
                 <div className="max-w-sm space-y-3">
                   <MapPin className="mx-auto h-6 w-6 text-muted-foreground" />
                   <p className="text-sm leading-relaxed text-muted-foreground">
@@ -466,42 +536,34 @@ export default function Chat() {
       ) : (
         <div className="flex min-h-0 flex-1">
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
-            <div className="mx-auto w-full max-w-3xl px-4 py-5">
+          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto scroll-smooth motion-reduce:scroll-auto">
+            <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
               {!turns.length && !busy && (
-                <div className="rounded-xl border border-border bg-card p-5">
-                  <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
-                    <Sparkles className="h-4 w-4" />
-                  </span>
-                  <h2 className="mt-3 text-lg font-semibold tracking-tight">Ask a legal question</h2>
-                  <p className="mt-1 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">
-                    A planner picks the retrieval path, the retriever gathers authorities, the writer drafts a memo, and
-                    the safeguard checks every reference. The memo arrives with its sources, its follow-ups, and a map of
-                    where the law sits.
+                <div className="flex min-h-[calc(100dvh-16rem)] flex-col justify-center py-6">
+                  <img
+                    src="/logo.svg"
+                    alt=""
+                    className="h-12 w-12 animate-in fade-in zoom-in-95 duration-500 motion-reduce:animate-none"
+                  />
+                  <h2 className="mt-5 text-3xl font-semibold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none sm:text-4xl">
+                    What would you like to research?
+                  </h2>
+                  <p className="mt-2 max-w-[56ch] text-base leading-relaxed text-muted-foreground animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none">
+                    Four agents split the work and every citation comes from a case they retrieved. You get a short
+                    memo, its sources, and a map of where the law sits.
                   </p>
-                  <ul className="mt-4 grid gap-1.5 sm:grid-cols-2">
-                    {SUGGESTIONS.map((suggestion) => (
-                      <li key={suggestion}>
-                        <button
-                          type="button"
-                          onClick={() => void askQuestion(suggestion)}
-                          className="flex h-full w-full items-start gap-2 rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors hover:bg-accent/60"
-                        >
-                          <MessagesSquare className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
-                          <span className="min-w-0">{suggestion}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mt-8">
+                    <QuestionBank onAsk={(question) => void askQuestion(question)} />
+                  </div>
                 </div>
               )}
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {turns.map((turn) => {
                   if (turn.role === "user") {
                     return (
-                      <div key={turn.id} className="flex justify-end">
-                        <p className="max-w-[85%] whitespace-pre-wrap rounded-2xl rounded-br-sm bg-secondary px-3.5 py-2 text-sm leading-relaxed text-secondary-foreground">
+                      <div key={turn.id} className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-300 motion-reduce:animate-none">
+                        <p className="max-w-[85%] whitespace-pre-wrap rounded-3xl bg-secondary px-4 py-2.5 text-base leading-relaxed text-secondary-foreground">
                           {turn.text}
                         </p>
                       </div>
@@ -524,59 +586,87 @@ export default function Chat() {
                   const citations = turn.result.citations || [];
                   const pass = turn.result.safeguard?.pass ?? null;
                   const elapsed = typeof turn.result.elapsed_s === "number" ? turn.result.elapsed_s : null;
+                  const waking = toRetrieval(turn.result.retrieval)?.engineWaking === true;
 
                   return (
-                    <article key={turn.id} className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                        <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground">
-                          <Sparkles className="h-3.5 w-3.5" />
-                        </span>
-                        <span className="font-semibold text-foreground">Precedent</span>
-                        {turn.source === "sample" && (
-                          <Badge variant="secondary" className="gap-1 px-1.5 py-0 text-[10px]">
-                            <FlaskConical className="h-3 w-3" />
-                            Sample
-                          </Badge>
-                        )}
-                        {pass !== null && (
-                          <span
-                            className={cn(
-                              "rounded-full border px-1.5 py-0.5 text-[10px] font-medium",
-                              pass
-                                ? "border-emerald-500/40 text-emerald-600 dark:text-emerald-400"
-                                : "border-destructive/50 text-destructive",
-                            )}
-                          >
-                            {pass ? "Citations checked" : "Citation check failed"}
-                          </span>
-                        )}
-                        {elapsed !== null && <span className="tabular-nums">{seconds(elapsed)}</span>}
-                        <span className="hidden truncate font-mono text-[10px] sm:inline">{turn.runId}</span>
-                      </div>
-
+                    <article
+                      key={turn.id}
+                      className="min-w-0 animate-in fade-in slide-in-from-bottom-2 duration-500 motion-reduce:animate-none"
+                    >
+                      <div className="min-w-0">
                       {answer ? (
-                        <div className="mt-2.5">
+                        <div className="mt-3">
                           <Memo answer={answer} citations={citations} onCite={(citation) => openSource(citation, turn)} />
                         </div>
                       ) : (
                         <p className="mt-2 text-sm text-muted-foreground">The run recorded no answer.</p>
                       )}
-
-                      {/* The disclaimer stays on the answer; everything the reader might do with it lives
-                          behind one button, so the answer ends in a line rather than a toolbar. */}
-                      <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-border pt-2">
-                        <p className="min-w-0 flex-1 text-xs text-muted-foreground">
-                          {turn.result.safeguard?.disclaimer || "AI-generated research summary, not legal advice."}
+                      {waking && (
+                        <p role="status" className="mt-2 text-sm text-muted-foreground">
+                          The full search engine was asleep and is waking up, which takes about 1–2 minutes. This
+                          answer used the quicker backup search; ask again shortly for the full search.
                         </p>
+                      )}
+
+                      <div className="mt-3 flex flex-wrap items-center gap-0.5">
                         <Button
                           variant="ghost"
-                          size="sm"
-                          className="shrink-0 gap-1.5"
+                          size="icon"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
+                          onClick={() => void copyAnswer(turn.result.answer || "")}
+                          aria-label="Copy the memo"
+                          title="Copy the memo"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
+                          onClick={() => {
+                            if (narrating) {
+                              stopNarration();
+                              return;
+                            }
+                            tour.stop();
+                            speak(plainText(turn.result.answer || ""));
+                          }}
+                          aria-label={narrating ? "Stop reading" : "Read aloud"}
+                          title={narrating ? "Stop reading" : "Read aloud"}
+                        >
+                          {narrating ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
+                          onClick={() => openMap(turn)}
+                          aria-label="Show on the map"
+                          title="Show on the map"
+                        >
+                          <MapPin className="h-4 w-4" />
+                        </Button>
+                        <ExportMenu result={turn.result} runId={turn.runId} onPrint={() => setPrinting(turn)} />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
                           onClick={() => setActions(turn)}
+                          aria-label="Answer tools"
+                          title="Answer tools"
                         >
                           <PanelRight className="h-4 w-4" />
-                          Answer tools
                         </Button>
+                        <span className="ml-auto flex max-w-full flex-wrap items-center gap-2 pl-2 text-xs text-muted-foreground">
+                        <CheckPopover safeguard={turn.result.safeguard} citations={citations.length} />
+                        {elapsed !== null && (
+                          <span className="inline-flex items-center gap-1 tabular-nums" title="Time to answer">
+                            <Clock className="h-3.5 w-3.5" />
+                            {seconds(elapsed)}
+                          </span>
+                        )}
+                      </span>
+                      </div>
                       </div>
                     </article>
                   );
@@ -612,7 +702,7 @@ export default function Chat() {
             </div>
           </div>
 
-          <div className="shrink-0 border-t border-border bg-background px-4 py-3">
+          <div className="shrink-0 bg-gradient-to-t from-background via-background to-transparent px-4 pb-4 pt-2 sm:px-6">
             <form
               className="mx-auto w-full max-w-3xl"
               onSubmit={(event) => {
@@ -620,11 +710,12 @@ export default function Chat() {
                 submit();
               }}
             >
-              <div className="flex items-end gap-2 rounded-xl border border-border bg-card p-2 focus-within:ring-2 focus-within:ring-ring">
+              <div className="flex items-end gap-2 rounded-[28px] border border-border bg-card py-2 pl-5 pr-2 shadow-lg transition-shadow duration-200 focus-within:shadow-xl focus-within:ring-2 focus-within:ring-ring motion-reduce:transition-none">
                 <textarea
                   ref={inputRef}
                   aria-label="Ask a question"
                   rows={1}
+                  onFocus={() => warmEngine("focus")}
                   value={draft}
                   onChange={(event) => {
                     setDraft(event.target.value);
@@ -639,16 +730,17 @@ export default function Chat() {
                     }
                   }}
                   placeholder={turns.length ? "Ask a follow-up question…" : "Ask a legal question…"}
-                  className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
+                  className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
                 />
-                <Button type="submit" size="icon" disabled={busy || !draft.trim()} aria-label="Send question">
+                <Button type="submit" size="icon" className="h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" disabled={busy || !draft.trim()} aria-label="Send question">
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
                 </Button>
               </div>
-              <p className="mt-1.5 px-1 text-[11px] text-muted-foreground">
-                {narrationStatus === "unavailable"
-                  ? "The voice is unavailable here, so the memo stays in text."
-                  : "Enter to send · Shift+Enter for a new line · answers are research summaries, not legal advice"}
+              <p className="mt-2 px-1 text-center text-xs text-muted-foreground">
+                {corpus === "sample"
+                  ? "Offline demo: these answers come from a bundled sample, not live case law."
+                  : "AI-generated research summary, not legal advice."}
+                {narrationStatus === "unavailable" ? " The voice is unavailable here, so the memo stays in text." : ""}
               </p>
             </form>
           </div>
@@ -659,7 +751,7 @@ export default function Chat() {
         </div>
       )}
 
-      {!wide && mode === "chat" && (
+      {!wide && (
         <Sheet open={!!sourcePane} onOpenChange={(open) => !open && setSource(null)}>
           <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-lg">
             <SheetTitle className="sr-only">Source</SheetTitle>
@@ -667,6 +759,8 @@ export default function Chat() {
           </SheetContent>
         </Sheet>
       )}
+
+      {printing && <PrintReport result={printing.result} runId={printing.runId} />}
 
       <DetailDrawer
         open={authority !== null}

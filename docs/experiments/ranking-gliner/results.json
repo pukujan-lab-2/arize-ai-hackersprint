@@ -1,0 +1,2328 @@
+{
+ "elapsed_ms": 503412.1677875519,
+ "per_pair_ms": 1300.8066351099533,
+ "items": [
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-e587addcd37ecb90496a",
+   "engine_rank": 1,
+   "gliner_prob": 0.8335822224617004
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-faf60c2d555ec39fbe5d",
+   "engine_rank": 2,
+   "gliner_prob": 0.535305380821228
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-312a6f252f8697487c24",
+   "engine_rank": 3,
+   "gliner_prob": 0.10799998044967651
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-6a521bf915e1ab805163",
+   "engine_rank": 4,
+   "gliner_prob": 0.32051342725753784
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-d34fd434655bd181db35",
+   "engine_rank": 5,
+   "gliner_prob": 0.7381957769393921
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-a32bfeb006488e90e463",
+   "engine_rank": 6,
+   "gliner_prob": 0.6958081126213074
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-f70781dd31ca7909eff9",
+   "engine_rank": 7,
+   "gliner_prob": 0.8172497153282166
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-c5cb838d4926d087a83b",
+   "engine_rank": 8,
+   "gliner_prob": 0.23413711786270142
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-0461433c4647052f9e1c",
+   "engine_rank": 9,
+   "gliner_prob": 0.7707504034042358
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-265d79a0853299fdeb07",
+   "engine_rank": 10,
+   "gliner_prob": 0.7431667447090149
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-3064b8cddd6093cd8047",
+   "engine_rank": 11,
+   "gliner_prob": 0.181810200214386
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-7122bd331f922662ea10",
+   "engine_rank": 12,
+   "gliner_prob": 0.729966402053833
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-df2b6b87d4a7667b74cb",
+   "engine_rank": 13,
+   "gliner_prob": 0.292486310005188
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-825c8a7d315a2b02870a",
+   "engine_rank": 14,
+   "gliner_prob": 0.46314460039138794
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-5e47654a1fe2ad8b0f05",
+   "engine_rank": 15,
+   "gliner_prob": 0.7476714849472046
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-e1234f7f0bedae77015a",
+   "engine_rank": 16,
+   "gliner_prob": 0.00012028217315673828
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-db5cfc13d83756778186",
+   "engine_rank": 17,
+   "gliner_prob": 0.49258923530578613
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-a71e567fc4c62d45ae4d",
+   "engine_rank": 18,
+   "gliner_prob": 0.3501659035682678
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-1f2663d5299ed7ffb45f",
+   "engine_rank": 19,
+   "gliner_prob": 0.6840646266937256
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-89f7afc8e6409bab4b16",
+   "engine_rank": 20,
+   "gliner_prob": 0.9037503600120544
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-82ff1ce51f8a114a88e9",
+   "engine_rank": 21,
+   "gliner_prob": 0.03702455759048462
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-b77dd261141f079b78a8",
+   "engine_rank": 22,
+   "gliner_prob": 0.6452558040618896
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-aad1fc5e3ffe839b89b7",
+   "engine_rank": 23,
+   "gliner_prob": 0.20849263668060303
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-bdeed207f9f93ae5c39b",
+   "engine_rank": 24,
+   "gliner_prob": 0.8606776595115662
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-98d678ee8d0334c125a3",
+   "engine_rank": 25,
+   "gliner_prob": 0.7009598612785339
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-f67848878985b2bfb574",
+   "engine_rank": 26,
+   "gliner_prob": 0.5463292002677917
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-c39e2e0ab3d2b24b3318",
+   "engine_rank": 27,
+   "gliner_prob": 0.07879972457885742
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-9dbc6a2a4f34cf6189a8",
+   "engine_rank": 28,
+   "gliner_prob": 0.8170511722564697
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-7cada21fea8336705001",
+   "engine_rank": 29,
+   "gliner_prob": 0.27343958616256714
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-aa5286b97b48c2beef87",
+   "engine_rank": 30,
+   "gliner_prob": 0.8819699883460999
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-1c44e088d43a2a73cff9",
+   "engine_rank": 31,
+   "gliner_prob": 0.7745255827903748
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-abe3ef21493143b419bd",
+   "engine_rank": 32,
+   "gliner_prob": 0.34725552797317505
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-3522e24c23864cf009bb",
+   "engine_rank": 33,
+   "gliner_prob": 0.05088120698928833
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-384a38949329ba4683b3",
+   "engine_rank": 34,
+   "gliner_prob": 0.8291761875152588
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-844193e5d8ea8bde539c",
+   "engine_rank": 35,
+   "gliner_prob": 0.7468652129173279
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-307d340add3d2f51941b",
+   "engine_rank": 36,
+   "gliner_prob": 0.7836852073669434
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-c3d746e668caf5779582",
+   "engine_rank": 37,
+   "gliner_prob": 0.7443500757217407
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-170bbfe3d8804fc42c9b",
+   "engine_rank": 38,
+   "gliner_prob": 0.7423977255821228
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-f07e250aac1a49242239",
+   "engine_rank": 39,
+   "gliner_prob": 0.7889858484268188
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-cf699c37549716e45900",
+   "engine_rank": 40,
+   "gliner_prob": 0.750921368598938
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-7e1e0b532031096ed527",
+   "engine_rank": 41,
+   "gliner_prob": 0.5403596758842468
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-e0313b1d21be8a5a28ef",
+   "engine_rank": 42,
+   "gliner_prob": 0.7685366272926331
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-8ed7230410bc21e4d7c4",
+   "engine_rank": 43,
+   "gliner_prob": 0.8779734373092651
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-8ccc82317bed16597370",
+   "engine_rank": 44,
+   "gliner_prob": 0.553816556930542
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-5b6fda71050c48af53c1",
+   "engine_rank": 45,
+   "gliner_prob": 0.8536733388900757
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-2c69823d1e3f82108d0b",
+   "engine_rank": 46,
+   "gliner_prob": 0.6607417464256287
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-980a7d95f0663b304009",
+   "engine_rank": 47,
+   "gliner_prob": 0.8700723052024841
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-e79fd767160f2bfddcae",
+   "engine_rank": 48,
+   "gliner_prob": 0.6495527625083923
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-d60347227ae92fa23050",
+   "engine_rank": 49,
+   "gliner_prob": 0.8992938995361328
+  },
+  {
+   "query_id": "dev-veh-01",
+   "doc_id": "d-fd49bd792eb9cf71805c",
+   "engine_rank": 50,
+   "gliner_prob": 0.3792303800582886
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-4fa46e3dedef8e9fb3a7",
+   "engine_rank": 1,
+   "gliner_prob": 0.7424090504646301
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-cf2aec44d95c320fafff",
+   "engine_rank": 2,
+   "gliner_prob": 0.8717864155769348
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-b60843a81d7f2d7bc6f1",
+   "engine_rank": 3,
+   "gliner_prob": 0.09455102682113647
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-4615f65e977e164f8bd0",
+   "engine_rank": 4,
+   "gliner_prob": 0.7743828892707825
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-3fc96530dfbd35c47d72",
+   "engine_rank": 5,
+   "gliner_prob": 0.22621828317642212
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-01b93ae589227f5a2f44",
+   "engine_rank": 6,
+   "gliner_prob": 0.6514639854431152
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-f18d36f1932d7d682dd5",
+   "engine_rank": 7,
+   "gliner_prob": 0.8187738060951233
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-32674b5931620361c5ec",
+   "engine_rank": 8,
+   "gliner_prob": 0.8136597871780396
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-92663c04c2c3b7aececd",
+   "engine_rank": 9,
+   "gliner_prob": 0.7315574884414673
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-4e2c997940a6d560d779",
+   "engine_rank": 10,
+   "gliner_prob": 0.7614824771881104
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-bfce7fc0fe9da299be41",
+   "engine_rank": 11,
+   "gliner_prob": 0.6483691334724426
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-870bf191c799b1cf1a6e",
+   "engine_rank": 12,
+   "gliner_prob": 0.4339306950569153
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-3b1ed16952f85d10e484",
+   "engine_rank": 13,
+   "gliner_prob": 0.9509397745132446
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-6dc51e5e560ff9c968aa",
+   "engine_rank": 14,
+   "gliner_prob": 0.5022879838943481
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-1607bea4deeeaae209b8",
+   "engine_rank": 15,
+   "gliner_prob": 0.25574690103530884
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-e361c6b226c0106301e1",
+   "engine_rank": 16,
+   "gliner_prob": 0.8529630303382874
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-a1c6feef03073048d2cf",
+   "engine_rank": 17,
+   "gliner_prob": 0.8047232627868652
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-8e361e6f2bd847bd25b5",
+   "engine_rank": 18,
+   "gliner_prob": 0.6056145429611206
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-2fcf3e8b4e2ceb251bbc",
+   "engine_rank": 19,
+   "gliner_prob": 0.1633509397506714
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-ecb2ef2255e9a8b4a6c4",
+   "engine_rank": 20,
+   "gliner_prob": 0.6041540503501892
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-76a5dd01932878430f4d",
+   "engine_rank": 21,
+   "gliner_prob": 0.7326876521110535
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-a76b3af62448840ec0e1",
+   "engine_rank": 22,
+   "gliner_prob": 0.979610800743103
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-9801b5a943595a379331",
+   "engine_rank": 23,
+   "gliner_prob": 0.778174638748169
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-7de36129e8cbd2a5f4a7",
+   "engine_rank": 24,
+   "gliner_prob": 0.7180922627449036
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-e49fc921b7072e09202b",
+   "engine_rank": 25,
+   "gliner_prob": 0.7381539344787598
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-367fccb81807ac547e4a",
+   "engine_rank": 26,
+   "gliner_prob": 0.6529133915901184
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-2143506bb2eb25d2e7c4",
+   "engine_rank": 27,
+   "gliner_prob": 0.7653723359107971
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-918aedcd164022d3e3d7",
+   "engine_rank": 28,
+   "gliner_prob": 0.819802463054657
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-57448334ab44b8b421d6",
+   "engine_rank": 29,
+   "gliner_prob": 0.9163791537284851
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-2a8ac638b94117153242",
+   "engine_rank": 30,
+   "gliner_prob": 0.7171991467475891
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-bc4a4bbbad323476ee51",
+   "engine_rank": 31,
+   "gliner_prob": 0.6267113089561462
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-ca40ead36fb5a000b66b",
+   "engine_rank": 32,
+   "gliner_prob": 0.002565920352935791
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-8adf53f5586b35426046",
+   "engine_rank": 33,
+   "gliner_prob": 0.878026008605957
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-ba23ec60cf372762ddb5",
+   "engine_rank": 34,
+   "gliner_prob": 0.23160207271575928
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-717736d377af92c1f012",
+   "engine_rank": 35,
+   "gliner_prob": 0.9016453623771667
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-8604fe660401fa1708cf",
+   "engine_rank": 36,
+   "gliner_prob": 0.721886932849884
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-faf94c6308245d7951d7",
+   "engine_rank": 37,
+   "gliner_prob": 0.3436281681060791
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-deaf7fb6ed95df6868d9",
+   "engine_rank": 38,
+   "gliner_prob": 0.7274931073188782
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-251a76f3dafbbf15ae5d",
+   "engine_rank": 39,
+   "gliner_prob": 0.37840360403060913
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-e7e82998b556c5983ff6",
+   "engine_rank": 40,
+   "gliner_prob": 0.06041079759597778
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-c8b3ac72fe2602245694",
+   "engine_rank": 41,
+   "gliner_prob": 0.733583390712738
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-4907c3889866134fad95",
+   "engine_rank": 42,
+   "gliner_prob": 0.06529438495635986
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-cb166f2efcd965e82642",
+   "engine_rank": 43,
+   "gliner_prob": 0.7725952863693237
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-02c4cca9a7e7c98c8b3e",
+   "engine_rank": 44,
+   "gliner_prob": 0.8185617923736572
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-5d17f1759bbe39f432d8",
+   "engine_rank": 45,
+   "gliner_prob": 0.9320292472839355
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-af155726eee227129d27",
+   "engine_rank": 46,
+   "gliner_prob": 0.5642825961112976
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-baefc1bea7a2c0442f74",
+   "engine_rank": 47,
+   "gliner_prob": 0.8492529392242432
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-31daa1a2fca63c81d3b0",
+   "engine_rank": 48,
+   "gliner_prob": 0.387215256690979
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-69a36ebea9068d0ac15e",
+   "engine_rank": 49,
+   "gliner_prob": 0.7906496524810791
+  },
+  {
+   "query_id": "dev-veh-02",
+   "doc_id": "d-6e4cadbde8de5be0a0ad",
+   "engine_rank": 50,
+   "gliner_prob": 0.6670069694519043
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-9a1c237d5b723f49ab07",
+   "engine_rank": 1,
+   "gliner_prob": 0.3949432969093323
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-ee25c3e4d2ac9a7b4e8e",
+   "engine_rank": 2,
+   "gliner_prob": 0.8362967371940613
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-5ae46c2259571467f2e8",
+   "engine_rank": 3,
+   "gliner_prob": 0.3262559175491333
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-56c5f82f3d8c73368201",
+   "engine_rank": 4,
+   "gliner_prob": 0.709831714630127
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-f0c25ef011889b85489b",
+   "engine_rank": 5,
+   "gliner_prob": 0.5559665560722351
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-2de122fcd569500cce93",
+   "engine_rank": 6,
+   "gliner_prob": 0.8381890654563904
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-d58226260c0bec590819",
+   "engine_rank": 7,
+   "gliner_prob": 0.1802935004234314
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-cbe94d30f0ff4ebae194",
+   "engine_rank": 8,
+   "gliner_prob": 0.7647356390953064
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-5d29cbe3a22c5bfd8c1d",
+   "engine_rank": 9,
+   "gliner_prob": 0.8818078637123108
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-46c1bc652d857ff638ec",
+   "engine_rank": 10,
+   "gliner_prob": 0.7101348042488098
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-c42dbb36c16a86302482",
+   "engine_rank": 11,
+   "gliner_prob": 0.7517408132553101
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-35f73099fa5adcd24459",
+   "engine_rank": 12,
+   "gliner_prob": 0.08138763904571533
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-2138b61caf045cf480e2",
+   "engine_rank": 13,
+   "gliner_prob": 0.4935212731361389
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-9e04704f10498d6a97fd",
+   "engine_rank": 14,
+   "gliner_prob": 0.7862740755081177
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-9e5c78cdf51cd287b7b6",
+   "engine_rank": 15,
+   "gliner_prob": 0.9046556949615479
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-b2281ace4f9a896839c6",
+   "engine_rank": 16,
+   "gliner_prob": 0.7609649896621704
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-46020f841611bd0f58a6",
+   "engine_rank": 17,
+   "gliner_prob": 0.045433640480041504
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-0f9585d4b1102556d458",
+   "engine_rank": 18,
+   "gliner_prob": 0.6058801412582397
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-d6a1f688a8e77525a62a",
+   "engine_rank": 19,
+   "gliner_prob": 0.880179226398468
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-6d052ecbcd098c7d131b",
+   "engine_rank": 20,
+   "gliner_prob": 0.6748307943344116
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-9454f8bc4802a1c48a8a",
+   "engine_rank": 21,
+   "gliner_prob": 0.7919583916664124
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-ec096187dc9b2e3886e6",
+   "engine_rank": 22,
+   "gliner_prob": 0.9328628778457642
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-02102b608634ff65caee",
+   "engine_rank": 23,
+   "gliner_prob": 0.7208021283149719
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-79c450d59067c0af93ee",
+   "engine_rank": 24,
+   "gliner_prob": 0.7776681184768677
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-c71bed2d741a204efc79",
+   "engine_rank": 25,
+   "gliner_prob": 0.11875009536743164
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-e40f97427193681c5cdd",
+   "engine_rank": 26,
+   "gliner_prob": 0.657102108001709
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-e85507ba949d8cbe6e37",
+   "engine_rank": 27,
+   "gliner_prob": 0.9407114386558533
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-b1a705a2cc91ad037321",
+   "engine_rank": 28,
+   "gliner_prob": 0.5003645420074463
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-150314f9d6b7d7d85412",
+   "engine_rank": 29,
+   "gliner_prob": 0.6429382562637329
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-e1749b6209250c845af6",
+   "engine_rank": 30,
+   "gliner_prob": 0.8097339272499084
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-8288c6982dc1ff81a2eb",
+   "engine_rank": 31,
+   "gliner_prob": 0.7360563278198242
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-984f9828ceac43732044",
+   "engine_rank": 32,
+   "gliner_prob": 0.880831241607666
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-f98d86acdd2c956d3586",
+   "engine_rank": 33,
+   "gliner_prob": 0.15642422437667847
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-c353fb4c9f8f079e9e76",
+   "engine_rank": 34,
+   "gliner_prob": 0.8424464464187622
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-b1c2b0069451d53fbeed",
+   "engine_rank": 35,
+   "gliner_prob": 0.7111632227897644
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-057ea924d73a1f1ddf0a",
+   "engine_rank": 36,
+   "gliner_prob": 0.07630574703216553
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-1199411509e3a51cc14f",
+   "engine_rank": 37,
+   "gliner_prob": 0.6151744723320007
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-9aee185848f2ab2285d9",
+   "engine_rank": 38,
+   "gliner_prob": 0.7996199131011963
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-a4fb1729c932e9b83f3a",
+   "engine_rank": 39,
+   "gliner_prob": 0.9366839528083801
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-89a96faf29dcc3df479d",
+   "engine_rank": 40,
+   "gliner_prob": 0.3714803457260132
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-d4dab1ae0ada0bdb923f",
+   "engine_rank": 41,
+   "gliner_prob": 0.7984798550605774
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-ad14ad37aee895433435",
+   "engine_rank": 42,
+   "gliner_prob": 0.8165643215179443
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-96b5762d3181792790d2",
+   "engine_rank": 43,
+   "gliner_prob": 0.7602666616439819
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-1361c137c2aa4c846cb6",
+   "engine_rank": 44,
+   "gliner_prob": 0.6972488760948181
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-7023a62db0290f7ff35f",
+   "engine_rank": 45,
+   "gliner_prob": 0.747622013092041
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-21567dae2eb6f07725b3",
+   "engine_rank": 46,
+   "gliner_prob": 0.7454971075057983
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-4ea585f2cc91676839d5",
+   "engine_rank": 47,
+   "gliner_prob": 0.5876972079277039
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-3e97e3af49e24eb692fd",
+   "engine_rank": 48,
+   "gliner_prob": 0.688372015953064
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-95e858c9fd4dac27a9fc",
+   "engine_rank": 49,
+   "gliner_prob": 0.896554172039032
+  },
+  {
+   "query_id": "dev-veh-03",
+   "doc_id": "d-87ed5157d789facc7044",
+   "engine_rank": 50,
+   "gliner_prob": 0.6686791181564331
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-d9c258ec4f99fa89f37d",
+   "engine_rank": 1,
+   "gliner_prob": 0.6704297065734863
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-9ffc427669851dd5656b",
+   "engine_rank": 2,
+   "gliner_prob": 0.9103116393089294
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-ea928860e755f27d69e7",
+   "engine_rank": 3,
+   "gliner_prob": 0.6523329019546509
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-378995c1a289096c183f",
+   "engine_rank": 4,
+   "gliner_prob": 0.560716450214386
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-5fe3427b993282caffc4",
+   "engine_rank": 5,
+   "gliner_prob": 0.2898596525192261
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-faee62a10431eec17e2a",
+   "engine_rank": 6,
+   "gliner_prob": 0.20588535070419312
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-a285d45b4ea09a1145dc",
+   "engine_rank": 7,
+   "gliner_prob": 0.7336652874946594
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-a4ea882650ff056f4acf",
+   "engine_rank": 8,
+   "gliner_prob": 0.5592606067657471
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-bcfa16d5e1661c50b104",
+   "engine_rank": 9,
+   "gliner_prob": 0.7195948362350464
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-8908afbea29a845c6732",
+   "engine_rank": 10,
+   "gliner_prob": 0.6811906695365906
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-0652be1cf8831d80b8e3",
+   "engine_rank": 11,
+   "gliner_prob": 0.556693434715271
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-bec1d27a9d3c787c1963",
+   "engine_rank": 12,
+   "gliner_prob": 0.5950860381126404
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-39c94c7898c092034180",
+   "engine_rank": 13,
+   "gliner_prob": 0.862156093120575
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-92d1cf2694cef47bd81a",
+   "engine_rank": 14,
+   "gliner_prob": 0.3687598705291748
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-da3d6bde1b3c7bf39e35",
+   "engine_rank": 15,
+   "gliner_prob": 0.34046149253845215
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-5ce2ee38c975a12505ab",
+   "engine_rank": 16,
+   "gliner_prob": 0.4607575535774231
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-752b0f622092b002311d",
+   "engine_rank": 17,
+   "gliner_prob": 0.5146571397781372
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-5773c9de5f4a073fc9f8",
+   "engine_rank": 18,
+   "gliner_prob": 0.7671859264373779
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-2a0f66930f47c133f562",
+   "engine_rank": 19,
+   "gliner_prob": 0.3242843747138977
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-83b9a068212b82bdbad7",
+   "engine_rank": 20,
+   "gliner_prob": 0.6007540822029114
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-fb782f940bcea911a1a0",
+   "engine_rank": 21,
+   "gliner_prob": 0.21168440580368042
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-3a668cf8ba88d14fba38",
+   "engine_rank": 22,
+   "gliner_prob": 0.6676918268203735
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-5782967f414ccd436c77",
+   "engine_rank": 23,
+   "gliner_prob": 0.8400264978408813
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-a477041060e4653183e2",
+   "engine_rank": 24,
+   "gliner_prob": 0.7534967064857483
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-8d1d244d40a00dea0a56",
+   "engine_rank": 25,
+   "gliner_prob": 0.7916538715362549
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-00f966b5927c7e368f00",
+   "engine_rank": 26,
+   "gliner_prob": 0.6486858129501343
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-634169614588cd778394",
+   "engine_rank": 27,
+   "gliner_prob": 0.1568165421485901
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-c9dbc04b48f3b74dbc3e",
+   "engine_rank": 28,
+   "gliner_prob": 0.6749682426452637
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-1765bc253dbd749125fb",
+   "engine_rank": 29,
+   "gliner_prob": 0.5714216232299805
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-6fd8532317ff3b4c6f38",
+   "engine_rank": 30,
+   "gliner_prob": 0.5872541069984436
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-1da31741570cf2af5b90",
+   "engine_rank": 31,
+   "gliner_prob": 0.7173147201538086
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-133a2923c5bbac700f34",
+   "engine_rank": 32,
+   "gliner_prob": 0.7510343790054321
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-0032a682ce0b6af90dc0",
+   "engine_rank": 33,
+   "gliner_prob": 0.62427818775177
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-99a55612559be8231823",
+   "engine_rank": 34,
+   "gliner_prob": 0.65884929895401
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-a4867216e8563b5db2f3",
+   "engine_rank": 35,
+   "gliner_prob": 0.32177501916885376
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-68cc261cde706d6fe3db",
+   "engine_rank": 36,
+   "gliner_prob": 0.6061098575592041
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-bc19f619e6ac223e6480",
+   "engine_rank": 37,
+   "gliner_prob": 0.677415668964386
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-15e659c6fdb00157851c",
+   "engine_rank": 38,
+   "gliner_prob": 0.5318390727043152
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-238912d05838cc0acc5d",
+   "engine_rank": 39,
+   "gliner_prob": 0.29284632205963135
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-c482f3cc908024332aa7",
+   "engine_rank": 40,
+   "gliner_prob": 0.4605035185813904
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-95ae63c32c858774b14c",
+   "engine_rank": 41,
+   "gliner_prob": 0.8523439168930054
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-45148e6e2ef5a28929ef",
+   "engine_rank": 42,
+   "gliner_prob": 0.6424210667610168
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-66331a05fec86d62a588",
+   "engine_rank": 43,
+   "gliner_prob": 0.6870337724685669
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-f5923078ed9f433092bb",
+   "engine_rank": 44,
+   "gliner_prob": 0.19846057891845703
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-6adc0cb87e6b5f42f681",
+   "engine_rank": 45,
+   "gliner_prob": 0.6174588799476624
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-91361251981c33207b85",
+   "engine_rank": 46,
+   "gliner_prob": 0.7339224815368652
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-a28634594379143def15",
+   "engine_rank": 47,
+   "gliner_prob": 0.7776028513908386
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-e5dfa07fa49659e9d95c",
+   "engine_rank": 48,
+   "gliner_prob": 0.4360085725784302
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-4b23c7ff21b9f5b6a65b",
+   "engine_rank": 49,
+   "gliner_prob": 0.66066575050354
+  },
+  {
+   "query_id": "dev-veh-04",
+   "doc_id": "d-678b786a6d33b87cbed5",
+   "engine_rank": 50,
+   "gliner_prob": 0.5273373126983643
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-4ea32d5bc0b4a96e67f7",
+   "engine_rank": 1,
+   "gliner_prob": 0.5454714298248291
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-3c553ba11a3c2487d809",
+   "engine_rank": 2,
+   "gliner_prob": 0.4488007426261902
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-4bf1cd495d48c4a04580",
+   "engine_rank": 3,
+   "gliner_prob": 0.6946681141853333
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-8d580276b0938a253a8b",
+   "engine_rank": 4,
+   "gliner_prob": 0.696907103061676
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-f447b2227eaf742de3f4",
+   "engine_rank": 5,
+   "gliner_prob": 0.7315655946731567
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-f3b09ff95968f8aad76b",
+   "engine_rank": 6,
+   "gliner_prob": 0.9338359236717224
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-7ac02c333b4e0d166dbd",
+   "engine_rank": 7,
+   "gliner_prob": 0.019811153411865234
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-3b90e11ab58afe600586",
+   "engine_rank": 8,
+   "gliner_prob": 0.43778467178344727
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-263a52f33a3e2d800f6e",
+   "engine_rank": 9,
+   "gliner_prob": 0.6457671523094177
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-d62b7fdd52677e8d43e0",
+   "engine_rank": 10,
+   "gliner_prob": 0.9790226817131042
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-12a41336e48cb2f537f2",
+   "engine_rank": 11,
+   "gliner_prob": 0.5982129573822021
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-c7683a09313c43c3defe",
+   "engine_rank": 12,
+   "gliner_prob": 0.8230570554733276
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-87d30bcba359c9048881",
+   "engine_rank": 13,
+   "gliner_prob": 0.6093783378601074
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-9b3d2c837c67fe3f499c",
+   "engine_rank": 14,
+   "gliner_prob": 0.2331027388572693
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-075f9f81f6fcf3cbe330",
+   "engine_rank": 15,
+   "gliner_prob": 0.6875645518302917
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-517dab7a559d48e11dab",
+   "engine_rank": 16,
+   "gliner_prob": 0.5114669799804688
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-57471377be84c0162593",
+   "engine_rank": 17,
+   "gliner_prob": 0.1852777600288391
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-9ed54426e563b70ec31f",
+   "engine_rank": 18,
+   "gliner_prob": 0.0005810260772705078
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-8c7ed272cc28166c8d7d",
+   "engine_rank": 19,
+   "gliner_prob": 0.7138063311576843
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-8dd2f1a6c641de4585ed",
+   "engine_rank": 20,
+   "gliner_prob": 0.8993996381759644
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-13bcee5b0f25fc48b8e0",
+   "engine_rank": 21,
+   "gliner_prob": 0.3951954245567322
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-c61ac5f775cc9a9bb102",
+   "engine_rank": 22,
+   "gliner_prob": 0.42655521631240845
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-58c888525c43d49e6440",
+   "engine_rank": 23,
+   "gliner_prob": 0.6530300974845886
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-328c36dbef74536cca9f",
+   "engine_rank": 24,
+   "gliner_prob": 0.8068602681159973
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-72aafa81957b104dc94e",
+   "engine_rank": 25,
+   "gliner_prob": 0.13075929880142212
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-495a60756895dd160f69",
+   "engine_rank": 26,
+   "gliner_prob": 0.7796130180358887
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-bd0f0abc0b791a7e6aa7",
+   "engine_rank": 27,
+   "gliner_prob": 0.6461747288703918
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-185eca959580e4f7049b",
+   "engine_rank": 28,
+   "gliner_prob": 0.23023682832717896
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-99f71231d46150422336",
+   "engine_rank": 29,
+   "gliner_prob": 0.09786993265151978
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-578043d5642a8fdbed4b",
+   "engine_rank": 30,
+   "gliner_prob": 0.8037176132202148
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-f856e1e3997699c88f2f",
+   "engine_rank": 31,
+   "gliner_prob": 0.0009016990661621094
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-684d169034e5ca2006fa",
+   "engine_rank": 32,
+   "gliner_prob": 0.565049946308136
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-f25af3cd2be443e1d5e9",
+   "engine_rank": 33,
+   "gliner_prob": 0.7754245400428772
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-759359db97f71d7b5fdb",
+   "engine_rank": 34,
+   "gliner_prob": 0.8511344194412231
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-d7db7140138662c0719b",
+   "engine_rank": 35,
+   "gliner_prob": 6.115436553955078e-05
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-480a41ff69010267a37f",
+   "engine_rank": 36,
+   "gliner_prob": 0.7836870551109314
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-75a203790dc31d04a096",
+   "engine_rank": 37,
+   "gliner_prob": 0.676755964756012
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-04dc8dbd34a8cbf62ffa",
+   "engine_rank": 38,
+   "gliner_prob": 0.28527015447616577
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-9939ef0b073c5e26f53f",
+   "engine_rank": 39,
+   "gliner_prob": 0.197695791721344
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-f19cdd57e712d5fc36e8",
+   "engine_rank": 40,
+   "gliner_prob": 0.685855507850647
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-d1a83dcf7563823d14e1",
+   "engine_rank": 41,
+   "gliner_prob": 0.6496116518974304
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-57b6aada9574f3c4480a",
+   "engine_rank": 42,
+   "gliner_prob": 0.6403855681419373
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-4cc3784cd8f911063007",
+   "engine_rank": 43,
+   "gliner_prob": 0.6853775382041931
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-cc7ebd7ed5095e431a3b",
+   "engine_rank": 44,
+   "gliner_prob": 0.6890081167221069
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-4f1bb0654f280e381e19",
+   "engine_rank": 45,
+   "gliner_prob": 0.8077019453048706
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-0cba8ee0b3090d633e45",
+   "engine_rank": 46,
+   "gliner_prob": 0.8269405364990234
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-e1003d5859be1cba3450",
+   "engine_rank": 47,
+   "gliner_prob": 0.4571110010147095
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-832512ba7228f9d17685",
+   "engine_rank": 48,
+   "gliner_prob": 0.6511438488960266
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-8a66e8499fe5dac6ac85",
+   "engine_rank": 49,
+   "gliner_prob": 0.8284619450569153
+  },
+  {
+   "query_id": "dev-veh-05",
+   "doc_id": "d-8c8c2cfbeb471c5577a0",
+   "engine_rank": 50,
+   "gliner_prob": 0.9987050294876099
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-f4a084064ff2bf0bd931",
+   "engine_rank": 1,
+   "gliner_prob": 0.8197479844093323
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-ae65ae7febb44fd32c44",
+   "engine_rank": 2,
+   "gliner_prob": 0.2224692702293396
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-cacfa730d75908a12661",
+   "engine_rank": 3,
+   "gliner_prob": 0.7739063501358032
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-6ab5698dd75f4a522df9",
+   "engine_rank": 4,
+   "gliner_prob": 0.9370313286781311
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-4dc6238c05e45bcab9d3",
+   "engine_rank": 5,
+   "gliner_prob": 0.5895993709564209
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-834d40c11194349cdc5b",
+   "engine_rank": 6,
+   "gliner_prob": 0.3623260259628296
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-72e376f8f0e145b4f8d1",
+   "engine_rank": 7,
+   "gliner_prob": 0.6490373611450195
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-3c1d2d45636972cf73f7",
+   "engine_rank": 8,
+   "gliner_prob": 0.6936069130897522
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-d52604d88cc234cbdd58",
+   "engine_rank": 9,
+   "gliner_prob": 0.01621556282043457
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-1b8c4fe069f3a2536518",
+   "engine_rank": 10,
+   "gliner_prob": 0.14028102159500122
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-c8debba9f9a79afb0c36",
+   "engine_rank": 11,
+   "gliner_prob": 0.09169435501098633
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-b9fa26b7dea969fe0672",
+   "engine_rank": 12,
+   "gliner_prob": 0.6606541275978088
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-cc7d9612c45d2a46cce7",
+   "engine_rank": 13,
+   "gliner_prob": 0.7246971130371094
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-9edc22a8a01712b0cc96",
+   "engine_rank": 14,
+   "gliner_prob": 0.6169942021369934
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-302a4a5f08508cef00ee",
+   "engine_rank": 15,
+   "gliner_prob": 0.25577831268310547
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-30eafc0d1b33e46f777c",
+   "engine_rank": 16,
+   "gliner_prob": 0.48341137170791626
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-ca2e86ee9a2ae4e2772f",
+   "engine_rank": 17,
+   "gliner_prob": 0.6462002396583557
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-eac955b35d2098683964",
+   "engine_rank": 18,
+   "gliner_prob": 0.4575929641723633
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-05fa772ba515aa3bb9f5",
+   "engine_rank": 19,
+   "gliner_prob": 0.7676795125007629
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-74bf0602c13e3b462f40",
+   "engine_rank": 20,
+   "gliner_prob": 0.77507084608078
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-c69094c119b3d278cf3a",
+   "engine_rank": 21,
+   "gliner_prob": 0.0007699728012084961
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-2576d4e9d26900da1950",
+   "engine_rank": 22,
+   "gliner_prob": 0.699425458908081
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-f188bd92421bef3c4e79",
+   "engine_rank": 23,
+   "gliner_prob": 0.9032765030860901
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-5c5cfb20a77843912902",
+   "engine_rank": 24,
+   "gliner_prob": 0.693254828453064
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-c7bc2ceb961354489220",
+   "engine_rank": 25,
+   "gliner_prob": 0.4867541193962097
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-880a03dfe811ddff7f0e",
+   "engine_rank": 26,
+   "gliner_prob": 0.7384622693061829
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-6406f9901aad07b8306c",
+   "engine_rank": 27,
+   "gliner_prob": 0.5842967629432678
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-e573a10da0caa78031cf",
+   "engine_rank": 28,
+   "gliner_prob": 0.7128493785858154
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-217e882c3cf29248c885",
+   "engine_rank": 29,
+   "gliner_prob": 0.016077756881713867
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-f083bf43f04396b3d1b5",
+   "engine_rank": 30,
+   "gliner_prob": 0.8359470367431641
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-875842e74182682a8844",
+   "engine_rank": 31,
+   "gliner_prob": 0.8564721941947937
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-dbedde06bc3c32f7c344",
+   "engine_rank": 32,
+   "gliner_prob": 0.32049161195755005
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-2e069b1f1b93b39933d1",
+   "engine_rank": 33,
+   "gliner_prob": 0.4026763439178467
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-e799c7b66dd97518d012",
+   "engine_rank": 34,
+   "gliner_prob": 0.7619113326072693
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-24f1f5a0de5fa9823f24",
+   "engine_rank": 35,
+   "gliner_prob": 0.3822668790817261
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-ece267dd1d1059dbd6f5",
+   "engine_rank": 36,
+   "gliner_prob": 0.6708456873893738
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-2e9fdfce34bd71ffe27c",
+   "engine_rank": 37,
+   "gliner_prob": 0.1279863715171814
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-69b28ad1210c894eeb65",
+   "engine_rank": 38,
+   "gliner_prob": 0.4800623655319214
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-9a494a3ef0d6354bd664",
+   "engine_rank": 39,
+   "gliner_prob": 0.39320820569992065
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-344307d7fdd3b69cefbc",
+   "engine_rank": 40,
+   "gliner_prob": 0.9692113995552063
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-203d96fe4f9d9c9619f9",
+   "engine_rank": 41,
+   "gliner_prob": 0.025932252407073975
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-5bbe45081c85bd325176",
+   "engine_rank": 42,
+   "gliner_prob": 0.4737204909324646
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-3f20d48fe378353ae319",
+   "engine_rank": 43,
+   "gliner_prob": 0.7032034397125244
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-eade3d446da3daf286ed",
+   "engine_rank": 44,
+   "gliner_prob": 0.9285790920257568
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-3a2454897fe6f316ec07",
+   "engine_rank": 45,
+   "gliner_prob": 0.48658812046051025
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-61eb978175036616cac4",
+   "engine_rank": 46,
+   "gliner_prob": 0.8170104026794434
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-6bdd130ef3631bd5bc8f",
+   "engine_rank": 47,
+   "gliner_prob": 0.29837363958358765
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-6be285a3b58730510f08",
+   "engine_rank": 48,
+   "gliner_prob": 0.8919675946235657
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-9e067f6ca52adf7c0136",
+   "engine_rank": 49,
+   "gliner_prob": 0.6728998422622681
+  },
+  {
+   "query_id": "dev-prop-06",
+   "doc_id": "d-78a343cf1c9f6c519fcf",
+   "engine_rank": 50,
+   "gliner_prob": 0.8653797507286072
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-06f9dd02a07018355f07",
+   "engine_rank": 1,
+   "gliner_prob": 0.2821393609046936
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-b05b7937933b1cdec589",
+   "engine_rank": 2,
+   "gliner_prob": 0.554080605506897
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-1faad9905a1b237f2bfe",
+   "engine_rank": 3,
+   "gliner_prob": 0.9213294386863708
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-587d48b947323df1578c",
+   "engine_rank": 4,
+   "gliner_prob": 0.7530649900436401
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-0b7fb8526f29a434abcc",
+   "engine_rank": 5,
+   "gliner_prob": 0.06586146354675293
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-a31b2c66cd3a837b498c",
+   "engine_rank": 6,
+   "gliner_prob": 0.8113988637924194
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-6e1ceebf918dd174c829",
+   "engine_rank": 7,
+   "gliner_prob": 0.8754924535751343
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-3f68a2561f14970f861e",
+   "engine_rank": 8,
+   "gliner_prob": 0.16859060525894165
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-9bb6f87ea1da6167a17e",
+   "engine_rank": 9,
+   "gliner_prob": 0.3012884855270386
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-99bf942a4e342d7273dc",
+   "engine_rank": 10,
+   "gliner_prob": 0.07288765907287598
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-e8b4582ff2f671c43b13",
+   "engine_rank": 11,
+   "gliner_prob": 0.5750946998596191
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-3b2f7930eea0dd79f351",
+   "engine_rank": 12,
+   "gliner_prob": 0.07954299449920654
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-fa0362ae77e5c8814bc7",
+   "engine_rank": 13,
+   "gliner_prob": 0.015376269817352295
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-55ac339d780210b67225",
+   "engine_rank": 14,
+   "gliner_prob": 0.02924180030822754
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-940024919c834a235654",
+   "engine_rank": 15,
+   "gliner_prob": 0.2277209758758545
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-7ffa61ff8407882ce76a",
+   "engine_rank": 16,
+   "gliner_prob": 0.6586982607841492
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-9e2b0dcfdc2585bdfa3a",
+   "engine_rank": 17,
+   "gliner_prob": 0.03690856695175171
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-75d768ce3f67f9005cdc",
+   "engine_rank": 18,
+   "gliner_prob": 0.5316299200057983
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-45595f97f1d68e01b9ec",
+   "engine_rank": 19,
+   "gliner_prob": 0.686810314655304
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-3f25cb4ba40e61ac9545",
+   "engine_rank": 20,
+   "gliner_prob": 0.22209662199020386
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-2f0c1e5e180279094131",
+   "engine_rank": 21,
+   "gliner_prob": 0.004684567451477051
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-d97f625060e909237866",
+   "engine_rank": 22,
+   "gliner_prob": 0.8159429430961609
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-89e52aa1301c8f6d0b54",
+   "engine_rank": 23,
+   "gliner_prob": 0.8258488774299622
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-8342e63ddae423f78e94",
+   "engine_rank": 24,
+   "gliner_prob": 0.8311301469802856
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-6d23b1b9142202f37761",
+   "engine_rank": 25,
+   "gliner_prob": 0.8027348518371582
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-9d15e578ca38f076b6e0",
+   "engine_rank": 26,
+   "gliner_prob": 0.12958687543869019
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-7efb24172b62806641cb",
+   "engine_rank": 27,
+   "gliner_prob": 0.8380591869354248
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-47fc3011b46dcd6f25c2",
+   "engine_rank": 28,
+   "gliner_prob": 0.5924540758132935
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-34cb7d23912f1e927345",
+   "engine_rank": 29,
+   "gliner_prob": 0.6954243183135986
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-c16fb64a62692adcf6ae",
+   "engine_rank": 30,
+   "gliner_prob": 0.9480966925621033
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-3b85177bbabdbba78890",
+   "engine_rank": 31,
+   "gliner_prob": 0.0007058382034301758
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-383b8765b3fbd3e5d471",
+   "engine_rank": 32,
+   "gliner_prob": 0.7903391122817993
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-2f31031f5a238b1a0762",
+   "engine_rank": 33,
+   "gliner_prob": 0.10238432884216309
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-d5593d2e02e367059edc",
+   "engine_rank": 34,
+   "gliner_prob": 0.8654270768165588
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-59d9474df5b26c018b00",
+   "engine_rank": 35,
+   "gliner_prob": 0.38432902097702026
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-c1a6f59aafec8c4f78fb",
+   "engine_rank": 36,
+   "gliner_prob": 0.2869172692298889
+  },
+  {
+   "query_id": "dev-prop-07",
+   "doc_id": "d-f6db12db35221484644f",
+   "engine_rank": 37,
+   "gliner_prob": 0.8142096400260925
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-f6305c16c112aac3857b",
+   "engine_rank": 1,
+   "gliner_prob": 0.18826889991760254
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-22997a84675c46fa1212",
+   "engine_rank": 2,
+   "gliner_prob": 0.7712502479553223
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-11825f8ea48eba26f32c",
+   "engine_rank": 3,
+   "gliner_prob": 0.35204946994781494
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-d520624344378ab11582",
+   "engine_rank": 4,
+   "gliner_prob": 0.7174867391586304
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-91ec8bd3479e3fcb438e",
+   "engine_rank": 5,
+   "gliner_prob": 0.837474524974823
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-0a073efb7e4b3160c739",
+   "engine_rank": 6,
+   "gliner_prob": 0.5457799434661865
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-8a341ea7210514af2b9b",
+   "engine_rank": 7,
+   "gliner_prob": 0.7354533672332764
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-f5a551f0a07edf54b0e1",
+   "engine_rank": 8,
+   "gliner_prob": 0.493347704410553
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-e4dba2e54316824fb1b3",
+   "engine_rank": 9,
+   "gliner_prob": 0.604830265045166
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-c3c556a8728d5bff1f2f",
+   "engine_rank": 10,
+   "gliner_prob": 0.8128586411476135
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-31932dc38f12b2284610",
+   "engine_rank": 11,
+   "gliner_prob": 0.511216402053833
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-7c0a22d8efc3a88b2b80",
+   "engine_rank": 12,
+   "gliner_prob": 0.6050430536270142
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-fbeb6cb398af16d6cdd0",
+   "engine_rank": 13,
+   "gliner_prob": 0.9113433957099915
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-7b253920c1310b26774a",
+   "engine_rank": 14,
+   "gliner_prob": 0.9206719994544983
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-9a677be69e8c60efd097",
+   "engine_rank": 15,
+   "gliner_prob": 0.8096776008605957
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-4dcdd85384595be0cd96",
+   "engine_rank": 16,
+   "gliner_prob": 0.6313276290893555
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-72b11e8690267a449a9d",
+   "engine_rank": 17,
+   "gliner_prob": 0.2995355725288391
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-80ac8d58443a6902ab42",
+   "engine_rank": 18,
+   "gliner_prob": 0.35133641958236694
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-528dfad23e8cec65ead2",
+   "engine_rank": 19,
+   "gliner_prob": 0.026442229747772217
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-117dfaadda106f986f9f",
+   "engine_rank": 20,
+   "gliner_prob": 0.05357152223587036
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-462d338761e09fc187fa",
+   "engine_rank": 21,
+   "gliner_prob": 0.771940290927887
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-d54703e8375386a30e7d",
+   "engine_rank": 22,
+   "gliner_prob": 0.352325975894928
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-89fa0d32b12b4fdef362",
+   "engine_rank": 23,
+   "gliner_prob": 0.8014649152755737
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-9ab9654d47984a5a2c21",
+   "engine_rank": 24,
+   "gliner_prob": 0.7377305030822754
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-2a4f3c8aa63129ba99a4",
+   "engine_rank": 25,
+   "gliner_prob": 0.6452739834785461
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-4db2873b9d6ce1f97386",
+   "engine_rank": 26,
+   "gliner_prob": 0.7163813710212708
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-c4a3bc14b1c454e578ee",
+   "engine_rank": 27,
+   "gliner_prob": 0.5999622344970703
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-d7531faf7a99ecb1b9c1",
+   "engine_rank": 28,
+   "gliner_prob": 0.8950530290603638
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-51744297cac66a2ba008",
+   "engine_rank": 29,
+   "gliner_prob": 0.7737171649932861
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-4336538c48b8093790d0",
+   "engine_rank": 30,
+   "gliner_prob": 0.6749388575553894
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-419d205c5286d4bc78c3",
+   "engine_rank": 31,
+   "gliner_prob": 0.625691294670105
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-c882cbdc7aff332d2ab9",
+   "engine_rank": 32,
+   "gliner_prob": 0.7706825733184814
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-a745a8d46c47b30946f6",
+   "engine_rank": 33,
+   "gliner_prob": 0.3094860315322876
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-a7cef6dd1d92871bb03f",
+   "engine_rank": 34,
+   "gliner_prob": 0.6986784338951111
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-2e136737377f14395e65",
+   "engine_rank": 35,
+   "gliner_prob": 0.9393790364265442
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-f77fd1a3d6400d2f0b38",
+   "engine_rank": 36,
+   "gliner_prob": 0.4610539674758911
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-b919a15df11dec57e06b",
+   "engine_rank": 37,
+   "gliner_prob": 0.8150967955589294
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-86b82abe273853ee8120",
+   "engine_rank": 38,
+   "gliner_prob": 0.73104327917099
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-ccc25db5835bfc2422e6",
+   "engine_rank": 39,
+   "gliner_prob": 0.33959728479385376
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-caa2927a3d21782b94af",
+   "engine_rank": 40,
+   "gliner_prob": 0.6172335743904114
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-e6f4c37365b1b63ddc59",
+   "engine_rank": 41,
+   "gliner_prob": 0.770297110080719
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-79887f3c5e32001b881e",
+   "engine_rank": 42,
+   "gliner_prob": 0.9245904088020325
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-a1efdb83a558ab60887f",
+   "engine_rank": 43,
+   "gliner_prob": 0.3101288080215454
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-833c37682bcd495f250c",
+   "engine_rank": 44,
+   "gliner_prob": 0.33277058601379395
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-d98691b26c34ef0e9584",
+   "engine_rank": 45,
+   "gliner_prob": 0.6408113837242126
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-1a00afb3ff039f695b4e",
+   "engine_rank": 46,
+   "gliner_prob": 0.7636153697967529
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-eb964161f3d1676ebc8b",
+   "engine_rank": 47,
+   "gliner_prob": 0.3211495876312256
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-793043ffd633ceb63ece",
+   "engine_rank": 48,
+   "gliner_prob": 0.6879169344902039
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-c81b226566acc82c05e5",
+   "engine_rank": 49,
+   "gliner_prob": 0.6432366967201233
+  },
+  {
+   "query_id": "dev-prop-08",
+   "doc_id": "d-5e45f93b0c9e12d538e1",
+   "engine_rank": 50,
+   "gliner_prob": 0.9366146922111511
+  }
+ ]
+}
