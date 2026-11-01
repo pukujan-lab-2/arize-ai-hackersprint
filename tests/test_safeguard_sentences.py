@@ -36,3 +36,56 @@ def test_support_claims_take_the_whole_sentence_when_the_citation_follows_the_st
     assert len(claims) == 1
     assert claims[0]["text"].startswith("Generally no because")
     assert claims[0]["citation"] == "[1]"
+
+
+def test_a_quoted_claim_checks_the_passage_not_just_the_quote():
+    # Returning only the quoted words asked the checker whether six words entail the claim, which it
+    # answered by abstaining, so every answer failed the support gate.
+    passage = (
+        "Under the automobile exception, an officer may search a vehicle without a warrant when "
+        "there is probable cause to believe it contains evidence of a crime. The scope of the search "
+        "is limited by the object of the search."
+    )
+    cite = {"ref": "[1]", "chunk_id": "c1", "passages": [{"chunk_id": "c1", "text": passage}]}
+    sentence = 'The court held that "an officer may search a vehicle without a warrant" when cause exists [1].'
+    chunk_id, cited = agents._cited_span(cite, sentence)
+    assert chunk_id == "c1"
+    assert len(cited) > len("an officer may search a vehicle without a warrant")
+    assert "automobile exception" in cited
+
+
+def test_a_claim_without_a_quote_still_checks_the_passage():
+    passage = "Probable cause to search a car requires specific facts, not a hunch."
+    cite = {"ref": "[2]", "chunk_id": "c2", "passages": [{"chunk_id": "c2", "text": passage}]}
+    chunk_id, cited = agents._cited_span(cite, "A hunch is not enough to search a car [2].")
+    assert (chunk_id, cited) == ("c2", passage)
+
+
+def test_a_quotation_verbatim_in_its_passage_needs_no_model_check(monkeypatch):
+    passage = 'Under the automobile exception, "an officer may search a vehicle without a warrant" when there is probable cause to believe it holds evidence.'
+    cite = {"ref": "[1]", "chunk_id": "c1", "passages": [{"chunk_id": "c1", "text": passage}]}
+    text = 'The court held that "an officer may search a vehicle without a warrant" in that situation [1].'
+
+    def boom(*args, **kwargs):
+        raise AssertionError("a verbatim quotation should not be sent to the checker")
+
+    monkeypatch.setattr(agents.engine, "check", boom)
+    support = agents._support(text, [cite])
+    assert support["ran"] is True
+    assert support["abstain"] is False
+    assert support["verbatim_claims"] == 1
+    assert support["claims"] == 0
+
+
+def test_a_claim_that_is_not_a_quotation_still_goes_to_the_checker(monkeypatch):
+    cite = {"ref": "[2]", "chunk_id": "c2", "passages": [{"chunk_id": "c2", "text": "Probable cause requires specific facts."}]}
+    seen = {}
+
+    def fake(claims):
+        seen["claims"] = claims
+        return {"abstain": False, "answer_confidence": 0.9}
+
+    monkeypatch.setattr(agents.engine, "check", fake)
+    support = agents._support("A hunch is not enough to search a car here [2].", [cite])
+    assert support["verbatim_claims"] == 0
+    assert seen["claims"] == [{"text": "A hunch is not enough to search a car here [2].", "cited_text": "Probable cause requires specific facts."}]
