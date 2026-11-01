@@ -130,6 +130,59 @@ export function pipelineFrom(events: unknown): StageTick[] {
   return stages;
 }
 
+/** One report from a run's events and draft, with the "engine is waking" line once it has been quiet for a while. */
+function tickFor(events: unknown, partial: string | null | undefined, startedAt: number): AskTick {
+  const tick = { ...stageOf(events), draft: partial || "", stages: pipelineFrom(events) };
+  if (!tick.draft && Date.now() - startedAt > WAKING_NOTICE_MS && /^(planning|retrieving)/i.test(tick.stage)) {
+    tick.detail = WAKING_NOTICE;
+  }
+  return tick;
+}
+
+/**
+ * Follow a run over server-sent events: each stage and each piece of the draft arrives as it happens. Resolves with
+ * the result when the run finishes, and with `undefined` when the stream cannot be used (no EventSource, the server
+ * closed it, the cap was reached), so the caller falls back to polling for whatever is left.
+ */
+export function streamRun(runId: string, onTick?: (tick: AskTick) => void): Promise<RunResult | null | undefined> {
+  if (typeof EventSource === "undefined") return Promise.resolve(undefined);
+  const startedAt = Date.now();
+  return new Promise((resolve) => {
+    const source = new EventSource(`/api/run/${encodeURIComponent(runId)}/stream`);
+    let settled = false;
+    let last: { events: unknown; partial: string | null } = { events: [], partial: null };
+    // Say why it is slow even when nothing new arrives to trigger a report.
+    const waking = window.setTimeout(() => !settled && onTick?.(tickFor(last.events, last.partial, startedAt)), WAKING_NOTICE_MS + 500);
+    const end = (value: RunResult | null | undefined) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(waking);
+      source.close();
+      resolve(value);
+    };
+    source.addEventListener("tick", (event) => {
+      try {
+        const data = JSON.parse((event as MessageEvent).data) as { events?: unknown; partial?: string | null };
+        last = { events: data.events, partial: data.partial ?? null };
+        onTick?.(tickFor(data.events, data.partial, startedAt));
+      } catch {
+        // A malformed frame is skipped; the next one carries the whole state.
+      }
+    });
+    source.addEventListener("done", (event) => {
+      try {
+        const data = JSON.parse((event as MessageEvent).data) as { events?: unknown; result?: RunResult };
+        onTick?.(tickFor(data.events, "", startedAt));
+        end(data.result ?? null);
+      } catch {
+        end(undefined);
+      }
+    });
+    source.addEventListener("timeout", () => end(undefined));
+    source.onerror = () => end(undefined);
+  });
+}
+
 export async function pollRun(runId: string, onTick?: (tick: AskTick) => void): Promise<RunResult | null> {
   const startedAt = Date.now();
   const deadline = startedAt + RUN_TIMEOUT_MS;
@@ -192,7 +245,9 @@ export async function ask(
     throw new AskRefused(data?.error?.trim() || "The server refused that question. Please try again.");
   }
   if (!data?.run_id) throw new Error("The server did not start a run.");
-  const result = await pollRun(data.run_id, options.onTick);
+  // Stream first; whatever the stream could not finish (or a browser without it) is polled for.
+  const streamed = await streamRun(data.run_id, options.onTick);
+  const result = streamed ?? (await pollRun(data.run_id, options.onTick));
   if (!result) throw new Error("That run is taking longer than expected. Please try again.");
   return { runId: data.run_id, result, source: "live" };
 }
