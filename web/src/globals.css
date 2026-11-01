@@ -42,9 +42,15 @@
   }
 }
 
-/* The theme follows the reader's system setting; there is no class toggle. */
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Dark mode: the `dark` class is set by the theme toggle, or by the system setting when it is on System. */
+:root {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+@layer base {
+  .dark {
     --background: 222 47% 6%;
     --foreground: 210 40% 96%;
     --card: 222 40% 9%;

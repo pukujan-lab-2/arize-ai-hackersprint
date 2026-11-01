@@ -30,6 +30,7 @@ import DetailDrawer from "@/components/DetailDrawer";
 import EvidenceList from "@/components/EvidenceList";
 import Memo from "@/components/Memo";
 import PlaceCard from "@/components/PlaceCard";
+import ThemeToggle from "@/components/ThemeToggle";
 import SourcePane from "@/components/SourcePane";
 import TourBar from "@/components/TourBar";
 import TurnDetails from "@/components/TurnDetails";
@@ -406,6 +407,7 @@ export default function Chat() {
           </ToggleGroupItem>
         </ToggleGroup>
 
+        <ThemeToggle />
         <Button
           variant="ghost"
           size="sm"
@@ -472,7 +474,7 @@ export default function Chat() {
         <div className="flex min-h-0 flex-1">
           <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
-            <div className="mx-auto w-full max-w-3xl px-4 py-5">
+            <div className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
               {!turns.length && !busy && (
                 <div className="rounded-xl border border-border bg-card p-5">
                   <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">
@@ -501,7 +503,7 @@ export default function Chat() {
                 </div>
               )}
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {turns.map((turn) => {
                   if (turn.role === "user") {
                     return (
@@ -538,7 +540,7 @@ export default function Chat() {
                         </span>
                         <span className="font-semibold text-foreground">Precedent</span>
                         {turn.source === "sample" && (
-                          <Badge variant="secondary" className="gap-1 px-1.5 py-0 text-[10px]">
+                          <Badge variant="secondary" className="gap-1 px-1.5 py-0 text-xs">
                             <FlaskConical className="h-3 w-3" />
                             Sample
                           </Badge>
@@ -546,7 +548,7 @@ export default function Chat() {
                         {pass !== null && (
                           <span
                             className={cn(
-                              "rounded-full border px-1.5 py-0.5 text-[10px] font-medium",
+                              "rounded-full border px-1.5 py-0.5 text-xs font-medium",
                               pass
                                 ? "border-emerald-500/40 text-emerald-600 dark:text-emerald-400"
                                 : "border-destructive/50 text-destructive",
@@ -556,11 +558,11 @@ export default function Chat() {
                           </span>
                         )}
                         {elapsed !== null && <span className="tabular-nums">{seconds(elapsed)}</span>}
-                        <span className="hidden truncate font-mono text-[10px] sm:inline">{turn.runId}</span>
+                        <span className="hidden truncate font-mono text-xs sm:inline">{turn.runId}</span>
                       </div>
 
                       {answer ? (
-                        <div className="mt-2.5">
+                        <div className="mt-3">
                           <Memo answer={answer} citations={citations} onCite={(citation) => openSource(citation, turn)} />
                         </div>
                       ) : (
@@ -644,13 +646,13 @@ export default function Chat() {
                     }
                   }}
                   placeholder={turns.length ? "Ask a follow-up question…" : "Ask a legal question…"}
-                  className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-sm leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
+                  className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
                 />
                 <Button type="submit" size="icon" disabled={busy || !draft.trim()} aria-label="Send question">
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
                 </Button>
               </div>
-              <p className="mt-1.5 px-1 text-[11px] text-muted-foreground">
+              <p className="mt-1.5 px-1 text-xs text-muted-foreground">
                 {narrationStatus === "unavailable"
                   ? "The voice is unavailable here, so the memo stays in text."
                   : "Enter to send · Shift+Enter for a new line · answers are research summaries, not legal advice"}

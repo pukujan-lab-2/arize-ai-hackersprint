@@ -19,7 +19,7 @@ export default function EvidenceList({
             onClick={() => onOpen(citation)}
             className="w-full rounded-lg border border-border bg-card px-2.5 py-2 text-left transition-colors hover:bg-accent/60"
           >
-            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               {/* The reference the memo uses, so `[3]` in the prose can be found in this list. */}
               {citation.ref && (
                 <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 font-mono font-medium text-foreground">

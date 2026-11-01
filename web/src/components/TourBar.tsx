@@ -87,25 +87,25 @@ export default function TourBar({
             </Button>
           </div>
 
-          <span className="text-[11px] tabular-nums text-slate-400">
+          <span className="text-xs tabular-nums text-slate-400">
             {active ? `${index + 1} of ${steps.length}` : `${steps.length} stops`}
           </span>
 
           {current && (
-            <span className="rounded-full border border-white/15 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+            <span className="rounded-full border border-white/15 px-1.5 py-0.5 text-xs font-medium uppercase tracking-wide text-slate-400">
               {current.section}
             </span>
           )}
 
           {/* The place the camera has just flown to, named as its pin is, so the two agree. */}
           {active && at && (
-            <span className="flex min-w-0 items-center gap-1 text-[11px] text-slate-400">
+            <span className="flex min-w-0 items-center gap-1 text-xs text-slate-400">
               <MapPin className="h-3 w-3 shrink-0" />
               <span className="truncate">{at}</span>
             </span>
           )}
 
-          <span className="ml-auto flex items-center gap-1.5 text-[11px] text-slate-400">
+          <span className="ml-auto flex items-center gap-1.5 text-xs text-slate-400">
             {status === "unavailable" ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
             {status === "loading"
               ? "Audio loading…"
@@ -132,7 +132,7 @@ export default function TourBar({
           </p>
         )}
 
-        {!active && <p className="mt-1 truncate text-[11px] text-slate-400">{path}</p>}
+        {!active && <p className="mt-1 truncate text-xs text-slate-400">{path}</p>}
       </section>
     </div>
   );

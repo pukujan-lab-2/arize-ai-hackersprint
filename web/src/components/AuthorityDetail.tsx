@@ -16,7 +16,7 @@ const CATEGORY_LABEL: Record<string, string> = {
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <dt className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</dt>
+      <dt className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</dt>
       <dd className="break-words text-sm leading-snug">{value}</dd>
     </div>
   );
@@ -36,7 +36,7 @@ export default function AuthorityDetail({
   return (
     <div className="space-y-4">
       <div>
-        <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
           <span className="rounded border border-border bg-muted px-1.5 py-0.5 font-medium text-foreground">
             {citeType(citation)}
           </span>
@@ -55,7 +55,7 @@ export default function AuthorityDetail({
 
       {passage ? (
         <div>
-          <h4 className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Retrieved passage</h4>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Retrieved passage</h4>
           <blockquote className="mt-1.5 border-l-2 border-border pl-3 text-sm leading-relaxed text-foreground">
             {passage}
           </blockquote>

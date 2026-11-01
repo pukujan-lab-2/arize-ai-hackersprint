@@ -72,7 +72,7 @@ function History({
     <div className="space-y-3">
       {groups.map((group) => (
         <section key={group.title}>
-          <h2 className="px-2 pb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+          <h2 className="px-2 pb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             {group.title}
           </h2>
           <ul className="space-y-0.5">
@@ -92,7 +92,7 @@ function History({
                   <MessagesSquare className="mt-0.5 h-4 w-4 shrink-0" />
                   <span className="min-w-0 flex-1">
                     <span className="line-clamp-2 block text-sm leading-snug">{run.question}</span>
-                    <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">{whenLabel(run.ts)}</span>
+                    <span className="mt-0.5 block truncate text-xs text-muted-foreground">{whenLabel(run.ts)}</span>
                   </span>
                 </button>
               </li>
@@ -164,7 +164,7 @@ export default function AppShell() {
             Sample data
           </Badge>
         )}
-        <p className="text-[11px] leading-snug text-muted-foreground">
+        <p className="text-xs leading-snug text-muted-foreground">
           AI-generated research summaries, not legal advice.
         </p>
       </div>

@@ -22,7 +22,7 @@ function Row({ citation, onRead }: { citation: Citation; onRead?: (citation: Cit
         onClick={() => setOpen((value) => !value)}
         className="w-full px-3 py-2 text-left transition-colors hover:bg-accent/50 focus-visible:bg-accent/60 focus-visible:outline-none"
       >
-        <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
           {citation.ref && (
             <span className="shrink-0 rounded bg-muted px-1 py-0.5 font-mono font-medium text-foreground">
               {citation.ref}
@@ -32,7 +32,7 @@ function Row({ citation, onRead }: { citation: Citation; onRead?: (citation: Cit
           <span className="truncate">{courtName(citation) || "Court not recorded"}</span>
         </span>
         <span className="mt-0.5 line-clamp-2 block text-[13px] font-medium leading-snug">{title}</span>
-        <span className="mt-0.5 block truncate text-[11px] text-muted-foreground">
+        <span className="mt-0.5 block truncate text-xs text-muted-foreground">
           {[citation.citation, citation.date].filter(Boolean).join(" · ") || "Citation not recorded"}
         </span>
       </button>
@@ -44,7 +44,7 @@ function Row({ citation, onRead }: { citation: Citation; onRead?: (citation: Cit
               {passage}
             </blockquote>
           ) : (
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               No passage was retrieved for this authority — it came from the citation graph.
             </p>
           )}
@@ -86,7 +86,7 @@ export default function PlaceCard({
       <header className="flex items-start gap-2 border-b border-border px-3 py-2">
         <div className="min-w-0 flex-1">
           <p className="text-xs font-semibold leading-snug">{place.label}</p>
-          <p className="text-[11px] leading-tight text-muted-foreground">
+          <p className="text-xs leading-tight text-muted-foreground">
             {count} {count === 1 ? "authority" : "authorities"} at this place
           </p>
         </div>

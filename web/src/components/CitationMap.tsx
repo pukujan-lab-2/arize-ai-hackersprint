@@ -586,7 +586,7 @@ export default function CitationMap({
       dot.type = "button";
       dot.dataset.dot = "";
       dot.className =
-        "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 border-white/90 text-[11px] font-bold text-slate-950 transition-transform hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+        "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 border-white/90 text-xs font-bold text-slate-950 transition-transform hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
       dot.style.backgroundColor = color;
       dot.style.boxShadow = glow(color);
       dot.textContent = pin.citations.length > 1 ? String(pin.citations.length) : "";
@@ -610,7 +610,7 @@ export default function CitationMap({
       const label = document.createElement("span");
       label.dataset.label = "";
       label.className =
-        "pointer-events-none absolute left-1/2 top-full mt-0.5 max-w-[10rem] -translate-x-1/2 truncate rounded border border-white/10 bg-slate-950/80 px-1.5 text-[10px] font-medium leading-tight text-slate-100 shadow-sm";
+        "pointer-events-none absolute left-1/2 top-full mt-0.5 max-w-[10rem] -translate-x-1/2 truncate rounded border border-white/10 bg-slate-950/80 px-1.5 text-xs font-medium leading-tight text-slate-100 shadow-sm";
       label.textContent = pin.label;
 
       element.append(dot, label);
@@ -823,7 +823,7 @@ export default function CitationMap({
       </div>
 
       {keyOpen && (
-        <div className="absolute left-3 top-14 z-10 flex max-w-[18rem] flex-col gap-1.5 rounded-md border border-white/10 bg-slate-950/90 px-3 py-2 text-[11px] text-slate-300 shadow-lg backdrop-blur">
+        <div className="absolute left-3 top-14 z-10 flex max-w-[18rem] flex-col gap-1.5 rounded-md border border-white/10 bg-slate-950/90 px-3 py-2 text-xs text-slate-300 shadow-lg backdrop-blur">
           <ul className="flex flex-wrap gap-x-3 gap-y-1">
             {(Object.keys(CATEGORY_LABELS) as (keyof typeof CATEGORY_LABELS)[]).map((category) => (
               <li key={category} className="flex items-center gap-1.5">
