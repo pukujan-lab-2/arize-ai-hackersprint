@@ -15,7 +15,7 @@ jobs:
   redteam:
     name: redteam
 # Scope: features, UX, flows, intuitiveness, fallbacks ONLY. Do not file security issues.
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, org-pool]
     timeout-minutes: 35
     env:
       LLM_MODE: fake

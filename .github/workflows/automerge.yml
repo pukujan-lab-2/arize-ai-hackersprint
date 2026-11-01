@@ -11,7 +11,7 @@ jobs:
       github.event.pull_request.draft == false &&
       (github.event.pull_request.user.login == github.repository_owner ||
        github.event.pull_request.user.type == 'Bot')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, org-pool]
     steps:
       - name: Enable auto-merge (squash); merges once required check 'gates' passes
         env:
