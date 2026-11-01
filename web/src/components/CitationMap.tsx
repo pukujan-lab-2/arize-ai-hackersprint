@@ -14,11 +14,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+// maplibre-gl 6 starts its worker from a file beside the library. A bundle does not keep that file, so the
+// worker is built as its own asset here (with the file it imports) and handed over by address; without
+// this the map draws nothing in production and logs "Worker failed to load".
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import { Box, LocateFixed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { arcType, locate, type Citation, type Edge, type Location } from "@/lib/citations";
 import { ARC_COLORS, CATEGORY_COLORS, CONTEXT_COLORS, GROUND } from "@/map/palette";
 import { cn } from "@/lib/utils";
+
+maplibregl.setWorkerUrl(workerUrl);
 
 /** The authorities that resolve to one place on the map. */
 export type MapPlace = { key: string; label: string; citations: Citation[] };
