@@ -612,7 +612,9 @@ export default function CitationMap({
       element.dataset.place = pin.key;
       // A fixed box, so the marker's own anchor arithmetic cannot be thrown by the label hanging
       // outside it: the dot's centre is the coordinate, at every zoom.
-      element.className = "relative flex h-8 w-8 items-center justify-center";
+      // No `relative` here: MapLibre positions the marker with `position: absolute`, and a utility class that
+      // overrides it leaves every pin in the page flow, each one pushed down by the pins before it.
+      element.className = "flex h-8 w-8 items-center justify-center";
 
       const color = CATEGORY_COLORS[pin.loc.cat];
       const dot = document.createElement("button");
