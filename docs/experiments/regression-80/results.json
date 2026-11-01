@@ -1,0 +1,25 @@
+{
+ "queries": 80,
+ "identical_top12": 80,
+ "identical_full": 80,
+ "run_a": {
+  "cold_start_ms": 4588.258,
+  "warm_p50_ms": 3865.27,
+  "warm_p95_ms": 4385.639,
+  "warm_query_count": 79,
+  "clock": "client wall time around one engine call, model load included in the first call"
+ },
+ "run_b": {
+  "cold_start_ms": 1300.914,
+  "warm_p50_ms": 1089.107,
+  "warm_p95_ms": 1255.343,
+  "warm_query_count": 79,
+  "clock": "client wall time around one engine call, model load included in the first call"
+ },
+ "corpus_revisions": [
+  "octo-chunk:804646"
+ ],
+ "graph_revisions": [
+  "5f469d7d-18b6-5bb5-95e6-72b348e59799"
+ ]
+}
