@@ -1,0 +1,55 @@
+{
+ "queries": 20,
+ "top12_changed": 5,
+ "full_changed": 5,
+ "changed": [
+  {
+   "id": "dev-veh-02",
+   "question": "What records address liability when a vehicle turns across oncoming traffic?",
+   "inserted": [
+    "McQueen v. Navajo Freight Lines, Inc.",
+    "Klaxon Co. v. Stentor Electric Manufacturing Co., 313 U.S. 487"
+   ]
+  },
+  {
+   "id": "dev-veh-05",
+   "question": "Which case proves that the blue sedan was speeding on a rainy Tuesday?",
+   "inserted": [
+    "United States v. Two Lots of Ground & Improvements",
+    "Coffey v. United States",
+    "Helvering v. Mitchell, 303 U.S. 391"
+   ]
+  },
+  {
+   "id": "dev-prop-10",
+   "question": "What did the court decide about the property issue?",
+   "inserted": [
+    "Helvering v. Grinnell",
+    "Griffiths v. Commissioner, 308 U.S. 355",
+    "Abbott Laboratories v. Gardner, 387 U.S. 136",
+    "Keystone Bituminous Coal Ass'n v. DeBenedictis",
+    "Lucas v. South Carolina Coastal Council"
+   ]
+  },
+  {
+   "id": "dev-other-17",
+   "question": "Locate decisions about an employer's duty to accommodate an employee's disability.",
+   "inserted": [
+    "Aucutt v. Six Flags Over Mid-America, Inc., 85 F.3d 1311",
+    "Anderson v. Liberty Lobby, Inc.",
+    "Celotex Corp. v. Catrett",
+    "Jasany v. United States Postal Service",
+    "Camfield Tires, Inc. v. Michelin Tire Corp., 719 F.2d 1361"
+   ]
+  },
+  {
+   "id": "dev-other-18",
+   "question": "What records address the standard for proving negligence in a premises-liability claim?",
+   "inserted": [
+    "Markham v. United States, 429 U.S. 1041",
+    "Dick v. New York Life Insurance",
+    "Mizell v. United States"
+   ]
+  }
+ ]
+}
