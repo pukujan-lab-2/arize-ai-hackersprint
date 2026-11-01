@@ -1,0 +1,726 @@
+{
+  "dataset_version": "proposed-1",
+  "review_status": "unreviewed",
+  "questions": [
+    {
+      "id": "dev-veh-01",
+      "question": "Find decisions discussing how a court evaluates whether a driver's conduct caused a collision.",
+      "topic": "vehicle_search",
+      "split": "development",
+      "intent": "causation",
+      "group_id": "dev-veh-01",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-veh-02",
+      "question": "What records address liability when a vehicle turns across oncoming traffic?",
+      "topic": "vehicle_search",
+      "split": "development",
+      "intent": "liability",
+      "group_id": "dev-veh-02",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-veh-03",
+      "question": "Find opinions about a driver's duty to keep a proper lookout near an intersection.",
+      "topic": "vehicle_search",
+      "split": "development",
+      "intent": "duty",
+      "group_id": "dev-veh-03",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-veh-04",
+      "question": "Locate decisions about vehicle damage claims where the record does not establish which driver had the right of way.",
+      "topic": "vehicle_search",
+      "split": "development",
+      "intent": "hard_negative",
+      "group_id": "dev-veh-04",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-veh-05",
+      "question": "Which case proves that the blue sedan was speeding on a rainy Tuesday?",
+      "topic": "vehicle_search",
+      "split": "development",
+      "intent": "no_answer",
+      "group_id": "dev-veh-05",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "dev-prop-06",
+      "question": "Find decisions about whether a fence or other structure encroaches on a neighboring parcel.",
+      "topic": "property",
+      "split": "development",
+      "intent": "boundary",
+      "group_id": "dev-prop-06",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-prop-07",
+      "question": "What opinions discuss the elements used to establish a prescriptive easement?",
+      "topic": "property",
+      "split": "development",
+      "intent": "easement",
+      "group_id": "dev-prop-07",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-prop-08",
+      "question": "Locate property disputes involving access across another owner's land.",
+      "topic": "property",
+      "split": "development",
+      "intent": "access",
+      "group_id": "dev-prop-08",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-prop-09",
+      "question": "Find cases about ownership of land exposed when a lake or river changes its course.",
+      "topic": "property",
+      "split": "development",
+      "intent": "hard_negative",
+      "group_id": "dev-prop-09",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-prop-10",
+      "question": "What did the court decide about the property issue?",
+      "topic": "property",
+      "split": "development",
+      "intent": "underspecified",
+      "group_id": "dev-prop-10",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "dev-water-11",
+      "question": "Find decisions discussing the priority of competing claims to use water from the same source.",
+      "topic": "water_rights",
+      "split": "development",
+      "intent": "priority",
+      "group_id": "dev-water-11",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-water-12",
+      "question": "What records address whether a water right can be transferred to a different place of use?",
+      "topic": "water_rights",
+      "split": "development",
+      "intent": "transfer",
+      "group_id": "dev-water-12",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-water-13",
+      "question": "Locate opinions about the scope of a riparian owner's right to withdraw water.",
+      "topic": "water_rights",
+      "split": "development",
+      "intent": "scope",
+      "group_id": "dev-water-13",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-water-14",
+      "question": "Find a case that uses the phrase 'reasonable use' for a private road easement, without deciding any water claim.",
+      "topic": "water_rights",
+      "split": "development",
+      "intent": "hard_negative",
+      "group_id": "dev-water-14",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-water-15",
+      "question": "How many gallons per minute may I pump from my well today?",
+      "topic": "water_rights",
+      "split": "development",
+      "intent": "no_answer",
+      "group_id": "dev-water-15",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "dev-other-16",
+      "question": "Find opinions discussing whether a contract term is ambiguous and how a court interprets it.",
+      "topic": "other_legal_topics",
+      "split": "development",
+      "intent": "contract_interpretation",
+      "group_id": "dev-other-16",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-other-17",
+      "question": "Locate decisions about an employer's duty to accommodate an employee's disability.",
+      "topic": "other_legal_topics",
+      "split": "development",
+      "intent": "employment",
+      "group_id": "dev-other-17",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-other-18",
+      "question": "What records address the standard for proving negligence in a premises-liability claim?",
+      "topic": "other_legal_topics",
+      "split": "development",
+      "intent": "tort",
+      "group_id": "dev-other-18",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-other-19",
+      "question": "Find decisions using the word 'consideration' in a property tax assessment dispute, not in contract formation.",
+      "topic": "other_legal_topics",
+      "split": "development",
+      "intent": "hard_negative",
+      "group_id": "dev-other-19",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "dev-other-20",
+      "question": "Which law applies to my situation?",
+      "topic": "other_legal_topics",
+      "split": "development",
+      "intent": "underspecified",
+      "group_id": "dev-other-20",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "test-veh-01",
+      "question": "What opinions discuss whether a following driver had enough distance to stop before a vehicle ahead?",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "following_distance",
+      "group_id": "test-veh-01",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-02",
+      "question": "Find decisions about fault allocation when two vehicles enter an intersection at nearly the same time.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "intersection",
+      "group_id": "test-veh-02",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-03",
+      "question": "Locate records addressing whether a driver's failure to yield caused a crash involving a pedestrian.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "pedestrian",
+      "group_id": "test-veh-03",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-04",
+      "question": "What cases discuss notice of a dangerous road condition in a vehicle collision claim?",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "road_condition",
+      "group_id": "test-veh-04",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-05",
+      "question": "Find opinions on whether an employer may be liable for a crash caused by an employee driving for work.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "vicarious_liability",
+      "group_id": "test-veh-05",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-06",
+      "question": "Locate decisions about the effect of a seat-belt defense on damages in a motor-vehicle case.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "damages",
+      "group_id": "test-veh-06",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-07",
+      "question": "Find vehicle cases that mention an insurance policy but do not decide coverage or liability for the collision.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "hard_negative",
+      "group_id": "test-veh-07",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-08",
+      "question": "What decisions discuss a driver's duty when backing out of a driveway?",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "duty",
+      "group_id": "test-veh-08",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-09",
+      "question": "Locate opinions addressing whether a left-turning driver acted negligently when visibility was limited.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "negligence",
+      "group_id": "test-veh-09",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-10",
+      "question": "Find records about the use of accident-reconstruction testimony in a collision case.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "evidence",
+      "group_id": "test-veh-10",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-11",
+      "question": "Which opinion says the green truck on Elm Street caused the crash last night?",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "no_answer",
+      "group_id": "test-veh-11",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "test-veh-12",
+      "question": "What vehicle case is the one I read about?",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "underspecified",
+      "group_id": "test-veh-12",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "test-veh-13",
+      "question": "Find decisions about a claim that a defective tire caused a vehicle crash, including the causation analysis.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "product_liability",
+      "group_id": "test-veh-13",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-14",
+      "question": "Locate cases discussing whether a driver was acting within the scope of employment during a work-related trip.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "vicarious_liability",
+      "group_id": "test-veh-14",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-veh-15",
+      "question": "Find a decision involving an automobile collision and a dispute over damages, but no ruling on fault.",
+      "topic": "vehicle_search",
+      "split": "test",
+      "intent": "hard_negative",
+      "group_id": "test-veh-15",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-01",
+      "question": "Find decisions about how a court determines the location of a disputed boundary between neighboring parcels.",
+      "topic": "property",
+      "split": "test",
+      "intent": "boundary",
+      "group_id": "test-prop-01",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-02",
+      "question": "Locate opinions discussing whether long-term use of a path was sufficiently open and continuous to establish an easement.",
+      "topic": "property",
+      "split": "test",
+      "intent": "easement",
+      "group_id": "test-prop-02",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-03",
+      "question": "What records address a landowner's claim of adverse possession against a neighboring owner?",
+      "topic": "property",
+      "split": "test",
+      "intent": "adverse_possession",
+      "group_id": "test-prop-03",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-04",
+      "question": "Find cases about whether a deed conveyed a parcel despite uncertainty in its legal description.",
+      "topic": "property",
+      "split": "test",
+      "intent": "deed",
+      "group_id": "test-prop-04",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-05",
+      "question": "Locate decisions discussing a right of access to landlocked property.",
+      "topic": "property",
+      "split": "test",
+      "intent": "access",
+      "group_id": "test-prop-05",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-06",
+      "question": "Find opinions about a landlord's duty to repair a residential rental unit.",
+      "topic": "property",
+      "split": "test",
+      "intent": "landlord_tenant",
+      "group_id": "test-prop-06",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-07",
+      "question": "What decisions discuss whether a restriction in a deed runs with the land?",
+      "topic": "property",
+      "split": "test",
+      "intent": "covenant",
+      "group_id": "test-prop-07",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-08",
+      "question": "Find a case mentioning a property line in its procedural history but deciding only a contract payment dispute.",
+      "topic": "property",
+      "split": "test",
+      "intent": "hard_negative",
+      "group_id": "test-prop-08",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-09",
+      "question": "Locate opinions about the priority of competing interests in real property after a transfer.",
+      "topic": "property",
+      "split": "test",
+      "intent": "recording_priority",
+      "group_id": "test-prop-09",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-10",
+      "question": "Find decisions addressing whether a tenant may remove fixtures installed during a lease.",
+      "topic": "property",
+      "split": "test",
+      "intent": "landlord_tenant",
+      "group_id": "test-prop-10",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-11",
+      "question": "Which court awarded my neighbor's house to me last month?",
+      "topic": "property",
+      "split": "test",
+      "intent": "no_answer",
+      "group_id": "test-prop-11",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "test-prop-12",
+      "question": "What is the rule for land?",
+      "topic": "property",
+      "split": "test",
+      "intent": "underspecified",
+      "group_id": "test-prop-12",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "test-prop-13",
+      "question": "Find opinions about a claim that tree roots or branches crossed a boundary and damaged neighboring property.",
+      "topic": "property",
+      "split": "test",
+      "intent": "trespass_nuisance",
+      "group_id": "test-prop-13",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-14",
+      "question": "Locate decisions about a seller's duty to disclose a known defect in residential real estate.",
+      "topic": "property",
+      "split": "test",
+      "intent": "disclosure",
+      "group_id": "test-prop-14",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-prop-15",
+      "question": "Find cases involving an easement by necessity and identify the factual issue the court considered.",
+      "topic": "property",
+      "split": "test",
+      "intent": "easement",
+      "group_id": "test-prop-15",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-01",
+      "question": "Find decisions applying prior appropriation to competing claims from a surface-water source.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "prior_appropriation",
+      "group_id": "test-water-01",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-02",
+      "question": "Locate opinions on whether a water right was abandoned after a period of nonuse.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "abandonment",
+      "group_id": "test-water-02",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-03",
+      "question": "What cases discuss the place-of-use limits attached to an appropriative water right?",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "place_of_use",
+      "group_id": "test-water-03",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-04",
+      "question": "Find decisions addressing whether a change in the point of diversion would injure other water-right holders.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "change_application",
+      "group_id": "test-water-04",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-05",
+      "question": "Locate opinions about the relationship between a groundwater permit and an existing surface-water right.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "groundwater_surface_water",
+      "group_id": "test-water-05",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-06",
+      "question": "Find records discussing the scope of a federal reserved water right.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "reserved_right",
+      "group_id": "test-water-06",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-07",
+      "question": "What decisions address whether a public agency may administer or curtail a water right during shortage?",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "administration",
+      "group_id": "test-water-07",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-08",
+      "question": "Find a decision that mentions irrigation water but decides only whether a contract was properly signed.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "hard_negative",
+      "group_id": "test-water-08",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-09",
+      "question": "Locate cases about whether a claimed water use was beneficial under the governing law.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "beneficial_use",
+      "group_id": "test-water-09",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-10",
+      "question": "Find opinions discussing the priority date of a water right and the evidence used to establish it.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "priority_date",
+      "group_id": "test-water-10",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-11",
+      "question": "How much water will my new well produce next summer?",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "no_answer",
+      "group_id": "test-water-11",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "test-water-12",
+      "question": "What did the judge say about the stream?",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "underspecified",
+      "group_id": "test-water-12",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "test-water-13",
+      "question": "Find cases discussing whether a water-right transfer would enlarge the historical use.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "transfer",
+      "group_id": "test-water-13",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-14",
+      "question": "Locate decisions about the effect of a drought emergency on competing water claims.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "shortage",
+      "group_id": "test-water-14",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-water-15",
+      "question": "Find opinions about whether a claimant established a water right through pre-code use.",
+      "topic": "water_rights",
+      "split": "test",
+      "intent": "vested_right",
+      "group_id": "test-water-15",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-01",
+      "question": "Find decisions discussing whether a contract was formed through the parties' conduct.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "contract_formation",
+      "group_id": "test-other-01",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-02",
+      "question": "Locate opinions about what evidence is needed to prove promissory estoppel.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "promissory_estoppel",
+      "group_id": "test-other-02",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-03",
+      "question": "Find cases addressing whether an employee qualifies for overtime under a wage statute.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "employment",
+      "group_id": "test-other-03",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-04",
+      "question": "What decisions discuss causation in a medical-malpractice claim?",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "medical_malpractice",
+      "group_id": "test-other-04",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-05",
+      "question": "Locate opinions about the elements of a public-nuisance claim.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "nuisance",
+      "group_id": "test-other-05",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-06",
+      "question": "Find decisions discussing whether a public official is entitled to qualified immunity.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "immunity",
+      "group_id": "test-other-06",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-07",
+      "question": "Locate cases about the standard for admitting expert testimony in a civil case.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "evidence",
+      "group_id": "test-other-07",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-08",
+      "question": "Find an opinion that mentions a written contract but decides only a criminal sentencing issue.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "hard_negative",
+      "group_id": "test-other-08",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-09",
+      "question": "What records discuss the deadline for filing an administrative appeal?",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "procedure",
+      "group_id": "test-other-09",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-10",
+      "question": "Find cases about whether a statute of limitations was tolled by fraudulent concealment.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "limitations",
+      "group_id": "test-other-10",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-11",
+      "question": "Which case guarantees I will win my lawsuit?",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "no_answer",
+      "group_id": "test-other-11",
+      "answerability_expectation": "no_answer_expected"
+    },
+    {
+      "id": "test-other-12",
+      "question": "What happened in that case?",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "underspecified",
+      "group_id": "test-other-12",
+      "answerability_expectation": "underspecified"
+    },
+    {
+      "id": "test-other-13",
+      "question": "Locate decisions about a business's duty to protect customers from foreseeable harm on its premises.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "premises_liability",
+      "group_id": "test-other-13",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-14",
+      "question": "Find opinions discussing whether a government search required a warrant under the facts presented.",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "constitutional",
+      "group_id": "test-other-14",
+      "answerability_expectation": "answerable_expected"
+    },
+    {
+      "id": "test-other-15",
+      "question": "What cases address enforcement of an arbitration clause when one party challenges its scope?",
+      "topic": "other_legal_topics",
+      "split": "test",
+      "intent": "arbitration",
+      "group_id": "test-other-15",
+      "answerability_expectation": "answerable_expected"
+    }
+  ]
+}
