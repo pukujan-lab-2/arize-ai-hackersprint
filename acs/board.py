@@ -1,4 +1,6 @@
-"""Hackathon task board stored inside ACS (acs-adopter/.coord/hackathon), file-locked; events + OIO issue logs."""
+"""Task board stored inside ACS (acs-adopter/.coord/hackathon), file-locked; events + OIO issue logs.
+
+The directory name is historical and kept so existing boards keep working."""
 
 import json, os, time, fcntl, pathlib, contextlib
 
@@ -109,7 +111,7 @@ def oio_record(
     origin="agent-initiated",
     evidence="supported",
     relation="supports",
-    outcome="hackathon demo",
+    outcome="legal search",
     extra_session=None,
     status=None,
     project_id=None,
@@ -147,7 +149,7 @@ def oio_record(
         "impact": {
             "affected": affected,
             "consequence": consequence,
-            "breadth": "hackathon demo only",
+            "breadth": "single deployment",
             "workaround": "none needed" if impact_band == "informational" else "see consequence",
             "impact_band": impact_band,
             "likelihood": likelihood,
@@ -160,7 +162,7 @@ def oio_record(
         "release_relevance": {
             "relation": relation,
             "product_outcome": outcome,
-            "delay_cost": "none before 15:30 ET submission",
+            "delay_cost": "none; additive log only",
             "smallest_useful_slice": "log only",
         },
         "lifecycle": {"status": status or ("open" if impact_band != "informational" else "resolved")},
