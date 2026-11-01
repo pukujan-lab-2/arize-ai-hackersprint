@@ -1,0 +1,696 @@
+{
+ "version": "claim-support-pairs-v1",
+ "token_cut_words": 350,
+ "pairs": [
+  {
+   "id": "pos-00",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "There is no occasion to detail the testimony concerning pasturage or to discuss the validity of the judgment herein, since it must be reversed.",
+   "passage": "There is no occasion to detail the testimony concerning pasturage or to discuss the validity of the judgment herein, since it must be reversed. However, it is interesting to note that in the testimony concerning the repair of the fence, it is shown that at one place along the fence was an automobile gate and bridge or cattle guard. It is contended that because this was not kept in proper condition, cattle would find their way across into other lands, regardless of the fence. This indicates that there had been use of this section line generally as a course of travel. It is not to be understood that we hold that a dedicated highway cannot in time be abandoned on account of nonuse. However, abandonment will not ordinarily be implied from mere nonuser when the public need has not required the use",
+   "source": "d-6bdd130ef3631bd5bc8f"
+  },
+  {
+   "id": "pos-01",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Shareholders of a ditch company have the right to change the place of use of water if other users are not injured thereby.",
+   "passage": "Shareholders of a ditch company have the right to change the place of use of water if other users are not injured thereby. Jacobucei v. District Court, supra. By-laws of a ditch company concerning changes of use, if reasonable, can be enforced. Howeyer, by-laws do not oust the water court of its jurisdiction to determine water matters, and shareholders adversely affected by ditch company action can still invoke the water court's jurisdiction. Fort Lyon Canal Co. v. Catlin Canal Co., 642 P.2d 501 (Colo.1982). Here, all of SIC's declaratory judgment claims concern the City's use of its water rights obtained through ownership of shares in SIC. The claims seek a judicial decree that the City can only use the water to irrigate certain defined land and that it cannot change the use without SIC's consent. SIC's claims, in effect, are a request to define limitations on the City's use of its water rights. We conclude these claims relate to the use of water.",
+   "source": "d-4b0f2e26e8b9a29e5276"
+  },
+  {
+   "id": "pos-02",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u00b646 The right to store water is not an automatic incident of a direct flow right.",
+   "passage": "\u00b646 The right to store water is not an automatic incident of a direct flow right. Id. This is because whether the water diverted pursuant to a decree is used immediately or stored for future use affects the potential impact of the diversion on other water users. Id. A direct flow right may be diverted in priority only when the water can be directly applied to its decreed beneficial use; it is therefore limited by stream conditions and by the extent of the need for the beneficial use at the time of diversion. By contrast, a storage right allows its holder to divert water in priority whenever the water is available and to store that water until it is needed for its decreed beneficial use. Storage of a direct flow water right can increase consumption by permitting the diversion of available water not immediately needed for beneficial use\u2014water that would otherwise be left in the stream for junior water users",
+   "source": "d-0d9e8825f7af9a5ed211"
+  },
+  {
+   "id": "pos-03",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u201cFifteen miles an hour when approaching within fifty-feet and in traversing an intersection of highways when the driver\u2019s view is obstructed.",
+   "passage": "\u201cFifteen miles an hour when approaching within fifty-feet and in traversing an intersection of highways when the driver\u2019s view is obstructed. A driver\u2019s view shall be deemed to be obstructed when at any time during the last fifty feet of his approach to such intersection, he does not have a clear and uninterrupted view of such intersection and of the traffic upon all of the highways entering such intersection for a distance of two hundred feet from such intersection.\u201d Such conduct is negligence per se and negligence as a matter of law.",
+   "source": "d-8288c6982dc1ff81a2eb"
+  },
+  {
+   "id": "pos-04",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "On the other hand, one witness for the town said the land with the water was worth $5,000.00 or $6,000.00, another from $7,000.00 to $10,000.00, others placed it higher.",
+   "passage": "One of the witnesses for the owner, whose testimony tended to show that the award should be about $25,000.00, based on values of other lands in the vicinage, said that the values he was testifying to, or asked about, were uncertain and much inflated. As these values were based upon about the same matters as the values testified to by the other witnesses for the owner, the commissioners no doubt felt that the values sought to be established by the owner were inflated and not real. On the other hand, one witness for the town said the land with the water was worth $5,000.00 or $6,000.00, another from $7,000.00 to $10,000.00, others placed it higher. Thus is presented the maze of differing opinions usual in eases wherein value is sought to be established. Giving the appellants the benefit of the rule's of evidence they invoke, their assignments of error will be considered",
+   "source": "d-d8f0c3aa52901c81bd9d"
+  },
+  {
+   "id": "pos-05",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "On the issues thus formulated, the court found that the portion of Beaver lake ditch, known as Feeder No.",
+   "passage": "On the issues thus formulated, the court found that the portion of Beaver lake ditch, known as Feeder No. 1, and its extension were so constructed with reference to the proximity and grade of the river, that thereby a considerable volume of water was withdrawn from the stream by percolation, and that the outlet from Beaver lake was a-natural water course, through which a quantity of water found its way to the bank of the river, where it disappeared in the sands of the river bed; that defendants, by their efforts and expenditures, had drained lands adjacent to the lake, thereby increasing the water supply coming from that source, and decreed that the branch of the ditch, known as Feeder No. 1, and its extension, be abated; and that defendants in error were entitled to the use of all water flowing through the stream from the lake. The plaintiff brings the case here on error, and maintains that the court erred in allowing defendants all the water of the stream from Beaver lake",
+   "source": "d-50df7b7f3e884cea8e73"
+  },
+  {
+   "id": "pos-06",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "The Department of Revenue appeals from the district court judgment reversing the decision of the hearing officer and ordering the restoration of plaintiff\u2019s driver\u2019s license.",
+   "passage": "COYTE, Judge. The Department of Revenue appeals from the district court judgment reversing the decision of the hearing officer and ordering the restoration of plaintiff\u2019s driver\u2019s license. We affirm. The hearing officer revoked plaintiff\u2019s driver\u2019s license for accumulating eleven convictions for traffic offenses within a five year period, each of which resulted in an assessment of four or more points. See \u00a7 42-2-202(3), C.R.S.1973. That order was reversed and remanded by the district court to the Motor Vehicle Department in order to allow plaintiff to challenge the record of two of the traffic convictions as shown by the records of the Motor Vehicle Department.",
+   "source": "d-baefc1bea7a2c0442f74"
+  },
+  {
+   "id": "pos-07",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "It is obvious that the probable point of intersection of the lines of travel of the two cars might vary suddenly and considerably from minute to minute and even from second to second",
+   "passage": "The rule announced was this: \u201cWe think the right rule is that it is the duty of every driver, when approaching a street intersection, to use reasonable care to see whether there is likelihood of collision with any car appr'oaching from the right, and, if there is, to yield to it the right of way, and to keep his car under such control that he can do so.\u201d The rule there adopted by the court, in construing the ordinance, made the test the \u201clikelihood\u201d of collision with a car approaching from the right. Such likelihood, of course, would depend upon several contingencies; for example, the speed of the car appr'oaching from the right; whether or not the speed probably would be increased or diminished ; whether or not the car probably would change its course, and if so, in which direction and how far. It is obvious that the probable point of intersection of the lines of travel of the two cars might vary suddenly and considerably from minute to minute and even from second to second",
+   "source": "d-b1a705a2cc91ad037321"
+  },
+  {
+   "id": "pos-08",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2002.",
+   "passage": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2002. The prosecution, he asserts, only introduced evidence of the price the victim paid for the property in 1996 and the cost of improvements made to the property between 1996 and 2002. Without any evidence regarding the condition of the property in 2002 or its market value in 2002 compared to 1996, defendant maintains the prosecution produced insufficient evidence. Here, the victim did not testify as to the fair market value of the property in 2002. He only testified about what he paid for the property in 1996 and what he spent improving the property between 1996 and 2002. Moreover, the real property was not so newly purchased as to allow a reasonable inference that the purchase price was comparable to its fair market value six years later in 2002.",
+   "source": "d-e4b51220d4bb57a3a8c7"
+  },
+  {
+   "id": "pos-09",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "We granted certiorari to review two decisions of the Colorado Court of Appeals that present a common issue as to the manner of valuing vacant land for property tax assessment purposes.",
+   "passage": "We granted certiorari to review two decisions of the Colorado Court of Appeals that present a common issue as to the manner of valuing vacant land for property tax assessment purposes. The issue is whether section 39-1-103(14)(b), 16B C.R.S. (1991 Supp.), prior to its amendment in 1992, required assessing officers to consider indirect costs, such as developer\u2019s profit and overhead, as part of the \u201ccost of development\u201d when using the market approach to appraisal. The 1992 amendment disallowed consideration of indirect costs, thereby raising the question of whether the 1992 amendment changed or merely clarified the prior law. In Fidelity Castle Pines, Ltd. v. Douglas County Bd. of Equalization, No. 92CA1453 (Colo. App. Nov. 12, 1993) (not selected for official publication), the court of appeals reversed a decision of the Board of Assessment Appeals (BAA) which held that indirect costs should not be considered. In Roxborough Village v. Douglas County Bd. of Equalization, No",
+   "source": "d-cbe689fa9c26f3ac702b"
+  },
+  {
+   "id": "pos-10",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "After you were appointed Conservator of your wife\u2019s estate, did you make any sale of the water rights belonging to the property?",
+   "passage": "\u201cQ. After you were appointed Conservator of your wife\u2019s estate, did you make any sale of the water rights belonging to the property? A. I did. Q. Do you remember when that sale was? A. No, not exactly. Q. Do you remember what you sold? A. I sold the rights claimed, reserving five shares of the stock of the Pleasant Valley and Lake Canal. Q. At that time, did you know personally exactly what water rights were appurtenant to the property owned by your wife? A. Well, as I remember it, she was supposed to have a right to one hundred and fifty inches of water if she wanted it. Q. Where did you obtain that information? A. Oh, from the folks, I guess, in a general way. Q. What folks? A. From Captain Post and Mrs. Post. Q. From anybody else? A. No, not in particular. No. Q. Your information was not obtained from the attorney for the Pleasant Valley and Lake Canal Company, at that time? A. Well, I was interviewed or talked to, about it. I don\u2019t know whether Fischer was one of them or not",
+   "source": "d-4ce3ff69735a6794a608"
+  },
+  {
+   "id": "pos-11",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u201cThe failure of a driver to maintain a proper lookout and to see what he could and should have seen on approaching or traversing a street intersection, may constitute negligence as a matter of law.",
+   "passage": "\u201cThe failure of a driver to maintain a proper lookout and to see what he could and should have seen on approaching or traversing a street intersection, may constitute negligence as a matter of law. \u201cWas young Mr. Werner contributorily negligent? Under the record in this case his negligence in failing to see defendant\u2019s automobile and to yield to it the right-of-way constituted contributory negligence sufficient to bar a recovery as a matter of law, * * I subscribe to the foregoing quoted language of this court, and similar language in many other cases resolved by this court and the courts of other states and the United States.",
+   "source": "d-9e04704f10498d6a97fd"
+  },
+  {
+   "id": "pos-12",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Because Hyland Hills is a landowner, we conclude the trial court erred in applying the standard of care contained in instruction 12:13 rather than the standard of care in the premises liability statute.",
+   "passage": "Because Hyland Hills is a landowner, we conclude the trial court erred in applying the standard of care contained in instruction 12:13 rather than the standard of care in the premises liability statute. Accordingly, the judgment must be reversed and the case remanded with direction that, in the new trial, the court apply the requirements and standards of the premises liability act to the facts presented at trial. In so holding, we reject Anderson's argument that we may affirm the judgment because \"the sum of [the trial court's] rulings is that all elements of premises liability for an invitee like ... Anderson ... were established at trial.\" The court erred in applying the standard for operator of an amusement facility, and we conclude the judgment must be reversed and the case remanded so that the court can apply the correct standard. III, Trial Court's Findings",
+   "source": "d-077c2c5f061d21cbf02d"
+  },
+  {
+   "id": "pos-13",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u00b623 We first examine Lawson and conclude that it did not squarely address the issue of who bears the burden of proving that the judgment in the underlying suit would have been collectible.",
+   "passage": "\u00b623 We first examine Lawson and conclude that it did not squarely address the issue of who bears the burden of proving that the judgment in the underlying suit would have been collectible. We then explain why placing the burden of proving collectibility on the client-plaintiff aligns with tort law by requiring her to prove all prima facie elements-duty, breach, causation, and damages-of her professional negligence malpractice claim, and why this requirement is not unfair or unduly burdensome. Finally, we explain why requiring the attorney-defendant to raise and prove uncollectibility as an affirmative defense is not logically sound. A. Lawson v. Sigfrid",
+   "source": "d-3e548b9bb1887f423b1a"
+  },
+  {
+   "id": "pos-14",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u00b6 11 A provision is ambiguous \"if it is fairly susceptible to more than one interpretation.\" Id.",
+   "passage": "\u00b6 11 A provision is ambiguous \"if it is fairly susceptible to more than one interpretation.\" Id. (quoting Fibreglas Fabricators, Inc. v. Kylberg , 799 P.2d 371, 374 (Colo. 1990) ). We may consider extraneous evidence to determine whether a contract is ambiguous. Cheyenne Mountain Sch. Dist. No. 12 v. Thompson , 861 P.2d 711, 715 (Colo. 1993). \u00b6 12 If a contract is unambiguous, it cannot be changed by extrinsic evidence. Dorman , 914 P.2d at 911. If it is ambiguous, it must be construed in accordance with the intent of the parties, and we may consider extraneous evidence to determine such intent. Id. at 911-12. Once a contract is determined to be ambiguous, its interpretation becomes an issue of fact. Id. IV. The CBAs Are Ambiguous Regarding Compensation for ELA Training \u00b6 13 The District contends that the CBAs and extensions are unambiguous in their construction and that they do not require the district to pay teachers for ELA training. We do not agree.",
+   "source": "d-2eb195e85f60a71b4141"
+  },
+  {
+   "id": "pos-15",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Moreover, taxpayers who protest property tax assessments have the burden of proving that the assessment is incorrect.",
+   "passage": "Moreover, taxpayers who protest property tax assessments have the burden of proving that the assessment is incorrect. Majestic Great West Savings & Loan Ass\u2019n v. Reale, 30 Colo.App. 564, 499 P.2d 644 (1972). Here, the record shows that the assessor, after consideration of the three approaches specified in \u00a7 39-l-103(5)(a), determined an actual value based upon the income approach for a number of taxpayers\u2019 rental properties. Taxpayers\u2019 own expert testified to the credibility of this approach. Thus, taxpayers may not now dispute the assessor\u2019s utilization of this method.",
+   "source": "d-690496849c61c8795f5a"
+  },
+  {
+   "id": "pos-16",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "The Breach of Contract Claim As noted above, the district court granted PSI summary judgment on NASCO\u2019s breach of contract claim.",
+   "passage": "The Breach of Contract Claim As noted above, the district court granted PSI summary judgment on NASCO\u2019s breach of contract claim. In so doing, the court declined to consider any evidence beyond the four corners of the Agreement, ruling that, under \u201cthe clear and unambiguous\u201d provisions of paragraph 11, \u201cPSI\u2019s failure to pay the deposit made the Agreement without force and effect.\u201d NASCO challenges this ruling, arguing that paragraph 11 is ambiguous on the question of whether PSI\u2019s failure to pay the deposit somehow precluded the Agreement from taking effect, that extrinsic evidence is admissible to clarify this ambiguity, and that the extrinsic evidence in this case creates a triable issue as to whether PSI\u2019s failure to pay the deposit had any bearing on the Agreement\u2019s efficacy. We are persuaded by NASCO\u2019s argument. Under Massachusetts law, \u201cthe question of whether a contract term is ambiguous is one of law for the judge.\u201d FDIC v",
+   "source": "d-794b0f6dd9d860a84bb3"
+  },
+  {
+   "id": "pos-17",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "In Colorado, the issue of whether a water right has been abandoned invariably turns on the question of whether the owner of the right intended to abandon the right.",
+   "passage": "In Colorado, the issue of whether a water right has been abandoned invariably turns on the question of whether the owner of the right intended to abandon the right. Beaver Park Water, Inc. v. City of Victor, 649 P.2d 300 (Colo.1982); Allard Cattle Co. v. Colorado & Southern Ry., 187 Colo. 1, 530 P.2d 503 (1974). The General Assembly has recognized this principle in defining \u201cabandonment of a water right\u201d as \u201cthe termination of a water right ... as a result of the intent of the owner thereof to discontinue permanently the use of ... the water available thereunder.\u201d \u00a7 37-92-103(2), 15 C.R.S. (1973). As in most judicial inquiries into the state of mind of a particular person, the question of the intent of an owner of a water right is essentially a question of fact for determination by the trier of fact on the basis of the evidence produced at trial. Beaver Park Water, Inc., 649 P.2d 300; Knapp v. Colorado River Water Conservation District, 131 Colo",
+   "source": "d-24240c4dbfa9d560d169"
+  },
+  {
+   "id": "pos-18",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "\u201cAny person desiring to appropriate ground water for a beneficial use in a designated ground water basin shall make application to the commission in a form to be prescribed by the commission.",
+   "passage": "\u201cAny person desiring to appropriate ground water for a beneficial use in a designated ground water basin shall make application to the commission in a form to be prescribed by the commission. The applicant shall specify the particular designated ground water basin or subdivision thereof from which water is proposed to be appropriated, the beneficial use to which it is proposed to apply such water, the location of the proposed well, the name of the owner of the land on which such well will be located, the estimated average annual amount of water applied for in acre-feet, the estimated maximum pumping rate in gallons per minute, and if the proposed use is irrigation, the description of the land to be irrigated and the name of the owner thereof, together with such other reasonable information as the commission may designate on the form prescribed. The amount of water applied for shall only be utilized on the land designated on the application",
+   "source": "d-ed76fc0c9e703b8b4884"
+  },
+  {
+   "id": "pos-19",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "In contrast to an ordinary negligence claim or a breach of fiduciary duty claim, a claim for professional negligence involves standards of care that are generally not within the common knowledge and experience of ordinary persons.",
+   "passage": "The fundamental difference between the two causes of action is the former [for fiduciary breach] is a breach of trust and does not require a professional relationship or a professional standard of care, while the latter [for malpractice] is an action for negligence based on a professional relationship and a professional standard of care. In contrast to an ordinary negligence claim or a breach of fiduciary duty claim, a claim for professional negligence involves standards of care that are generally not within the common knowledge and experience of ordinary persons. Therefore, the standard of care must be established by expert witnesses in professional liability cases. Here, in exeluding the proffered expert witness testimony, the court concluded that it went to the seope of Hartman's duty as an officer, which was a matter of law.",
+   "source": "d-35781aa22dc5a7c02ded"
+  },
+  {
+   "id": "pos-20",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "And, if you find that the said plaintiff\u2019s fence line is the true line, you will find for the plaintiff and assess his damages for the items testified to.\u201d No proper objection appears in the record to these instructions.",
+   "passage": "\u201cYou are instructed to ascertain and find from the evidence the true boundary line between the northwest quarter and the southwest quarter of Section 2, Township 10 South, Range 44 West of the 6th Principal Meridian, that is, whether the fence line as built and established by the plaintiff in 1940, extending from the west line to the east line of the West half of Section 2, as shown by the evidence, or whether the survey line as established by the Prouty Survey between said east and west lines of said West half of Section 2 is the true line. And, if you find that the said plaintiff\u2019s fence line is the true line, you will find for the plaintiff and assess his damages for the items testified to.\u201d No proper objection appears in the record to these instructions.",
+   "source": "d-74bf0602c13e3b462f40"
+  },
+  {
+   "id": "pos-21",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "If the majority opinion is predicated on negligence, where is the evidence of negligence?",
+   "passage": "If the majority opinion is predicated on negligence, where is the evidence of negligence? I fail to find anything in the record which justifies the statement in the majority opinion that plaintiff in error allowed a \u201cdangerous condition\u201d to exist. Again, what authority can be cited to fix liability? Certainly none has been cited in the majority opinion. If the \u201cBut For\u201d theory is applicable, it is just as logical to conclude that \u201cBut For\u201d the action of Standard in lowering and extending its original basement area the damage complained of would not have occurred. I, therefore, dissent. Mr. Justice Moore and Mr. Justice Day concur in this dissent.",
+   "source": "d-05148ef1de162cedbe54"
+  },
+  {
+   "id": "pos-22",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Arkansas Valley Sugar Beet & Irrigated Land Co., 39 Colo, at 344, 90 P.",
+   "passage": "The 1879 Irrigation Act, \u00a7 1762, C.G.S. (1883), provides a district court with jurisdiction within each water district for the purpose of \u201chearing, adjudicating and settling all questions concerning the priority of appropriation of water between ditch companies and other owners of ditches drawing water for irrigation purposes from the same stream or its tributaries within the same water district.\u201d (Emphasis added.) See also Fort Lyon Canal Co. v. Arkansas Valley Sugar Beet & Irrigated Land Co., 39 Colo, at 344, 90 P. at 1027 (\u201cThe irrigation statutes [of 1879 and 1881] are public, and apply to all persons taking water from the same source.\u201d); Platte Water Co. v. Northern Colo. Irrigation Co., 12 Colo. 525, 529, 21 P. 711, 712 (1889) (\u201cThe irrigation acts of 1879 and 1881 were intended as a system of procedure for determining the priority of rights to the use of water for irrigation between the owners of ditches, canals and reservoirs taking water from the same natural stream.\u201d)",
+   "source": "d-159e18eb10c679dcee3c"
+  },
+  {
+   "id": "pos-23",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2015, pursuant to that statute.",
+   "passage": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2015, pursuant to that statute. Berkowitz answered, demanded a jury trial, and designated the subcontractors as nonparties at fault. Reid then amended his complaint to add common law negligence claims against the subcontractors and to name them as defendants. His claim against Batuello sought \"Indemnity, Contribution and Liability,\" and his claim against Hernandez was captioned \"Improper Installation of Railing.\" e",
+   "source": "d-8d95f18ddfb49c6502c6"
+  },
+  {
+   "id": "pos-24",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "The rule stated in this section is not based solely on the presumed actual intent of the parties.",
+   "passage": "The rule stated in this section is not based solely on the presumed actual intent of the parties. It furthers the policy of protecting reasonable expectations, as well as actual intent, of parties to land transactions. Restatement, supra, \u00a7 2.12 cmt. a. Colorado has long applied this implied easement. This court has found an easement from prior use in Lee. In Lee, the owner of one parcel of land claimed a right of way across his neighbor\u2019s land to access his property. The servient and dominant estates had once been under common ownership and this right of way was used before the severance of title. Seven years after the severance of title, the defendant bought the servient estate and attempted to block the right of way, claiming a lack of an enforceable agreement. This court found that an easement from prior use had been established. Lee, 164 Colo. at 333, 435 P.2d at 236.",
+   "source": "d-fbeb6cb398af16d6cdd0"
+  },
+  {
+   "id": "pos-25",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "Woodhams that if they would move this fence back to the section line, it would be all right with you?",
+   "passage": "\u201cA * * * they [Woodhams, in 1961] * * * said they didn\u2019t want me or my cattle on their land [west part of Sec. 1], and I had better put the fence back, and I said, \u2018Well, you knew of the trade and I am not about to put the fence back.\u2019 I said, \u2018If you want this fence back, you have it surveyed and put it on the right line and put the fence back at your cost,\u2019 I said, \u2018It is all right [with] me.\u2019 * * * * * * \u201cQ Now, as I understand it, you told Mr. Woodhams that if they would move this fence back to the section line, it would be all right with you? \u201cA I said survey the section line. \u201cQ In other words, you don\u2019t know whether the fence now is on the section line or not? \u201cA That\u2019s right. \u201cQ But you want them to put it on the section line? \u201cA That\u2019s right. \u201cQ Let me ask you this, Mr. Ackerman. If a fence was put on the true section line, how much land would you gain or lose? \u201cA I haven\u2019t any idea. \u201cQ Would it be as much as an acre? \u201cA I don\u2019t know.",
+   "source": "d-6406f9901aad07b8306c"
+  },
+  {
+   "id": "pos-26",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "The Youngs contend that it was improper to give the instruction because the rear-end collision was caused by Clark\u2019s lack of attention and failure to maintain a safe distance from Young\u2019s car.",
+   "passage": "The Youngs contend that it was improper to give the instruction because the rear-end collision was caused by Clark\u2019s lack of attention and failure to maintain a safe distance from Young\u2019s car. While it is true that the sudden emergency .instruction is not available where a defendant, or a plaintiff, is obviously guilty of negligence, the question of whether an emergency arose because of some negligence by Clark was not so clear. No evidence was presented to show that Clark was following too closely to Young\u2019s car or that she was driving too fast under the circumstances. In fact, John Young testified that he never saw how close Clark\u2019s car was to his or how fast she was driving just prior to the accident",
+   "source": "d-3522e24c23864cf009bb"
+  },
+  {
+   "id": "pos-27",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "case, supra, was a general adjudication proceeding and we are concerned only with that portion of it relating to the claim of the Trowel Ditch under the alleged rights of the Shoemaker seepage ditch.",
+   "passage": "The Trowel Land & Irr. Co. case, supra, was a general adjudication proceeding and we are concerned only with that portion of it relating to the claim of the Trowel Ditch under the alleged rights of the Shoemaker seepage ditch. The Shoemaker ditch had a conveyance of the seepage water in question from the Jackson Lake Reservoir, and had succeeded to the rights of the Currey Ditch. The appropriation claimed by the Currey Ditch had been abandoned and it thereafter became a natural water course, collecting and carrying t\u00f3 the river under ground waters. It also carried waters escaping from Jackson Reservoir. These waters it was impossible to distinguish. Until the construction of the Jackson Reservoir the lands, after-wards drained by the Shoemaker Ditch, were cultivated and dry. Thereupon they became seeped and swampy. One damage suit was. initiated and others threatened against the Jackson Lake Company by reason of this seepage",
+   "source": "d-e2e34d351fd3679ce189"
+  },
+  {
+   "id": "pos-28",
+   "kind": "positive",
+   "label": "supported",
+   "claim": "He contends the contributions to the pension fund were part of the wage package obtained by union negotiations and, therefore, are employee contributions to the plan.",
+   "passage": "\u201cIn cases where it is determined that periodic disability benefits are payable to an employee under the provisions of a pension plan financed in whole or in part by the employer, hereinafter called \u201cemployer pension plan\u201d, the aggregate benefits payable for ... disability pursuant to this section shall be reduced, but not below zero, by an amount equal as nearly as practical to such employer pension plan benefits, with the following limitations: (I) Where the employee has contributed to the employer pension plan, benefits shall be reduced under this section only in an amount proportional to the employer\u2019s percentage of total contributions to the employer pension plan....\u201d I Claimant asserts the Commission erred by finding the pension fund was financed by the employer. He contends the contributions to the pension fund were part of the wage package obtained by union negotiations and, therefore, are employee contributions to the plan. We disagree.",
+   "source": "d-6a07a7c59392b7016963"
+  },
+  {
+   "id": "pos-29",
+   "kind": "positive",
+   "label": "supported",
+   "claim": ".\u201cAntedation\" allows the award of an earlier priority date than the postponement doctrine would permit.",
+   "passage": ".\u201cAntedation\" allows the award of an earlier priority date than the postponement doctrine would permit. United States v. Bell, 724 P.2d 631, 635 n. 6 (Colo.1986). Under the postponement doctrine, ,,the date of appropriation determines the relative priorities among applicants for water rights within a calendar year. The priorities of all water rights decreed within a calendar year, however, are junior to the priorities of water rights decreed in earlier calendar years. \u00a7 37-92-306; Bell, 724 P.2d at 641-42. \"Priority\" is defined as the seniority by date as of which a water right is entitled to use or conditional water right will be entitled to use and the relative seniority of a water right or a conditional water right in relation to other water rights and conditional water rights deriving their supply from a common source.",
+   "source": "d-2b16281c20d3ce473f3e"
+  },
+  {
+   "id": "neg-00",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "There is no occasion to detail the testimony concerning pasturage or to discuss the validity of the judgment herein, since it must be reversed.",
+   "passage": "The rule announced was this: \u201cWe think the right rule is that it is the duty of every driver, when approaching a street intersection, to use reasonable care to see whether there is likelihood of collision with any car appr'oaching from the right, and, if there is, to yield to it the right of way, and to keep his car under such control that he can do so.\u201d The rule there adopted by the court, in construing the ordinance, made the test the \u201clikelihood\u201d of collision with a car approaching from the right. Such likelihood, of course, would depend upon several contingencies; for example, the speed of the car appr'oaching from the right; whether or not the speed probably would be increased or diminished ; whether or not the car probably would change its course, and if so, in which direction and how far. It is obvious that the probable point of intersection of the lines of travel of the two cars might vary suddenly and considerably from minute to minute and even from second to second",
+   "source": "d-6bdd130ef3631bd5bc8f",
+   "paired_with": "d-b1a705a2cc91ad037321"
+  },
+  {
+   "id": "neg-01",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Shareholders of a ditch company have the right to change the place of use of water if other users are not injured thereby.",
+   "passage": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2002. The prosecution, he asserts, only introduced evidence of the price the victim paid for the property in 1996 and the cost of improvements made to the property between 1996 and 2002. Without any evidence regarding the condition of the property in 2002 or its market value in 2002 compared to 1996, defendant maintains the prosecution produced insufficient evidence. Here, the victim did not testify as to the fair market value of the property in 2002. He only testified about what he paid for the property in 1996 and what he spent improving the property between 1996 and 2002. Moreover, the real property was not so newly purchased as to allow a reasonable inference that the purchase price was comparable to its fair market value six years later in 2002.",
+   "source": "d-4b0f2e26e8b9a29e5276",
+   "paired_with": "d-e4b51220d4bb57a3a8c7"
+  },
+  {
+   "id": "neg-02",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u00b646 The right to store water is not an automatic incident of a direct flow right.",
+   "passage": "We granted certiorari to review two decisions of the Colorado Court of Appeals that present a common issue as to the manner of valuing vacant land for property tax assessment purposes. The issue is whether section 39-1-103(14)(b), 16B C.R.S. (1991 Supp.), prior to its amendment in 1992, required assessing officers to consider indirect costs, such as developer\u2019s profit and overhead, as part of the \u201ccost of development\u201d when using the market approach to appraisal. The 1992 amendment disallowed consideration of indirect costs, thereby raising the question of whether the 1992 amendment changed or merely clarified the prior law. In Fidelity Castle Pines, Ltd. v. Douglas County Bd. of Equalization, No. 92CA1453 (Colo. App. Nov. 12, 1993) (not selected for official publication), the court of appeals reversed a decision of the Board of Assessment Appeals (BAA) which held that indirect costs should not be considered. In Roxborough Village v. Douglas County Bd. of Equalization, No",
+   "source": "d-0d9e8825f7af9a5ed211",
+   "paired_with": "d-cbe689fa9c26f3ac702b"
+  },
+  {
+   "id": "neg-03",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u201cFifteen miles an hour when approaching within fifty-feet and in traversing an intersection of highways when the driver\u2019s view is obstructed.",
+   "passage": "\u201cQ. After you were appointed Conservator of your wife\u2019s estate, did you make any sale of the water rights belonging to the property? A. I did. Q. Do you remember when that sale was? A. No, not exactly. Q. Do you remember what you sold? A. I sold the rights claimed, reserving five shares of the stock of the Pleasant Valley and Lake Canal. Q. At that time, did you know personally exactly what water rights were appurtenant to the property owned by your wife? A. Well, as I remember it, she was supposed to have a right to one hundred and fifty inches of water if she wanted it. Q. Where did you obtain that information? A. Oh, from the folks, I guess, in a general way. Q. What folks? A. From Captain Post and Mrs. Post. Q. From anybody else? A. No, not in particular. No. Q. Your information was not obtained from the attorney for the Pleasant Valley and Lake Canal Company, at that time? A. Well, I was interviewed or talked to, about it. I don\u2019t know whether Fischer was one of them or not",
+   "source": "d-8288c6982dc1ff81a2eb",
+   "paired_with": "d-4ce3ff69735a6794a608"
+  },
+  {
+   "id": "neg-04",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "On the other hand, one witness for the town said the land with the water was worth $5,000.00 or $6,000.00, another from $7,000.00 to $10,000.00, others placed it higher.",
+   "passage": "\u201cThe failure of a driver to maintain a proper lookout and to see what he could and should have seen on approaching or traversing a street intersection, may constitute negligence as a matter of law. \u201cWas young Mr. Werner contributorily negligent? Under the record in this case his negligence in failing to see defendant\u2019s automobile and to yield to it the right-of-way constituted contributory negligence sufficient to bar a recovery as a matter of law, * * I subscribe to the foregoing quoted language of this court, and similar language in many other cases resolved by this court and the courts of other states and the United States.",
+   "source": "d-d8f0c3aa52901c81bd9d",
+   "paired_with": "d-9e04704f10498d6a97fd"
+  },
+  {
+   "id": "neg-05",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "On the issues thus formulated, the court found that the portion of Beaver lake ditch, known as Feeder No.",
+   "passage": "Because Hyland Hills is a landowner, we conclude the trial court erred in applying the standard of care contained in instruction 12:13 rather than the standard of care in the premises liability statute. Accordingly, the judgment must be reversed and the case remanded with direction that, in the new trial, the court apply the requirements and standards of the premises liability act to the facts presented at trial. In so holding, we reject Anderson's argument that we may affirm the judgment because \"the sum of [the trial court's] rulings is that all elements of premises liability for an invitee like ... Anderson ... were established at trial.\" The court erred in applying the standard for operator of an amusement facility, and we conclude the judgment must be reversed and the case remanded so that the court can apply the correct standard. III, Trial Court's Findings",
+   "source": "d-50df7b7f3e884cea8e73",
+   "paired_with": "d-077c2c5f061d21cbf02d"
+  },
+  {
+   "id": "neg-06",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "The Department of Revenue appeals from the district court judgment reversing the decision of the hearing officer and ordering the restoration of plaintiff\u2019s driver\u2019s license.",
+   "passage": "\u00b623 We first examine Lawson and conclude that it did not squarely address the issue of who bears the burden of proving that the judgment in the underlying suit would have been collectible. We then explain why placing the burden of proving collectibility on the client-plaintiff aligns with tort law by requiring her to prove all prima facie elements-duty, breach, causation, and damages-of her professional negligence malpractice claim, and why this requirement is not unfair or unduly burdensome. Finally, we explain why requiring the attorney-defendant to raise and prove uncollectibility as an affirmative defense is not logically sound. A. Lawson v. Sigfrid",
+   "source": "d-baefc1bea7a2c0442f74",
+   "paired_with": "d-3e548b9bb1887f423b1a"
+  },
+  {
+   "id": "neg-07",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "It is obvious that the probable point of intersection of the lines of travel of the two cars might vary suddenly and considerably from minute to minute and even from second to second",
+   "passage": "\u00b6 11 A provision is ambiguous \"if it is fairly susceptible to more than one interpretation.\" Id. (quoting Fibreglas Fabricators, Inc. v. Kylberg , 799 P.2d 371, 374 (Colo. 1990) ). We may consider extraneous evidence to determine whether a contract is ambiguous. Cheyenne Mountain Sch. Dist. No. 12 v. Thompson , 861 P.2d 711, 715 (Colo. 1993). \u00b6 12 If a contract is unambiguous, it cannot be changed by extrinsic evidence. Dorman , 914 P.2d at 911. If it is ambiguous, it must be construed in accordance with the intent of the parties, and we may consider extraneous evidence to determine such intent. Id. at 911-12. Once a contract is determined to be ambiguous, its interpretation becomes an issue of fact. Id. IV. The CBAs Are Ambiguous Regarding Compensation for ELA Training \u00b6 13 The District contends that the CBAs and extensions are unambiguous in their construction and that they do not require the district to pay teachers for ELA training. We do not agree.",
+   "source": "d-b1a705a2cc91ad037321",
+   "paired_with": "d-2eb195e85f60a71b4141"
+  },
+  {
+   "id": "neg-08",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2002.",
+   "passage": "Moreover, taxpayers who protest property tax assessments have the burden of proving that the assessment is incorrect. Majestic Great West Savings & Loan Ass\u2019n v. Reale, 30 Colo.App. 564, 499 P.2d 644 (1972). Here, the record shows that the assessor, after consideration of the three approaches specified in \u00a7 39-l-103(5)(a), determined an actual value based upon the income approach for a number of taxpayers\u2019 rental properties. Taxpayers\u2019 own expert testified to the credibility of this approach. Thus, taxpayers may not now dispute the assessor\u2019s utilization of this method.",
+   "source": "d-e4b51220d4bb57a3a8c7",
+   "paired_with": "d-690496849c61c8795f5a"
+  },
+  {
+   "id": "neg-09",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "We granted certiorari to review two decisions of the Colorado Court of Appeals that present a common issue as to the manner of valuing vacant land for property tax assessment purposes.",
+   "passage": "The Breach of Contract Claim As noted above, the district court granted PSI summary judgment on NASCO\u2019s breach of contract claim. In so doing, the court declined to consider any evidence beyond the four corners of the Agreement, ruling that, under \u201cthe clear and unambiguous\u201d provisions of paragraph 11, \u201cPSI\u2019s failure to pay the deposit made the Agreement without force and effect.\u201d NASCO challenges this ruling, arguing that paragraph 11 is ambiguous on the question of whether PSI\u2019s failure to pay the deposit somehow precluded the Agreement from taking effect, that extrinsic evidence is admissible to clarify this ambiguity, and that the extrinsic evidence in this case creates a triable issue as to whether PSI\u2019s failure to pay the deposit had any bearing on the Agreement\u2019s efficacy. We are persuaded by NASCO\u2019s argument. Under Massachusetts law, \u201cthe question of whether a contract term is ambiguous is one of law for the judge.\u201d FDIC v",
+   "source": "d-cbe689fa9c26f3ac702b",
+   "paired_with": "d-794b0f6dd9d860a84bb3"
+  },
+  {
+   "id": "neg-10",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "After you were appointed Conservator of your wife\u2019s estate, did you make any sale of the water rights belonging to the property?",
+   "passage": "In Colorado, the issue of whether a water right has been abandoned invariably turns on the question of whether the owner of the right intended to abandon the right. Beaver Park Water, Inc. v. City of Victor, 649 P.2d 300 (Colo.1982); Allard Cattle Co. v. Colorado & Southern Ry., 187 Colo. 1, 530 P.2d 503 (1974). The General Assembly has recognized this principle in defining \u201cabandonment of a water right\u201d as \u201cthe termination of a water right ... as a result of the intent of the owner thereof to discontinue permanently the use of ... the water available thereunder.\u201d \u00a7 37-92-103(2), 15 C.R.S. (1973). As in most judicial inquiries into the state of mind of a particular person, the question of the intent of an owner of a water right is essentially a question of fact for determination by the trier of fact on the basis of the evidence produced at trial. Beaver Park Water, Inc., 649 P.2d 300; Knapp v. Colorado River Water Conservation District, 131 Colo",
+   "source": "d-4ce3ff69735a6794a608",
+   "paired_with": "d-24240c4dbfa9d560d169"
+  },
+  {
+   "id": "neg-11",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u201cThe failure of a driver to maintain a proper lookout and to see what he could and should have seen on approaching or traversing a street intersection, may constitute negligence as a matter of law.",
+   "passage": "\u201cAny person desiring to appropriate ground water for a beneficial use in a designated ground water basin shall make application to the commission in a form to be prescribed by the commission. The applicant shall specify the particular designated ground water basin or subdivision thereof from which water is proposed to be appropriated, the beneficial use to which it is proposed to apply such water, the location of the proposed well, the name of the owner of the land on which such well will be located, the estimated average annual amount of water applied for in acre-feet, the estimated maximum pumping rate in gallons per minute, and if the proposed use is irrigation, the description of the land to be irrigated and the name of the owner thereof, together with such other reasonable information as the commission may designate on the form prescribed. The amount of water applied for shall only be utilized on the land designated on the application",
+   "source": "d-9e04704f10498d6a97fd",
+   "paired_with": "d-ed76fc0c9e703b8b4884"
+  },
+  {
+   "id": "neg-12",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Because Hyland Hills is a landowner, we conclude the trial court erred in applying the standard of care contained in instruction 12:13 rather than the standard of care in the premises liability statute.",
+   "passage": "The fundamental difference between the two causes of action is the former [for fiduciary breach] is a breach of trust and does not require a professional relationship or a professional standard of care, while the latter [for malpractice] is an action for negligence based on a professional relationship and a professional standard of care. In contrast to an ordinary negligence claim or a breach of fiduciary duty claim, a claim for professional negligence involves standards of care that are generally not within the common knowledge and experience of ordinary persons. Therefore, the standard of care must be established by expert witnesses in professional liability cases. Here, in exeluding the proffered expert witness testimony, the court concluded that it went to the seope of Hartman's duty as an officer, which was a matter of law.",
+   "source": "d-077c2c5f061d21cbf02d",
+   "paired_with": "d-35781aa22dc5a7c02ded"
+  },
+  {
+   "id": "neg-13",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u00b623 We first examine Lawson and conclude that it did not squarely address the issue of who bears the burden of proving that the judgment in the underlying suit would have been collectible.",
+   "passage": "\u201cYou are instructed to ascertain and find from the evidence the true boundary line between the northwest quarter and the southwest quarter of Section 2, Township 10 South, Range 44 West of the 6th Principal Meridian, that is, whether the fence line as built and established by the plaintiff in 1940, extending from the west line to the east line of the West half of Section 2, as shown by the evidence, or whether the survey line as established by the Prouty Survey between said east and west lines of said West half of Section 2 is the true line. And, if you find that the said plaintiff\u2019s fence line is the true line, you will find for the plaintiff and assess his damages for the items testified to.\u201d No proper objection appears in the record to these instructions.",
+   "source": "d-3e548b9bb1887f423b1a",
+   "paired_with": "d-74bf0602c13e3b462f40"
+  },
+  {
+   "id": "neg-14",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u00b6 11 A provision is ambiguous \"if it is fairly susceptible to more than one interpretation.\" Id.",
+   "passage": "If the majority opinion is predicated on negligence, where is the evidence of negligence? I fail to find anything in the record which justifies the statement in the majority opinion that plaintiff in error allowed a \u201cdangerous condition\u201d to exist. Again, what authority can be cited to fix liability? Certainly none has been cited in the majority opinion. If the \u201cBut For\u201d theory is applicable, it is just as logical to conclude that \u201cBut For\u201d the action of Standard in lowering and extending its original basement area the damage complained of would not have occurred. I, therefore, dissent. Mr. Justice Moore and Mr. Justice Day concur in this dissent.",
+   "source": "d-2eb195e85f60a71b4141",
+   "paired_with": "d-05148ef1de162cedbe54"
+  },
+  {
+   "id": "neg-15",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Moreover, taxpayers who protest property tax assessments have the burden of proving that the assessment is incorrect.",
+   "passage": "The 1879 Irrigation Act, \u00a7 1762, C.G.S. (1883), provides a district court with jurisdiction within each water district for the purpose of \u201chearing, adjudicating and settling all questions concerning the priority of appropriation of water between ditch companies and other owners of ditches drawing water for irrigation purposes from the same stream or its tributaries within the same water district.\u201d (Emphasis added.) See also Fort Lyon Canal Co. v. Arkansas Valley Sugar Beet & Irrigated Land Co., 39 Colo, at 344, 90 P. at 1027 (\u201cThe irrigation statutes [of 1879 and 1881] are public, and apply to all persons taking water from the same source.\u201d); Platte Water Co. v. Northern Colo. Irrigation Co., 12 Colo. 525, 529, 21 P. 711, 712 (1889) (\u201cThe irrigation acts of 1879 and 1881 were intended as a system of procedure for determining the priority of rights to the use of water for irrigation between the owners of ditches, canals and reservoirs taking water from the same natural stream.\u201d)",
+   "source": "d-690496849c61c8795f5a",
+   "paired_with": "d-159e18eb10c679dcee3c"
+  },
+  {
+   "id": "neg-16",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "The Breach of Contract Claim As noted above, the district court granted PSI summary judgment on NASCO\u2019s breach of contract claim.",
+   "passage": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2015, pursuant to that statute. Berkowitz answered, demanded a jury trial, and designated the subcontractors as nonparties at fault. Reid then amended his complaint to add common law negligence claims against the subcontractors and to name them as defendants. His claim against Batuello sought \"Indemnity, Contribution and Liability,\" and his claim against Hernandez was captioned \"Improper Installation of Railing.\" e",
+   "source": "d-794b0f6dd9d860a84bb3",
+   "paired_with": "d-8d95f18ddfb49c6502c6"
+  },
+  {
+   "id": "neg-17",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "In Colorado, the issue of whether a water right has been abandoned invariably turns on the question of whether the owner of the right intended to abandon the right.",
+   "passage": "The rule stated in this section is not based solely on the presumed actual intent of the parties. It furthers the policy of protecting reasonable expectations, as well as actual intent, of parties to land transactions. Restatement, supra, \u00a7 2.12 cmt. a. Colorado has long applied this implied easement. This court has found an easement from prior use in Lee. In Lee, the owner of one parcel of land claimed a right of way across his neighbor\u2019s land to access his property. The servient and dominant estates had once been under common ownership and this right of way was used before the severance of title. Seven years after the severance of title, the defendant bought the servient estate and attempted to block the right of way, claiming a lack of an enforceable agreement. This court found that an easement from prior use had been established. Lee, 164 Colo. at 333, 435 P.2d at 236.",
+   "source": "d-24240c4dbfa9d560d169",
+   "paired_with": "d-fbeb6cb398af16d6cdd0"
+  },
+  {
+   "id": "neg-18",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "\u201cAny person desiring to appropriate ground water for a beneficial use in a designated ground water basin shall make application to the commission in a form to be prescribed by the commission.",
+   "passage": "\u201cA * * * they [Woodhams, in 1961] * * * said they didn\u2019t want me or my cattle on their land [west part of Sec. 1], and I had better put the fence back, and I said, \u2018Well, you knew of the trade and I am not about to put the fence back.\u2019 I said, \u2018If you want this fence back, you have it surveyed and put it on the right line and put the fence back at your cost,\u2019 I said, \u2018It is all right [with] me.\u2019 * * * * * * \u201cQ Now, as I understand it, you told Mr. Woodhams that if they would move this fence back to the section line, it would be all right with you? \u201cA I said survey the section line. \u201cQ In other words, you don\u2019t know whether the fence now is on the section line or not? \u201cA That\u2019s right. \u201cQ But you want them to put it on the section line? \u201cA That\u2019s right. \u201cQ Let me ask you this, Mr. Ackerman. If a fence was put on the true section line, how much land would you gain or lose? \u201cA I haven\u2019t any idea. \u201cQ Would it be as much as an acre? \u201cA I don\u2019t know.",
+   "source": "d-ed76fc0c9e703b8b4884",
+   "paired_with": "d-6406f9901aad07b8306c"
+  },
+  {
+   "id": "neg-19",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "In contrast to an ordinary negligence claim or a breach of fiduciary duty claim, a claim for professional negligence involves standards of care that are generally not within the common knowledge and experience of ordinary persons.",
+   "passage": "The Youngs contend that it was improper to give the instruction because the rear-end collision was caused by Clark\u2019s lack of attention and failure to maintain a safe distance from Young\u2019s car. While it is true that the sudden emergency .instruction is not available where a defendant, or a plaintiff, is obviously guilty of negligence, the question of whether an emergency arose because of some negligence by Clark was not so clear. No evidence was presented to show that Clark was following too closely to Young\u2019s car or that she was driving too fast under the circumstances. In fact, John Young testified that he never saw how close Clark\u2019s car was to his or how fast she was driving just prior to the accident",
+   "source": "d-35781aa22dc5a7c02ded",
+   "paired_with": "d-3522e24c23864cf009bb"
+  },
+  {
+   "id": "neg-20",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "And, if you find that the said plaintiff\u2019s fence line is the true line, you will find for the plaintiff and assess his damages for the items testified to.\u201d No proper objection appears in the record to these instructions.",
+   "passage": "The Trowel Land & Irr. Co. case, supra, was a general adjudication proceeding and we are concerned only with that portion of it relating to the claim of the Trowel Ditch under the alleged rights of the Shoemaker seepage ditch. The Shoemaker ditch had a conveyance of the seepage water in question from the Jackson Lake Reservoir, and had succeeded to the rights of the Currey Ditch. The appropriation claimed by the Currey Ditch had been abandoned and it thereafter became a natural water course, collecting and carrying t\u00f3 the river under ground waters. It also carried waters escaping from Jackson Reservoir. These waters it was impossible to distinguish. Until the construction of the Jackson Reservoir the lands, after-wards drained by the Shoemaker Ditch, were cultivated and dry. Thereupon they became seeped and swampy. One damage suit was. initiated and others threatened against the Jackson Lake Company by reason of this seepage",
+   "source": "d-74bf0602c13e3b462f40",
+   "paired_with": "d-e2e34d351fd3679ce189"
+  },
+  {
+   "id": "neg-21",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "If the majority opinion is predicated on negligence, where is the evidence of negligence?",
+   "passage": "\u201cIn cases where it is determined that periodic disability benefits are payable to an employee under the provisions of a pension plan financed in whole or in part by the employer, hereinafter called \u201cemployer pension plan\u201d, the aggregate benefits payable for ... disability pursuant to this section shall be reduced, but not below zero, by an amount equal as nearly as practical to such employer pension plan benefits, with the following limitations: (I) Where the employee has contributed to the employer pension plan, benefits shall be reduced under this section only in an amount proportional to the employer\u2019s percentage of total contributions to the employer pension plan....\u201d I Claimant asserts the Commission erred by finding the pension fund was financed by the employer. He contends the contributions to the pension fund were part of the wage package obtained by union negotiations and, therefore, are employee contributions to the plan. We disagree.",
+   "source": "d-05148ef1de162cedbe54",
+   "paired_with": "d-6a07a7c59392b7016963"
+  },
+  {
+   "id": "neg-22",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Arkansas Valley Sugar Beet & Irrigated Land Co., 39 Colo, at 344, 90 P.",
+   "passage": ".\u201cAntedation\" allows the award of an earlier priority date than the postponement doctrine would permit. United States v. Bell, 724 P.2d 631, 635 n. 6 (Colo.1986). Under the postponement doctrine, ,,the date of appropriation determines the relative priorities among applicants for water rights within a calendar year. The priorities of all water rights decreed within a calendar year, however, are junior to the priorities of water rights decreed in earlier calendar years. \u00a7 37-92-306; Bell, 724 P.2d at 641-42. \"Priority\" is defined as the seniority by date as of which a water right is entitled to use or conditional water right will be entitled to use and the relative seniority of a water right or a conditional water right in relation to other water rights and conditional water rights deriving their supply from a common source.",
+   "source": "d-159e18eb10c679dcee3c",
+   "paired_with": "d-2b16281c20d3ce473f3e"
+  },
+  {
+   "id": "neg-23",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2015, pursuant to that statute.",
+   "passage": "There is no occasion to detail the testimony concerning pasturage or to discuss the validity of the judgment herein, since it must be reversed. However, it is interesting to note that in the testimony concerning the repair of the fence, it is shown that at one place along the fence was an automobile gate and bridge or cattle guard. It is contended that because this was not kept in proper condition, cattle would find their way across into other lands, regardless of the fence. This indicates that there had been use of this section line generally as a course of travel. It is not to be understood that we hold that a dedicated highway cannot in time be abandoned on account of nonuse. However, abandonment will not ordinarily be implied from mere nonuser when the public need has not required the use",
+   "source": "d-8d95f18ddfb49c6502c6",
+   "paired_with": "d-6bdd130ef3631bd5bc8f"
+  },
+  {
+   "id": "neg-24",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "The rule stated in this section is not based solely on the presumed actual intent of the parties.",
+   "passage": "Shareholders of a ditch company have the right to change the place of use of water if other users are not injured thereby. Jacobucei v. District Court, supra. By-laws of a ditch company concerning changes of use, if reasonable, can be enforced. Howeyer, by-laws do not oust the water court of its jurisdiction to determine water matters, and shareholders adversely affected by ditch company action can still invoke the water court's jurisdiction. Fort Lyon Canal Co. v. Catlin Canal Co., 642 P.2d 501 (Colo.1982). Here, all of SIC's declaratory judgment claims concern the City's use of its water rights obtained through ownership of shares in SIC. The claims seek a judicial decree that the City can only use the water to irrigate certain defined land and that it cannot change the use without SIC's consent. SIC's claims, in effect, are a request to define limitations on the City's use of its water rights. We conclude these claims relate to the use of water.",
+   "source": "d-fbeb6cb398af16d6cdd0",
+   "paired_with": "d-4b0f2e26e8b9a29e5276"
+  },
+  {
+   "id": "neg-25",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "Woodhams that if they would move this fence back to the section line, it would be all right with you?",
+   "passage": "\u00b646 The right to store water is not an automatic incident of a direct flow right. Id. This is because whether the water diverted pursuant to a decree is used immediately or stored for future use affects the potential impact of the diversion on other water users. Id. A direct flow right may be diverted in priority only when the water can be directly applied to its decreed beneficial use; it is therefore limited by stream conditions and by the extent of the need for the beneficial use at the time of diversion. By contrast, a storage right allows its holder to divert water in priority whenever the water is available and to store that water until it is needed for its decreed beneficial use. Storage of a direct flow water right can increase consumption by permitting the diversion of available water not immediately needed for beneficial use\u2014water that would otherwise be left in the stream for junior water users",
+   "source": "d-6406f9901aad07b8306c",
+   "paired_with": "d-0d9e8825f7af9a5ed211"
+  },
+  {
+   "id": "neg-26",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "The Youngs contend that it was improper to give the instruction because the rear-end collision was caused by Clark\u2019s lack of attention and failure to maintain a safe distance from Young\u2019s car.",
+   "passage": "\u201cFifteen miles an hour when approaching within fifty-feet and in traversing an intersection of highways when the driver\u2019s view is obstructed. A driver\u2019s view shall be deemed to be obstructed when at any time during the last fifty feet of his approach to such intersection, he does not have a clear and uninterrupted view of such intersection and of the traffic upon all of the highways entering such intersection for a distance of two hundred feet from such intersection.\u201d Such conduct is negligence per se and negligence as a matter of law.",
+   "source": "d-3522e24c23864cf009bb",
+   "paired_with": "d-8288c6982dc1ff81a2eb"
+  },
+  {
+   "id": "neg-27",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "case, supra, was a general adjudication proceeding and we are concerned only with that portion of it relating to the claim of the Trowel Ditch under the alleged rights of the Shoemaker seepage ditch.",
+   "passage": "One of the witnesses for the owner, whose testimony tended to show that the award should be about $25,000.00, based on values of other lands in the vicinage, said that the values he was testifying to, or asked about, were uncertain and much inflated. As these values were based upon about the same matters as the values testified to by the other witnesses for the owner, the commissioners no doubt felt that the values sought to be established by the owner were inflated and not real. On the other hand, one witness for the town said the land with the water was worth $5,000.00 or $6,000.00, another from $7,000.00 to $10,000.00, others placed it higher. Thus is presented the maze of differing opinions usual in eases wherein value is sought to be established. Giving the appellants the benefit of the rule's of evidence they invoke, their assignments of error will be considered",
+   "source": "d-e2e34d351fd3679ce189",
+   "paired_with": "d-d8f0c3aa52901c81bd9d"
+  },
+  {
+   "id": "neg-28",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": "He contends the contributions to the pension fund were part of the wage package obtained by union negotiations and, therefore, are employee contributions to the plan.",
+   "passage": "On the issues thus formulated, the court found that the portion of Beaver lake ditch, known as Feeder No. 1, and its extension were so constructed with reference to the proximity and grade of the river, that thereby a considerable volume of water was withdrawn from the stream by percolation, and that the outlet from Beaver lake was a-natural water course, through which a quantity of water found its way to the bank of the river, where it disappeared in the sands of the river bed; that defendants, by their efforts and expenditures, had drained lands adjacent to the lake, thereby increasing the water supply coming from that source, and decreed that the branch of the ditch, known as Feeder No. 1, and its extension, be abated; and that defendants in error were entitled to the use of all water flowing through the stream from the lake. The plaintiff brings the case here on error, and maintains that the court erred in allowing defendants all the water of the stream from Beaver lake",
+   "source": "d-6a07a7c59392b7016963",
+   "paired_with": "d-50df7b7f3e884cea8e73"
+  },
+  {
+   "id": "neg-29",
+   "kind": "negative",
+   "label": "unsupported",
+   "claim": ".\u201cAntedation\" allows the award of an earlier priority date than the postponement doctrine would permit.",
+   "passage": "COYTE, Judge. The Department of Revenue appeals from the district court judgment reversing the decision of the hearing officer and ordering the restoration of plaintiff\u2019s driver\u2019s license. We affirm. The hearing officer revoked plaintiff\u2019s driver\u2019s license for accumulating eleven convictions for traffic offenses within a five year period, each of which resulted in an assessment of four or more points. See \u00a7 42-2-202(3), C.R.S.1973. That order was reversed and remanded by the district court to the Motor Vehicle Department in order to allow plaintiff to challenge the record of two of the traffic convictions as shown by the records of the Motor Vehicle Department.",
+   "source": "d-2b16281c20d3ce473f3e",
+   "paired_with": "d-baefc1bea7a2c0442f74"
+  },
+  {
+   "id": "hard-00",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2005.",
+   "passage": "Defendant argues the prosecution failed to introduce evidence concerning the market value of the real property in 2002. The prosecution, he asserts, only introduced evidence of the price the victim paid for the property in 1996 and the cost of improvements made to the property between 1996 and 2002. Without any evidence regarding the condition of the property in 2002 or its market value in 2002 compared to 1996, defendant maintains the prosecution produced insufficient evidence. Here, the victim did not testify as to the fair market value of the property in 2002. He only testified about what he paid for the property in 1996 and what he spent improving the property between 1996 and 2002. Moreover, the real property was not so newly purchased as to allow a reasonable inference that the purchase price was comparable to its fair market value six years later in 2002.",
+   "source": "d-e4b51220d4bb57a3a8c7",
+   "altered": "2002->2005"
+  },
+  {
+   "id": "hard-01",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2018, pursuant to that statute.",
+   "passage": "~- T8 Reid sued Berkowitz, a landowner as defined by the Colorado Premises Liability Act (PLA), section 18-21-115, C.R.S.2015, pursuant to that statute. Berkowitz answered, demanded a jury trial, and designated the subcontractors as nonparties at fault. Reid then amended his complaint to add common law negligence claims against the subcontractors and to name them as defendants. His claim against Batuello sought \"Indemnity, Contribution and Liability,\" and his claim against Hernandez was captioned \"Improper Installation of Railing.\" e",
+   "source": "d-8d95f18ddfb49c6502c6",
+   "altered": "2015->2018"
+  },
+  {
+   "id": "hard-02",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "In 1991, Hughey purchased a tax lien on a parcel of property located in Jefferson County.",
+   "passage": "Opinion by Judge CASEBOLT. In this property tax case, petitioner, Sue Hughey, appeals an order of the Board of Assessment Appeals which held that: 1) as the purchaser of a tax lien on a parcel of real property, she did not have standing to pursue an abatement petition prior to her receipt of a treasurer\u2019s deed; 2) she could not petition for an abatement because her claim was time-barred; and 3) the property tax assessment upon her property was valid. We affirm. In 1988, Hughey purchased a tax lien on a parcel of property located in Jefferson County. Based on the property tax assessment at the time of the tax lien auction, Hughey believed the property to be a bmldable, residential lot within a platted subdivision with a value for tax purposes of approximately $21,-000. Pursuant to \u00a7 39-11-119, C.R.S. (1994 RephVol. 16B), Hughey paid the property taxes on the parcel for the tax years 1987 through 1990.",
+   "source": "d-64061d4d639ddd003588",
+   "altered": "1988->1991"
+  },
+  {
+   "id": "hard-03",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "In 1961, Palmer Ranch bought the property to the north of the disputed parcel consisting of 860 acres.",
+   "passage": "Palmer Ranch is a limited partnership comprised of S.B. Palmer, his wife, and his son, Terry. In 1958, Palmer Ranch bought the property to the north of the disputed parcel consisting of 860 acres. At that time, a perimeter fence enclosed plaintiffs ranch, the BLM land, the disputed parcel, and a parcel to the east also claimed by Palmer Ranch (the Pickeral/Paroda tract). Palmer Ranch received a deed to the Pickeral/Paro-da tract in 1993 for no consideration. At all pertinent times, Palmer Ranch has had a grazing lease on all of the BLM land within the perimeter fence. No interior fences defined the boundaries of the various parcels of property, and the properties within the fence are indistinguishable from one another in terms of topography and terrain.",
+   "source": "d-302a4a5f08508cef00ee",
+   "altered": "1958->1961"
+  },
+  {
+   "id": "hard-04",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "117 We also reject for two reasons the People's argument that these expenses are recoverable under 18-1.3-701(2)(c), C.R.S.2015, as payment of fees required to be paid to a sheriff pursuant to section 30-1-104, C.R.9.2012, for \"pursuing and eaptur-ing\" wanted felons.",
+   "passage": "117 We also reject for two reasons the People's argument that these expenses are recoverable under 18-1.3-701(2)(c), C.R.S.2012, as payment of fees required to be paid to a sheriff pursuant to section 30-1-104, C.R.9.2012, for \"pursuing and eaptur-ing\" wanted felons. We first note that the law enforcement agency here is not a sheriff's office. Second, the statute on which the People rely applies to pursuing and capturing \"prisoners,\" necessarily referring to a situation after a legal proceeding has commenced. See \u00a7 30-1-104(1)(aa), C.R.S.2012.",
+   "source": "d-26a4a2c5f2f8dedf98ef",
+   "altered": "2012->2015"
+  },
+  {
+   "id": "hard-05",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "On August 24, 1980, Jones filed with the state engineer an application for a permit to construct a well.",
+   "passage": "On August 24, 1977, Jones filed with the state engineer an application for a permit to construct a well. See \u00a7 37-90-137, 15 C.R.S. (1973 & 1984 Supp.). Jones sought to pump fifteen gallons per minute (gpm) for domestic use and for the irrigation of one acre of land, with an average annual appropriation of 1.0 acre feet of water. The proposed well was to be located in Delta County near Surface Creek, a tributary of the Gunnison River. The state engineer granted Jones a well permit with the specification that it was \u201cfor domestic use, including the irrigation of not over one acre of home gardens and lawns.\u201d Jones completed construction of his well on October 17, 1979.",
+   "source": "d-9e15c4ff7714b4d70288",
+   "altered": "1977->1980"
+  },
+  {
+   "id": "hard-06",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Two sales of propane were made by Diamond Shamrock to Blueflame in April and May of 1975.",
+   "passage": "Two sales of propane were made by Diamond Shamrock to Blueflame in April and May of 1972. On April 24, 8,874 gallons were sold to Blueflame and again on May 5, 8,900 gallons were sold. Truck loading receipts for these sales indicated that Carl Gearhart, the Phillips operator at the La Junta terminal, had added ethyl mercaptan to these loads in the ratio of 1.5 pounds per 10,000 gallons of propane, although Gear-hart had no specific recollection of the two loads in question.",
+   "source": "d-ae2ccc3f4a5565646cfc",
+   "altered": "1972->1975"
+  },
+  {
+   "id": "hard-07",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "In June 1996, Denver issued a Notice of Final Determination, Assessment and Demand for Payment (the assessment) of a use tax based on the catalogs.",
+   "passage": "In June 1993, Denver issued a Notice of Final Determination, Assessment and Demand for Payment (the assessment) of a use tax based on the catalogs. Talbots does not dispute the assessment of a use tax on the 5,000 catalogs sent to its two Denver stores. At issue here is the validity of the assessment on the approximately 30,000 catalogs sent to the other Denver addressees. Following a hearing, the Denver Manager of Revenue, through her hearing officer, affirmed the assessment. Talbots then filed this action seeking judicial review. The district court upheld the assessment and affirmed. I. Talbots first asserts that, because the assessment was on an activity occurring wholly outside the City and County of Denver, it violates Denver Revised Municipal Code \u00a7 53-96 which allows the levy of a use tax only on property stored, used, distributed or consumed \u201cin the city.\u201d We are not persuaded. A.",
+   "source": "d-21616823e5950cb575b2",
+   "altered": "1993->1996"
+  },
+  {
+   "id": "hard-08",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Justice Musser delivered the opinion of the court: On December 26, 1903, The Greeley and Love-land Irrigation and Land Company was the owner of two ditches and a reservoir, supplied from the Big Thompson river.",
+   "passage": "Mr. Justice Musser delivered the opinion of the court: On December 26, 1900, The Greeley and Love-land Irrigation and Land Company was the owner of two ditches and a reservoir, supplied from the Big Thompson river. One of the-ditches was the Love-land and Greeley canal, hereinafter referred to as the canal, a large ditch running a distance of about twenty-five miles easterly from the river. The other was the Barnes ditch, heading; about two miles up the river from the canal and running in an easterly direction about seven miles. The reservoir, which was constructed in 1893, was about three-quarters of a mile north of the canal and was fed by the Barnes ditch. From the time of its construction to the year 1901, without dispute, and by the finding of the court to the commencement of this action in 1904, it appears that all of the water reaching the headgate of the Barnes ditch was diverted from the river and carried through that ditch into the reservoir",
+   "source": "d-d58e50030ed63e93ed31",
+   "altered": "1900->1903"
+  },
+  {
+   "id": "hard-09",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "On July 25, 1988, the water judge entered a pretrial order which consolidated the two cases for trial on October 15 and 16, 1985.",
+   "passage": "On July 25, 1985, the water judge entered a pretrial order which consolidated the two cases for trial on October 15 and 16, 1985. However, on the day set for trial, Blue River and Denver filed a stipulation in which Blue River requested leave to withdraw its application in the change case and Denver consented to entry of a finding of reasonable diligence in the diligence case. The water judge granted Blue River\u2019s motion to dismiss the change case and stated that the consolidation of the two cases was \u201cvacated and rendered void, and any rights of the parties by virtue of the consolidation [were] modified and limited accordingly.\u201d",
+   "source": "d-57471377be84c0162593",
+   "altered": "1985->1988"
+  },
+  {
+   "id": "hard-10",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "306, 269 P.2d 1067 (1957), for the proposition that a claimant must exclusively \u201cpossess\u201d the area subject to the easement in order to acquire a prescription easement, is misplaced.",
+   "passage": "Second, the trial court\u2019s reliance upon Lovejoy v. School District No. 46, 129 Colo. 306, 269 P.2d 1067 (1954), for the proposition that a claimant must exclusively \u201cpossess\u201d the area subject to the easement in order to acquire a prescription easement, is misplaced. Lovejoy concerns acquisition of fee title by adverse possession, rather than acquisition of a prescriptive easement. However, \u201cthere is no rule of law requiring that to secure a right-of-way by prescription one must.be in continuous possession .... \u201d Rivera v. Queree, supra (emphasis supplied). Rather all that is required to establish a prescriptive easement is a showing of \u201ccontinued, open, and adverse use for the statutory period.\u201d Rivera v. Queree, supra (emphasis supplied).",
+   "source": "d-940024919c834a235654",
+   "altered": "1954->1957"
+  },
+  {
+   "id": "hard-11",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "In the December 2008 incident, a police officer observed defendant driving in Arapahoe County about 9:30 p.m.",
+   "passage": "\u00b6 50 Here, two incidents were established at trial. In the December 2005 incident, a police officer observed defendant driving in Arapahoe County about 9:30 p.m. without headlights. The officer attempted to pull him over by activating his lights. After defendant failed to pull over, his vehicle drifted over the dividing line several times. The officer testified that defendant's vehicle crossed into the lane of approaching traffic \"about halfway over the road markers,\" then went all the way over across \"the marker on the shoulder,\" and then back into the northbound opposing traffic lane. At that point, the officer noticed a vehicle approaching in the oncoming lane, so he activated his siren in addition to his lights. The approaching vehicle pulled to the side, defendant drifted back into his own lane of traffic, and then swerved into a shallow ditch",
+   "source": "d-4fa46e3dedef8e9fb3a7",
+   "altered": "2005->2008"
+  },
+  {
+   "id": "hard-12",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "1911, relating to the duty of adjoining land occupiers as to the maintaining of partition fences..' Under the facts in the instant case, no advantage accrues to the plaintiff by reason of this statute.",
+   "passage": "The plaintiff cites section 2590 R. S. 1908, relating to the duty of adjoining land occupiers as to the maintaining of partition fences..' Under the facts in the instant case, no advantage accrues to the plaintiff by reason of this statute. The testimony is that, the line fence \u201cwas about the same kind of a fence all the way through.\u201d There is no testimony that the plaintiff kept her part of the partition fence in good repair. No testimony was offered to show whether the cattle broke through the plaintiff\u2019s or the defendant\u2019s part of the fence. The defendant\u2019s lessor testified that \u201che claimed the south half and she (the plaintiff) claimed the north half of it,\u201d and that the fences \u201cwere very poor.\u201d In 1 R. C. L. sec. 43, p. 1101, it is said:",
+   "source": "d-217e882c3cf29248c885",
+   "altered": "1908->1911"
+  },
+  {
+   "id": "hard-13",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "The premises liability statute was enacted in 1989 and amended in 1990 to partially revive the common law premises liability scheme that the supreme court abandoned in 1971.",
+   "passage": "The premises liability statute was enacted in 1986 and amended in 1990 to partially revive the common law premises liability scheme that the supreme court abandoned in 1971. A landowner's duties under the premises liability statute are somewhat different from those under the common law premises liability scheme. See Gallegos v. Phipps, 779 P.2d 856, 860-61 (Colo.1989)(under the common law premises liability scheme, landowners owed no duty of care to trespassers, only a duty not to willfully or wantonly injure licensees, and a duty to keep land in a reasonably safe condition for invitees and to warn them of concealed defects that might have been discovered in the exercise of reasonable care). Nonetheless, the statute narrows the landowner's exposure to liability from that which existed under the generic negligence scheme. See Pierson v",
+   "source": "d-e27b65c45670569555a3",
+   "altered": "1986->1989"
+  },
+  {
+   "id": "hard-14",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "On Sunday, November 21, 1923, this defendant, accompanied by Cefalu and Calionni, was driving a truck across a crowded viaduct in this city at forty miles an hour.",
+   "passage": "On Sunday, November 21, 1920, this defendant, accompanied by Cefalu and Calionni, was driving a truck across a crowded viaduct in this city at forty miles an hour. No excuse worthy of the slightest consideration appears for that conduct. He was not only insolently indifferent to the rights and safety of other travelers but was trying to see how close he could come to them without a collision. The deceased, accompanied by his son Thurman E. Keim, the latter\u2019s wife and nine year old boy, all of whom were perfect strangers to the defendant, were driving in the same direction in a closed car. Defendant passed them, as he did others, avoiding a collision by the narrowest possible margin. A short distance ahead, and with an interval of time so brief as to be inconsequential, defendant collided with and considerably damaged a Ford car and was engaged in some kind of dispute with the driver thereof when deceased arrived upon the scene",
+   "source": "d-f07e250aac1a49242239",
+   "altered": "1920->1923"
+  },
+  {
+   "id": "hard-15",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Billington's original petition filed on January 13, 1987, sought condemnation of a way of necessity from the public highway, westerly across the Roe land, and across a small portion of the Yusts\u2019 property.",
+   "passage": "Billington's original petition filed on January 13, 1984, sought condemnation of a way of necessity from the public highway, westerly across the Roe land, and across a small portion of the Yusts\u2019 property. Thereafter, Billington, by amended petitions, sought condemnation of a right-of-way solely across the Yusts\u2019 property with intended access to a secondary public road lying to the south. Although this proposed southerly right-of-way was considerably longer than that lying across the Roe property, it would avoid the expense of construction of a bridge across the Blue River which separated Billington\u2019s property from Roe\u2019s property. In response to the Yusts\u2019 defense that Billington already was entitled to a common law right-of-way across the Roe property and that there was no \u201cnecessity\u201d for condemnation, Billington again joined Roe and his corporation as parties to the proceeding, but persisted in his claim for condemnation solely across the Yusts\u2019 property.",
+   "source": "d-a7cef6dd1d92871bb03f",
+   "altered": "1984->1987"
+  },
+  {
+   "id": "hard-16",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Having acquired the concrete company's interest in the 1875 priority, Seda-lia claimed a right to the same amount of historical consumptive use water for its well augmentation plan in this case.",
+   "passage": "\u00ab[ 2 When the concrete company owned this portion of the originally decreed appropriation, it obtained a change of water right decree quantifying an annual average of 13 acre-feet of water available for use as augmentation plan credit for replacement of out-of-priority tributary groundwater depletions from a well. Having acquired the concrete company's interest in the 1872 priority, Seda-lia claimed a right to the same amount of historical consumptive use water for its well augmentation plan in this case. On competing motions for summary judgment, the water court ruled that the doctrine of issue preclusion prohibited the Engineers from re-litigating the quantification question, although the Engineers could raise the issue of abandonment at trial if they wished.",
+   "source": "d-6aa9679d84e0f16aa326",
+   "altered": "1872->1875"
+  },
+  {
+   "id": "hard-17",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "The evidence is unchallenged that from 1961 to 1978, the road was not used for residential purposes.",
+   "passage": "The evidence is unchallenged that from 1958 to 1978, the road was not used for residential purposes. The only evidence remotely suggesting any residential use at any time consisted of testimony that the remnants of three or four old cabins had occasionally been used for ranching and hunting purposes. At best, such evidence may by inference indicate that at some time prior to the prescriptive period the road may have been used for residential purposes; it does not establish the open, notorious and continuous use essential to establish a use by prescription. See, e.g., Rivera v. Queree, 145 Colo. 146, 358 P.2d 40 (1960); Agricultural Ditch & Reservoir Co. v. Gleason, 686 P.2d 802 (Colo.App.1984). This evidence does not support the trial court\u2019s conclusion that the prescriptive easement acquired by Geyer included use for residential purposes. Horse Creek, of course, obtained no greater easement than the Geyers had acquired.",
+   "source": "d-9e2b0dcfdc2585bdfa3a",
+   "altered": "1958->1961"
+  },
+  {
+   "id": "hard-18",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "Meclntosh (Taxpayers), appeal the Board of Assessment Appeals' orders denying their motion for costs incurred in their 2010 property tax assessment protest.",
+   "passage": "Opinion by Judge NEY. Appellants, Mark W. Gerganoff and Robin E. Meclntosh (Taxpayers), appeal the Board of Assessment Appeals' orders denying their motion for costs incurred in their 2007 property tax assessment protest. We reverse the orders and remand. I. Background Taxpayers own real property in Jefferson County. The County assigned the property an actual value of $500,430 for the 2007 property tax year. Taxpayers protested their property tax assessment. The Jefferson County Assessor's Office denied the protest. Taxpayers sought review of the Assessor's denial by the Jefferson County Board of Equalization. The Board of Equalization adopted the hearing officer's recommendation and upheld the denial.",
+   "source": "d-dafcb81de9d8b69c8cb0",
+   "altered": "2007->2010"
+  },
+  {
+   "id": "hard-19",
+   "kind": "hard_negative",
+   "label": "unsupported",
+   "claim": "In July 1994, an underinsured motorist caused a three-vehicle collision which killed five people and seriously injured five others.",
+   "passage": "In July 1991, an underinsured motorist caused a three-vehicle collision which killed five people and seriously injured five others. The parties stipulated that the underinsured motorist was at fault, that all seven victims represented here \u2014 -the driver of a van and his six passengers \u2014 were insureds under four policies that insurer issued to the driver of the van, and that each suffered damages in excess of $50,000. As a result of an inter-pleader action, plaintiffs, as a group, received $77,170 under the liable motorist\u2019s $100,000 insurance policy in compensation for their damages, and the three victims in the other car received the remainder.",
+   "source": "d-5b6fda71050c48af53c1",
+   "altered": "1991->1994"
+  }
+ ]
+}
