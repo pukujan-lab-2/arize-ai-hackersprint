@@ -81,7 +81,12 @@ export type AskTick = { stage: string; detail: string; draft: string; stages: St
 /** The server refused the question for a reason the reader needs to see — a rate limit, say. */
 export class AskRefused extends Error {}
 
-const RUN_TIMEOUT_MS = 90_000;
+// A question asked while the retrieval engine sleeps waits for it to load (a minute or two) before the
+// four agents even start, so the page must outwait that. Giving up at 90 s threw away answers that arrived at 100.
+const RUN_TIMEOUT_MS = 240_000;
+/** After this long with no answer, the page says why instead of looking stuck. */
+const WAKING_NOTICE_MS = 15_000;
+const WAKING_NOTICE = "Waking the retrieval engine. The first question after a quiet spell can take a minute or two.";
 const POLL_MS = 1000;
 
 /** The stage the pipeline has reached, from the events the run endpoint reports. */
@@ -125,8 +130,9 @@ export function pipelineFrom(events: unknown): StageTick[] {
   return stages;
 }
 
-async function pollRun(runId: string, onTick?: (tick: AskTick) => void): Promise<RunResult | null> {
-  const deadline = Date.now() + RUN_TIMEOUT_MS;
+export async function pollRun(runId: string, onTick?: (tick: AskTick) => void): Promise<RunResult | null> {
+  const startedAt = Date.now();
+  const deadline = startedAt + RUN_TIMEOUT_MS;
   for (;;) {
     let data: { events?: unknown[]; result?: RunResult | null; partial?: string | null } | null = null;
     try {
@@ -136,7 +142,11 @@ async function pollRun(runId: string, onTick?: (tick: AskTick) => void): Promise
       // A blip mid-run must not lose an answer the agents are still writing: fall through and retry.
     }
     if (data) {
-      onTick?.({ ...stageOf(data.events), draft: data.partial || "", stages: pipelineFrom(data.events) });
+      const tick = { ...stageOf(data.events), draft: data.partial || "", stages: pipelineFrom(data.events) };
+      if (!tick.draft && Date.now() - startedAt > WAKING_NOTICE_MS && /^(planning|retrieving)/i.test(tick.stage)) {
+        tick.detail = WAKING_NOTICE;
+      }
+      onTick?.(tick);
       if (data.result) return data.result;
     }
     if (Date.now() >= deadline) return null;
