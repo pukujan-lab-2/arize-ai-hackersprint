@@ -92,14 +92,14 @@ export default function SourcePane({
           </p>
         </div>
         <div className="flex shrink-0 items-center">
-          <Button variant="ghost" size="icon" className="h-8 w-8" disabled={index <= 0} onClick={() => onSelect(index - 1)} aria-label="Previous source">
+          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" disabled={index <= 0} onClick={() => onSelect(index - 1)} aria-label="Previous source">
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8" disabled={index >= citations.length - 1} onClick={() => onSelect(index + 1)} aria-label="Next source">
+          <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" disabled={index >= citations.length - 1} onClick={() => onSelect(index + 1)} aria-label="Next source">
             <ChevronRight className="h-4 w-4" />
           </Button>
           {onClose && (
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose} aria-label="Close source">
+            <Button variant="ghost" size="icon" className="h-10 w-10 sm:h-8 sm:w-8" onClick={onClose} aria-label="Close source">
               <X className="h-4 w-4" />
             </Button>
           )}

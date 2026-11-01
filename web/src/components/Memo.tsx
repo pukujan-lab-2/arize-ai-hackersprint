@@ -154,7 +154,7 @@ type Cursor = { n: number; onCite?: (citation: Citation) => void };
 
 /** A reference like [3] reads as a small chip, so it is easy to see and easy to hit with a thumb. */
 const refClass =
-  "ml-0.5 inline-flex min-w-[1.6rem] items-center justify-center rounded-md bg-primary/10 px-1.5 align-baseline text-xs font-semibold leading-5 text-foreground no-underline transition-colors hover:bg-primary/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "relative ml-0.5 inline-flex min-w-[1.6rem] before:absolute before:-inset-x-1 before:-inset-y-3 before:content-[''] items-center justify-center rounded-md bg-primary/10 px-1.5 align-baseline text-xs font-semibold leading-5 text-foreground no-underline transition-colors hover:bg-primary/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const linkClass =
   "rounded-sm underline decoration-border underline-offset-2 hover:decoration-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";

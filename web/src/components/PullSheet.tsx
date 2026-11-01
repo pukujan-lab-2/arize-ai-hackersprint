@@ -102,7 +102,7 @@ export default function PullSheet({
             if (swiped.current) swiped.current = false;
             else onLevel(level === 2 ? 0 : ((level + 1) as SheetLevel));
           }}
-          className="flex h-6 w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex h-7 w-full items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-muted-foreground/40" />
         </button>

@@ -95,7 +95,7 @@ function History({
                   onClick={() => onOpen(run.run_id)}
                   aria-current={run.run_id === activeRun ? "true" : undefined}
                   className={cn(
-                    "flex w-full items-start gap-2 rounded-md py-1.5 pl-2 pr-9 text-left transition-colors",
+                    "flex w-full items-start gap-2 rounded-md py-2 pl-2 pr-10 text-left transition-colors",
                     run.run_id === activeRun
                       ? "bg-secondary text-secondary-foreground"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
@@ -112,7 +112,7 @@ function History({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="absolute right-1 top-1.5 h-7 w-7 text-muted-foreground opacity-100 transition-opacity hover:text-foreground focus-visible:opacity-100 data-[state=open]:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+                      className="absolute right-0 top-0.5 h-10 w-10 text-muted-foreground sm:right-1 sm:top-1.5 sm:h-7 sm:w-7 opacity-100 transition-opacity hover:text-foreground focus-visible:opacity-100 data-[state=open]:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
                       aria-label={`Options for: ${run.question}`}
                     >
                       <MoreHorizontal className="h-4 w-4" />
@@ -195,7 +195,7 @@ export default function AppShell() {
         <Brand />
       </div>
       <div className="px-3">
-        <Button className="w-full justify-start gap-2" size="sm" onClick={newChat}>
+        <Button className="h-11 w-full justify-start gap-2 sm:h-9" size="sm" onClick={newChat}>
           <MessageSquarePlus className="h-4 w-4" />
           New chat
         </Button>

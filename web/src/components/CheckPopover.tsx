@@ -34,7 +34,7 @@ export default function CheckPopover({ safeguard, citations }: { safeguard?: Saf
         <button
           type="button"
           className={cn(
-            "inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
+            "inline-flex h-11 w-11 items-center justify-center sm:h-9 sm:w-9 rounded-full border transition-colors hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
             pass
               ? "border-emerald-500/40 text-emerald-600 dark:text-emerald-400"
               : "border-destructive/50 text-destructive",

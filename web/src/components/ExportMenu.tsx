@@ -58,7 +58,7 @@ export default function ExportMenu({
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 shrink-0 text-muted-foreground hover:text-foreground"
+          className="h-11 w-11 shrink-0 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
           aria-label="Export, print or share"
           title="Export, print or share"
         >

@@ -871,7 +871,7 @@ export default function CitationMap({
           variant="ghost"
           size="icon"
           onClick={fit}
-          className={cn(chip, "h-9 w-9")}
+          className={cn(chip, "h-11 w-11 sm:h-9 sm:w-9")}
           aria-label="Fit to the authorities"
           title="Fit to the authorities"
         >
@@ -885,7 +885,7 @@ export default function CitationMap({
           aria-pressed={tilted}
           aria-label="Tilt the map"
           title="Tilt the map"
-          className={cn(chip, "h-9 w-9", tilted && "bg-slate-800 text-white")}
+          className={cn(chip, "h-11 w-11 sm:h-9 sm:w-9", tilted && "bg-slate-800 text-white")}
         >
           <Box className="h-4 w-4" />
         </Button>

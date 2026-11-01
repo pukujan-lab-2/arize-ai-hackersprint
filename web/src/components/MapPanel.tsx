@@ -63,14 +63,14 @@ function TourTab({ tour }: { tour: PanelTour }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <Button className="gap-2" onClick={active ? tour.stop : tour.start} disabled={!tour.steps.length}>
+        <Button className="h-11 gap-2 sm:h-10" onClick={active ? tour.stop : tour.start} disabled={!tour.steps.length}>
           {active ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
           {active ? "Stop" : "Play the tour"}
         </Button>
-        <Button variant="outline" size="icon" onClick={tour.prev} disabled={!tour.canPrev} aria-label="Previous location" title="Previous location">
+        <Button variant="outline" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" onClick={tour.prev} disabled={!tour.canPrev} aria-label="Previous location" title="Previous location">
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" onClick={tour.next} disabled={!tour.canNext} aria-label={active ? "Next location" : "First location"} title={active ? "Next location" : "First location"}>
+        <Button variant="outline" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" onClick={tour.next} disabled={!tour.canNext} aria-label={active ? "Next location" : "First location"} title={active ? "Next location" : "First location"}>
           <ChevronRight className="h-4 w-4" />
         </Button>
         <span className="ml-auto text-xs tabular-nums text-muted-foreground">
@@ -204,9 +204,9 @@ export default function MapPanel({
 
   // Pulling the sheet to a tab, a place, an opinion or a tour stop opens it to at least the usual height.
   useEffect(() => {
-    if (variant === "sheet" && (p.place || p.sourceIndex !== null || p.tour.index >= 0)) {
-      setLevel((current) => (current === 0 ? 1 : current));
-    }
+    if (variant !== "sheet") return;
+    if (p.sourceIndex !== null) setLevel(2); // an opinion is for reading: open it tall
+    else if (p.place || p.tour.index >= 0) setLevel((current) => (current === 0 ? 1 : current));
   }, [variant, p.place, p.sourceIndex, p.tour.index]);
 
   const openCitation = (citation: Citation) => {
@@ -234,7 +234,7 @@ export default function MapPanel({
               if (variant === "sheet") setLevel((current) => (current === 0 ? 1 : current));
             }}
             className={cn(
-              "flex h-10 flex-1 items-center justify-center gap-2 rounded-xl text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring motion-reduce:transition-none",
+              "flex h-11 flex-1 items-center justify-center gap-2 rounded-xl text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring motion-reduce:transition-none",
               selected ? "bg-secondary text-secondary-foreground" : "text-muted-foreground hover:bg-accent hover:text-foreground",
             )}
           >

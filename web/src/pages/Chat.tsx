@@ -451,11 +451,11 @@ export default function Chat() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <header className="flex h-12 shrink-0 items-center gap-1 border-b border-border px-2 sm:px-3">
+      <header className="flex h-14 shrink-0 items-center gap-1 border-b border-border px-2 sm:h-12 sm:px-3">
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 shrink-0 lg:hidden"
+          className="h-11 w-11 shrink-0 sm:h-9 sm:w-9 lg:hidden"
           aria-label="Open conversations"
           onClick={openNav}
         >
@@ -473,10 +473,10 @@ export default function Chat() {
           className="rounded-full border border-border p-0.5"
           aria-label="Show the conversation or the map"
         >
-          <ToggleGroupItem value="chat" className="h-8 w-8 rounded-full p-0" aria-label="Chat" title="Chat">
+          <ToggleGroupItem value="chat" className="h-11 w-11 rounded-full p-0 sm:h-8 sm:w-8" aria-label="Chat" title="Chat">
             <MessagesSquare className="h-4 w-4" />
           </ToggleGroupItem>
-          <ToggleGroupItem value="map" className="h-8 w-8 rounded-full p-0" aria-label="Map" title="Map">
+          <ToggleGroupItem value="map" className="h-11 w-11 rounded-full p-0 sm:h-8 sm:w-8" aria-label="Map" title="Map">
             <MapPin className="h-4 w-4" />
           </ToggleGroupItem>
         </ToggleGroup>
@@ -484,7 +484,7 @@ export default function Chat() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9 shrink-0"
+          className="h-11 w-11 shrink-0 sm:h-9 sm:w-9"
           onClick={clearThread}
           disabled={!turns.length && !busy}
           aria-label="New chat"
@@ -608,7 +608,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
                           onClick={() => void copyAnswer(turn.result.answer || "")}
                           aria-label="Copy the memo"
                           title="Copy the memo"
@@ -618,7 +618,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
                           onClick={() => {
                             if (narrating) {
                               stopNarration();
@@ -635,7 +635,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
                           onClick={() => openMap(turn)}
                           aria-label="Show on the map"
                           title="Show on the map"
@@ -646,7 +646,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-foreground"
+                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
                           onClick={() => setActions(turn)}
                           aria-label="Answer tools"
                           title="Answer tools"
@@ -728,7 +728,7 @@ export default function Chat() {
                   placeholder={turns.length ? "Ask a follow-up question…" : "Ask a legal question…"}
                   className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
                 />
-                <Button type="submit" size="icon" className="h-10 w-10 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" disabled={busy || !draft.trim()} aria-label="Send question">
+                <Button type="submit" size="icon" className="h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" disabled={busy || !draft.trim()} aria-label="Send question">
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
                 </Button>
               </div>
