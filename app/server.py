@@ -497,7 +497,7 @@ def stack():
             "connected": trace["ok"],
             "status": "Connected - the exporter accepted spans" if trace["ok"] else f"Not connected - {trace.get('reason') or 'no span has been exported'}",
             "spans_sent": trace["sent"],
-            "how": "OpenTelemetry spans per agent via arize-otel; delivery is reported from the exporter, not from the key.",
+            "how": "OpenTelemetry spans per agent, sent to Octo and on to its Phoenix; delivery is reported from the exporter, not from the key.",
         },
         "tracing": trace,
         "engine": engine.status(stages=_last_run_stages(runs)),
@@ -632,7 +632,7 @@ def sponsor():
         },
         "arize": {
             "connected": tracing.status()["ok"],
-            "space_id": os.environ.get("ARIZE_SPACE_ID", ""),
+            "space_id": "",
             "spans": spans,
         },
         "elevenlabs": {"history": list(stats.VLOG)[-30:]},

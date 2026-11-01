@@ -54,7 +54,7 @@ Without that build the pages return an error rather than an older frontend; ther
 Set these in your shell or a local `.env` file, and never commit them:
 
 - `INFERHUB_API_KEY`, `ANTHROPIC_API_KEY`
-- `ARIZE_API_KEY`, `ARIZE_SPACE_ID`, `ARIZE_PROJECT_NAME`
+- Tracing needs no extra keys: spans go to Octo (`OCTO_API_KEY`, `OCTO_WORKSPACE_ID`) and on to its Phoenix. `OCTO_TRACES=off` turns it off.
 - `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`
 - `OCTO_API_KEY`, `OCTO_WORKSPACE_ID`, `OCTO_BASE_URL`
 - `FISH_API_KEY` and `FISH_VOICE_ID` for Fish Audio, if you use it
