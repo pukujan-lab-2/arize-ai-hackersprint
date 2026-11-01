@@ -1,0 +1,23 @@
+name: OIO close on merge
+
+# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
+# pin instead of editing this file. Closes the issue logs a merged pull request
+# names with Closes, Fixes or Resolves.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  close:
+    if: github.event.pull_request.merged == true
+    uses: Pukujan/observational-issue-ops/.github/workflows/close-on-merge.yml@6a9a7cd67810debe0da76e847ac9897ebc281248
+    with:
+      oio_ref: 6a9a7cd67810debe0da76e847ac9897ebc281248
+    secrets:
+      CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}

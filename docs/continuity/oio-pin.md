@@ -1,13 +1,11 @@
 # OIO pin
 
 Precedent pins observational-issue-ops (OIO) at the certified train commit
-`e5e5fb1250aa8d154e9a83554638aec4cc8b2c8a`. The release train
-(`Pukujan/agent-stack-train` stack-releases.json) labels that commit **0.1.0**.
-At the same commit the installer writes `.oio/install-manifest.json` with
-`oio_version` **0.2.0**, because OIO's own `stack-manifest.json` pin entry is
-empty and the installer falls back to a hardcoded package version. Both numbers
-are recorded in `pins.oio` under `.coord/assignment.json`; the commit is the
-source of truth.
+`6a9a7cd67810debe0da76e847ac9897ebc281248`. The release train
+(`Pukujan/agent-stack-train` stack-releases.json) certifies that commit as
+**0.3.0**, and the installer writes the same `oio_version` **0.3.0** to
+`.oio/install-manifest.json`. Both numbers are recorded in `pins.oio` under
+`.coord/assignment.json`; the commit is the source of truth.
 
 None of OIO's source tree is vendored. The installer copies its managed files
 into `.oio/`, `.github/ISSUE_TEMPLATE/`, `.github/scripts/oio_*.py`,
@@ -28,7 +26,7 @@ and runs `tools/validate_oio_adoption.py`, which:
 
 ```bash
 git clone https://github.com/Pukujan/observational-issue-ops.git .oio-src
-git -C .oio-src checkout e5e5fb1250aa8d154e9a83554638aec4cc8b2c8a
+git -C .oio-src checkout 6a9a7cd67810debe0da76e847ac9897ebc281248
 python3 -m pip install -r .oio-src/requirements.txt
 python3 .oio-src/.github/scripts/oio_installer.py --target "$(pwd)"
 python3 tools/validate_oio_adoption.py --helper-root .oio-src

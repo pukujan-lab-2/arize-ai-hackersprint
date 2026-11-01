@@ -14,7 +14,7 @@ This ontology standardizes issue-log vocabulary. It does not grant permission to
 
 ## This document is the canonical issue-log shape
 
-OIO owns the **semantics and shape** of the issue log for the agent stack: the required fields, the lifecycle vocabulary, and the typed relation set defined here are the single definition that other repositories point at. A repository that needs a different issue-log shape files a change against OIO instead of restating the shape locally. Project ontologies extend this vocabulary under their own namespace; they do not redefine it. (Prose voice remains owned by the narrative-authority module; execution continuity remains owned by the continuity module.)
+OIO owns the **semantics and shape** of the issue log for the agent stack: the required fields, the lifecycle vocabulary, and the typed relation set defined here are the single definition that other repositories point at. A repository that needs a different issue-log shape files a change against OIO instead of restating the shape locally. Project ontologies extend this vocabulary under their own namespace; they do not redefine it. PCM's issue-log format defers to this form: PCM owns writing and record prose (voice, readability, diagrams), while the field shape and lifecycle vocabulary are defined here. (Prose voice remains owned by the narrative-authority module; execution continuity remains owned by the continuity module.)
 
 ## Lifecycle: status, re-observation, and relations
 

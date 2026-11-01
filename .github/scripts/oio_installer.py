@@ -24,13 +24,6 @@ except ImportError as exc:  # pragma: no cover - exercised by CLI error path
 SOURCE_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_IS_ADOPTER = not (SOURCE_ROOT / "ontology/default.json").is_file() and (SOURCE_ROOT / ".oio/ontology/default.json").is_file()
 DATA_ROOT = SOURCE_ROOT / ".oio" if SOURCE_IS_ADOPTER else SOURCE_ROOT
-try:
-    OIO_VERSION = json.loads((SOURCE_ROOT / "stack-manifest.json").read_text(encoding="utf-8"))["pins"]["observational-issue-ops"]["version"]
-except (OSError, KeyError, json.JSONDecodeError):
-    try:
-        OIO_VERSION = json.loads((SOURCE_ROOT / ".oio/install-manifest.json").read_text(encoding="utf-8"))["oio_version"]
-    except (OSError, KeyError, json.JSONDecodeError):
-        OIO_VERSION = "0.2.0"
 MANIFEST_REL = ".oio/install-manifest.json"
 JOURNAL_REL = ".oio/.installer-transaction.json"
 AGENTS_START = "<!-- oio:issue-log-guidance:start -->"
@@ -50,11 +43,110 @@ PACKAGE_FILES = {
     ".github/scripts/oio_installer.py": ".github/scripts/oio_installer.py",
     ".github/scripts/oio_triage.py": ".github/scripts/oio_triage.py",
 }
-RECOVERY_ALLOWED = set(PACKAGE_FILES) | {"AGENTS.md", ".oio/ontology/project.json", MANIFEST_REL}
+# Callers for OIO's reusable close workflows, rendered with the OIO commit that
+# installed them so an adopter's close behaviour changes only when it upgrades.
+# The sweep's switches are repository variables, not file edits, because an
+# edited managed file blocks the next upgrade.
+OIO_REF_PLACEHOLDER = "<oio-ref>"
+CALLER_FILES = {
+    ".github/workflows/oio-close-on-merge.yml": (
+        "close-on-merge.yml",
+        """name: OIO close on merge
+
+# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
+# pin instead of editing this file. Closes the issue logs a merged pull request
+# names with Closes, Fixes or Resolves.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  close:
+    if: github.event.pull_request.merged == true
+    uses: Pukujan/observational-issue-ops/.github/workflows/close-on-merge.yml@<oio-ref>
+    with:
+      oio_ref: <oio-ref>
+    secrets:
+      CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
+""",
+    ),
+    ".github/workflows/oio-close-sweep.yml": (
+        "close-sweep.yml",
+        """name: OIO close sweep
+
+# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
+# pin instead of editing this file. Settles open logs that a merged pull
+# request names but did not close, and flags open parents whose sub-issues are
+# all closed. It only reports until the repository variable
+# OIO_CLOSE_SWEEP_APPLY is `true`: read the first report and label any issue
+# that must stay open `oio:keep-open` first. Set OIO_CLOSE_SWEEP_ROLLUP to
+# `close` to close finished parents instead of labelling them.
+
+on:
+  schedule:
+    - cron: "41 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  sweep:
+    uses: Pukujan/observational-issue-ops/.github/workflows/close-sweep.yml@<oio-ref>
+    with:
+      oio_ref: <oio-ref>
+      apply: ${{ vars.OIO_CLOSE_SWEEP_APPLY == 'true' }}
+      rollup: ${{ vars.OIO_CLOSE_SWEEP_ROLLUP || 'label' }}
+    secrets:
+      CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
+""",
+    ),
+}
+RECOVERY_ALLOWED = set(PACKAGE_FILES) | set(CALLER_FILES) | {"AGENTS.md", ".oio/ontology/project.json", MANIFEST_REL}
 
 
 class InstallError(Exception):
     """A safe, actionable install refusal."""
+
+
+def _detect_version(source_root: Path = SOURCE_ROOT) -> str:
+    """Report the package version without a hard-coded fallback.
+
+    Precedence: the stack-manifest pin, the installed manifest, then the
+    checked-in ``VERSION`` file. A literal in this script once said 0.2.0
+    while the package moved on, so the last resort is a refusal with an
+    actionable message rather than a number nobody updates.
+    """
+    try:
+        pinned = json.loads((source_root / "stack-manifest.json").read_text(encoding="utf-8"))["pins"]["observational-issue-ops"]["version"]
+        if pinned:
+            return str(pinned)
+    except (OSError, KeyError, TypeError, json.JSONDecodeError):
+        pass
+    try:
+        installed = json.loads((source_root / ".oio/install-manifest.json").read_text(encoding="utf-8"))["oio_version"]
+        if installed:
+            return str(installed)
+    except (OSError, KeyError, TypeError, json.JSONDecodeError):
+        pass
+    try:
+        version = (source_root / "VERSION").read_text(encoding="utf-8").strip()
+    except OSError:
+        version = ""
+    if version:
+        return version
+    raise InstallError("cannot determine the OIO package version: no stack-manifest.json pin, install manifest, or VERSION file was found")
+
+
+OIO_VERSION = _detect_version()
 
 
 def _sha256(data: bytes) -> str:
@@ -606,6 +698,44 @@ def _current_project_file(target: Path, project_id: str, namespace: str, default
     return path, (json.dumps(template, indent=2, ensure_ascii=False) + "\n").encode()
 
 
+def _source_ref(manifest: dict | None) -> str | None:
+    """Return the full OIO commit the close callers pin, or None when it is unknown.
+
+    From an OIO checkout it is that checkout's HEAD. The copy installed in an
+    adopter has no OIO history, so it reuses the ref the install recorded.
+    """
+    if SOURCE_IS_ADOPTER:
+        ref = (manifest or {}).get("oio_ref")
+    else:
+        try:
+            result = subprocess.run(["git", "-C", str(SOURCE_ROOT), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+        except OSError:
+            return None
+        ref = result.stdout.strip() if result.returncode == 0 else None
+    return ref if isinstance(ref, str) and re.fullmatch(r"[0-9a-f]{40}(?:[0-9a-f]{24})?", ref) else None
+
+
+def _existing_caller(target: Path, reusable: str) -> str | None:
+    """Name an adopter workflow that already calls OIO's ``reusable`` workflow, if any.
+
+    A hand-added caller keeps working, so the installer adds none of its own
+    rather than running the same close twice.
+    """
+    workflows = target / ".github/workflows"
+    if workflows.is_symlink() or not workflows.is_dir():
+        return None
+    needle = f"observational-issue-ops/.github/workflows/{reusable}@"
+    for path in sorted(workflows.iterdir()):
+        if path.suffix not in {".yml", ".yaml"} or path.is_symlink() or not path.is_file():
+            continue
+        try:
+            if needle in path.read_text(encoding="utf-8", errors="replace"):
+                return f".github/workflows/{path.name}"
+        except OSError:
+            continue
+    return None
+
+
 def install(target_arg: str, project_id: str | None = None, check_only: bool = False) -> list[str]:
     target = _safe_target(target_arg)
     if target == SOURCE_ROOT and not (check_only and SOURCE_IS_ADOPTER):
@@ -642,9 +772,22 @@ def _install_in_target(target: Path, target_fs: _TargetFS, project_id: str | Non
         raise InstallError("installed project ontology is missing; run the installer to recover the scaffold")
     planned: dict[str, bytes] = {}
     for relative, source_relative in PACKAGE_FILES.items():
-        destination = _target_file(target, relative)
-        source = _source_file(source_relative)
-        planned[relative] = _lf_bytes(source.read_bytes())
+        planned[relative] = _lf_bytes(_source_file(source_relative).read_bytes())
+    oio_ref = _source_ref(manifest)
+    notes: list[str] = []
+    for relative, (reusable, template) in CALLER_FILES.items():
+        if relative not in old_files:
+            if SOURCE_IS_ADOPTER or oio_ref is None:
+                continue
+            caller = _existing_caller(target, reusable)
+            if caller:
+                notes.append(f"{caller} already calls OIO's {reusable}, so OIO did not add {relative}.")
+                continue
+        elif oio_ref is None:
+            raise InstallError(f"{relative} is managed, but the OIO commit it pins is unknown; run the installer from an OIO git checkout")
+        planned[relative] = template.replace(OIO_REF_PLACEHOLDER, oio_ref).encode("utf-8")
+    for relative in planned:
+        _target_file(target, relative)
         if manifest and relative in old_files:
             installed_data = target_fs.read_bytes(relative)
             if installed_data is None or not _matches_recorded(installed_data, old_files[relative]):
@@ -673,6 +816,8 @@ def _install_in_target(target: Path, target_fs: _TargetFS, project_id: str | Non
         "agents_block_sha256": agents_hash,
         "project_extension": ".oio/ontology/project.json",
     }
+    if oio_ref is not None:
+        install_manifest["oio_ref"] = oio_ref
     planned[MANIFEST_REL] = (json.dumps(install_manifest, indent=2, ensure_ascii=False) + "\n").encode()
     _target_file(target, MANIFEST_REL)
     if check_only:
@@ -716,7 +861,10 @@ def _install_in_target(target: Path, target_fs: _TargetFS, project_id: str | Non
         _recover_transaction(target, target_fs)
         raise
     target_fs.unlink(JOURNAL_REL)
-    return [f"Installed OIO {OIO_VERSION} for {project_id} in {target}", "Default project priority paths 1–100 are available; replace their generic definitions with project meanings and maintain the owner account map before relying on authority-ranked triage."]
+    messages = [f"Installed OIO {OIO_VERSION} for {project_id} in {target}", "Default project priority paths 1–100 are available; replace their generic definitions with project meanings and maintain the owner account map before relying on authority-ranked triage."]
+    if ".github/workflows/oio-close-sweep.yml" in planned:
+        messages.append("The close sweep only reports until the repository variable OIO_CLOSE_SWEEP_APPLY is true; read its first report before setting it.")
+    return messages + notes
 
 
 def _posix_precondition() -> str:

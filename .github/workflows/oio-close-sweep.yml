@@ -1,0 +1,29 @@
+name: OIO close sweep
+
+# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
+# pin instead of editing this file. Settles open logs that a merged pull
+# request names but did not close, and flags open parents whose sub-issues are
+# all closed. It only reports until the repository variable
+# OIO_CLOSE_SWEEP_APPLY is `true`: read the first report and label any issue
+# that must stay open `oio:keep-open` first. Set OIO_CLOSE_SWEEP_ROLLUP to
+# `close` to close finished parents instead of labelling them.
+
+on:
+  schedule:
+    - cron: "41 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  sweep:
+    uses: Pukujan/observational-issue-ops/.github/workflows/close-sweep.yml@6a9a7cd67810debe0da76e847ac9897ebc281248
+    with:
+      oio_ref: 6a9a7cd67810debe0da76e847ac9897ebc281248
+      apply: ${{ vars.OIO_CLOSE_SWEEP_APPLY == 'true' }}
+      rollup: ${{ vars.OIO_CLOSE_SWEEP_ROLLUP || 'label' }}
+    secrets:
+      CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
