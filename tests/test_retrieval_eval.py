@@ -1,4 +1,6 @@
 import json
+import pathlib
+import tempfile
 
 import pytest
 
@@ -644,3 +646,99 @@ def test_percentile_interpolates_and_handles_empty():
     assert retrieval_eval._percentile([10.0], 0.95) == 10.0
     assert retrieval_eval._percentile([0.0, 10.0], 0.5) == 5.0
     assert retrieval_eval._percentile([0.0, 10.0], 0.95) == pytest.approx(9.5)
+
+
+# A plain temp directory rather than pytest's tmp_path: this sandbox blocks mkdir of the pytest
+# temp root, which would fail the tests for a reason that has nothing to do with the code.
+_SCRATCH = pathlib.Path(tempfile.mkdtemp(prefix="retrieval-eval-tests-"))
+
+
+def _fresh_dir(name):
+    directory = _SCRATCH / name
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory
+
+
+def _questions_file(directory, *ids):
+    path = directory / "questions.json"
+    path.write_text(
+        json.dumps(
+            {
+                "dataset_version": "test",
+                "review_status": "unreviewed",
+                "questions": [{"id": qid, "question": f"question {qid}?", "split": "development"} for qid in ids],
+            }
+        )
+    )
+    return path
+
+
+def test_capture_sends_the_documented_request_and_records_the_response(monkeypatch):
+    tmp_path = _fresh_dir("capture_request")
+    # The engine contract is the one thing capture cannot test offline, so pin the config keys and
+    # the artifact shape here: a rename in app/engine.py would otherwise only show up in a live run.
+    from app import engine
+
+    sent = []
+
+    def fake_retrieve(question, **config):
+        sent.append((question, config))
+        rows = [_engine_row("A v. B", "A v. B", "text", ["bm25"])]
+        return _engine_response(rows, added=["A v. B"], edges_scanned=4)
+
+    monkeypatch.setattr(engine, "retrieve", fake_retrieve)
+    out = tmp_path / "cap.json"
+    retrieval_eval.capture(str(_questions_file(tmp_path, "q1")), str(out), graph=True, k=50, rerank=True, rerank_k=30)
+
+    question, config = sent[0]
+    assert question == "question q1?"
+    assert config == {
+        "k": 50,
+        "bm25_k": 100,
+        "dense": True,
+        "dense_pool": 100,
+        "graph": True,
+        "graph_seed_docs": 10,
+        "rerank": True,
+        "rerank_k": 30,
+        "jev": False,
+    }
+
+    artifact = json.loads(out.read_text())
+    assert artifact["format"] == "retrieval-eval-capture-v1"
+    assert artifact["run_id"].startswith("graph-1-rerank-1-rk30-k50-")
+    assert artifact["config"] == config
+    assert artifact["corpus_revisions"] == ["c1"]
+    assert artifact["graph_revisions"] == []
+    assert artifact["queries"][0]["capture_complete"] is True
+    assert artifact["queries"][0]["candidate_completeness"]["graph_edges_scanned"] == 4
+    assert artifact["timing"]["warm_query_count"] == 0
+
+
+def test_capture_records_an_engine_failure_and_still_writes_the_artifact(monkeypatch):
+    tmp_path = _fresh_dir("capture_failure")
+    from app import engine
+
+    def boom(question, **config):
+        raise RuntimeError("engine unreachable")
+
+    monkeypatch.setattr(engine, "retrieve", boom)
+    out = tmp_path / "cap.json"
+    retrieval_eval.capture(str(_questions_file(tmp_path, "q1")), str(out), graph=False)
+
+    record = json.loads(out.read_text())["queries"][0]
+    assert "RuntimeError" in record["error"]
+    assert "engine unreachable" in record["error"]
+    assert "capture_complete" not in record
+
+
+def test_capture_records_a_response_that_breaks_the_contract(monkeypatch):
+    tmp_path = _fresh_dir("capture_broken")
+    from app import engine
+
+    monkeypatch.setattr(engine, "retrieve", lambda question, **config: {"stages": [], "result": {}})
+    out = tmp_path / "cap.json"
+    retrieval_eval.capture(str(_questions_file(tmp_path, "q1")), str(out), graph=False)
+
+    record = json.loads(out.read_text())["queries"][0]
+    assert "EvalError" in record["error"]
