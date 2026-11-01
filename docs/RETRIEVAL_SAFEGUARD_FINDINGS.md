@@ -97,11 +97,21 @@ A first capture measured 3.4 s p50 for the graph arm. That was entirely cold den
 
 ## Access reality
 
-- **GLiNER.** Not installed on the engine host or the app host. The Windows host has `torch 2.13.0` and every `gliner2` dependency already satisfied, so `pip install gliner2` there is a small wheel and no torch download. That is the cheapest place to run it.
-- **JEV.** `src/legal_graph/jev.py` posts to `https://openrouter.ai/api/alpha/decisions` with model `typesafe/jev-1.14` and needs `OPENROUTER_API_KEY`. Without it the engine skips the stage with `OPENROUTER_API_KEY not configured`.
-- **MiniCheck.** Installed and cached on the engine host, reachable through `engine.check`.
+- **GLiNER.** Running on the Windows host: `gliner2 2.1.0` installs against the `torch 2.13.0` already present, and `AutoExtractor.from_pretrained("fastino/GLiNER2.5-Decide", revision="9d1bfb84…")` loads in about 40 s and returns `{"relevance": {"label": "yes", "confidence": 0.736}}` — the shape `_confidence` expects. The engine host and the app host have no `gliner2`.
+- **JEV.** Reachable, but not with a raw OpenRouter key. The Octo vault key is a *vault grant*: `GET /api/vault/open` lists the cabinet, and `POST /api/vault/open/lease` with `{"itemId": …}` returns a short-lived `octo_tmp_` key plus a proxy. Calls go to `https://octodb.design-bakery.com/api/vault/proxy` with that key as the bearer and `x-octo-target` naming the vendor URL, which defaults to the JEV decisions endpoint. A claim-and-passage decision returns `choice: supported`, `probabilities {supported: 0.99}`, 365 input tokens, $0.0000153 per call.
+- **MiniCheck.** Installed and cached on the engine host, reachable through `engine.check`; 0.98 on a well-formed pair in 76 ms.
 - **eyecite.** Not installed anywhere yet.
 - **Engine source is not version controlled.** `~/apps/legal-engine` on the deployment host has no git directory, so a `pipeline.py` change has no review path.
+
+### Scorer access summary
+
+| Scorer | Where | Status |
+| --- | --- | --- |
+| MiniCheck | engine host, `engine.check` | working |
+| JEV (`typesafe/jev-1.14`) | Octo vault proxy | working |
+| GLiNER2.5-Decide | Windows host | working |
+
+All three can now be compared on the same pairs.
 
 ## Open work
 
