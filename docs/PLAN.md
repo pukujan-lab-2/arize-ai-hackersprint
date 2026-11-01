@@ -1,5 +1,9 @@
 # PLAN — Daytona HackSprint NYC (2026-10-16)
 
+> **Historical.** This plan governed the Daytona HackSprint on 2026-10-16 and no longer
+> governs decisions. `PROJECT.md` at the repo root states what the project is now.
+
+
 ## Event
 - Submission **3:30 PM ET**; finalists present **4:00 PM ET**.
 - 3 minutes: slides on idea, advantages, safeguards + live demo.
