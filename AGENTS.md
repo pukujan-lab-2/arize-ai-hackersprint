@@ -27,7 +27,7 @@ The builder chooses its own implementation. No issue, spec, prompt prefix, hando
 
 ## ABA scope
 
-ABA (`Pukujan/app-builder-automation`, dyad headless) is one builder for the frontend, the backend and the Octo schema and migrations. It runs on the MacBook Pro. Coding agents may also edit these directly, including `web/`.
+ABA (`Pukujan-lab/app-builder-automation`, dyad headless) is one builder for the frontend, the backend and the Octo schema and migrations. It runs on the MacBook Pro. Coding agents may also edit these directly, including `web/`.
 
 ABA does not file issue logs, write specs, docs, PR prose, contracts or CI, and it does not do verification or coordination. Those belong to the other agents. ABA receives an already-filed issue number and builds against it.
 
@@ -133,7 +133,7 @@ python -m pip install -r requirements.txt pytest ruff mypy uv==0.13.1 pip-audit 
 ruff check . && ruff format --check .
 mypy server.py app acs/board.py acs/claim.py acs/hotload.py
 LLM_MODE=fake ACS_HOTLOAD=0 pytest -q -p no:cacheprovider tests -rs
-python tools/pr_policy.py --repo Pukujan/arize-ai-hackersprint --pr <N>
+python tools/pr_policy.py --repo Pukujan-lab/arize-ai-hackersprint --pr <N>
 python tools/dep_policy.py licenses && python tools/dep_policy.py maturity --base origin/main
 python tools/dep_policy.py pins > /tmp/pins.txt && pip-audit -r /tmp/pins.txt --no-deps --disable-pip
 ```
