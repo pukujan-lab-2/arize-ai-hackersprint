@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { FlaskConical, Menu, MessageSquarePlus, MessagesSquare, Sparkles } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -157,13 +158,18 @@ export default function AppShell() {
           }}
         />
       </nav>
-      <div className="space-y-1.5 border-t border-border px-3 py-3">
-        {source === "sample" && (
-          <Badge variant="secondary" className="gap-1" title={SAMPLE_NOTICE}>
-            <FlaskConical className="h-3 w-3" />
-            Sample data
-          </Badge>
-        )}
+      <div className="space-y-2 border-t border-border px-3 py-3">
+        <div className="flex items-center justify-between gap-2">
+          {source === "sample" ? (
+            <Badge variant="secondary" className="gap-1" title={SAMPLE_NOTICE}>
+              <FlaskConical className="h-3 w-3" />
+              Sample data
+            </Badge>
+          ) : (
+            <span />
+          )}
+          <ThemeToggle className="h-8 w-8" />
+        </div>
         <p className="text-xs leading-snug text-muted-foreground">
           AI-generated research summaries, not legal advice.
         </p>

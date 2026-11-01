@@ -101,3 +101,84 @@
   border-color: #94a3b8;
   color: #cbd5e1;
 }
+
+/* The printed memo: the app steps aside and the report shows, in black on white whatever the theme is. */
+.print-report {
+  display: none;
+}
+@media print {
+  @page {
+    margin: 18mm;
+  }
+  html,
+  body {
+    height: auto !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  #root,
+  [data-sonner-toaster] {
+    display: none !important;
+  }
+  .print-report {
+    display: block;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --muted: 210 40% 94%;
+    --muted-foreground: 215 25% 30%;
+    --border: 214 32% 78%;
+    --primary: 222 47% 18%;
+    color: #0f172a;
+    background: #fff;
+    font-size: 11.5pt;
+    line-height: 1.55;
+  }
+  .print-report h1 {
+    font-size: 20pt;
+    line-height: 1.2;
+    margin: 4pt 0 6pt;
+  }
+  .print-report h2 {
+    font-size: 14pt;
+    margin: 18pt 0 6pt;
+    padding-bottom: 3pt;
+    border-bottom: 1px solid #cbd5e1;
+  }
+  .print-report h3 {
+    font-size: 11.5pt;
+    margin: 0 0 2pt;
+  }
+  .print-kicker,
+  .print-meta,
+  .print-checks {
+    font-size: 9.5pt;
+    color: #475569;
+  }
+  .print-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .print-report blockquote {
+    margin: 6pt 0;
+    padding: 4pt 0 4pt 10pt;
+    border-left: 3px solid #cbd5e1;
+    font-size: 10.5pt;
+    white-space: pre-wrap;
+  }
+  .print-authority {
+    break-inside: avoid;
+    margin: 0 0 12pt;
+  }
+  .print-report footer {
+    margin-top: 18pt;
+    padding-top: 6pt;
+    border-top: 1px solid #cbd5e1;
+    font-size: 9.5pt;
+    color: #475569;
+  }
+  .print-report a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

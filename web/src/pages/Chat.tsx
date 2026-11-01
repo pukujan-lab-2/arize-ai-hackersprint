@@ -29,8 +29,9 @@ import CitationMap, { type MapPlace } from "@/components/CitationMap";
 import DetailDrawer from "@/components/DetailDrawer";
 import EvidenceList from "@/components/EvidenceList";
 import Memo from "@/components/Memo";
+import ExportMenu from "@/components/ExportMenu";
 import PlaceCard from "@/components/PlaceCard";
-import ThemeToggle from "@/components/ThemeToggle";
+import PrintReport from "@/components/PrintReport";
 import SourcePane from "@/components/SourcePane";
 import TourBar from "@/components/TourBar";
 import TurnDetails from "@/components/TurnDetails";
@@ -143,6 +144,8 @@ export default function Chat() {
   const [followUps, setFollowUps] = useState<string[] | null>(null);
   /** The answer whose tools are open in the drawer: sources, follow-ups, the figures, the voice, the map. */
   const [actions, setActions] = useState<AssistantTurn | null>(null);
+  /** The answer being printed or saved as a PDF: its report is on the page only while this is set. */
+  const [printing, setPrinting] = useState<AssistantTurn | null>(null);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -366,6 +369,18 @@ export default function Chat() {
 
   const selectPlace = useCallback((next: MapPlace) => setPlace(next), []);
 
+  // The report is mounted first, then the print dialog opens over it; closing the dialog unmounts it.
+  useEffect(() => {
+    if (!printing) return;
+    const done = () => setPrinting(null);
+    window.addEventListener("afterprint", done);
+    const timer = window.setTimeout(() => window.print(), 80);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("afterprint", done);
+    };
+  }, [printing]);
+
   const copyAnswer = async (answer: string) => {
     try {
       await navigator.clipboard.writeText(answer);
@@ -407,7 +422,6 @@ export default function Chat() {
           </ToggleGroupItem>
         </ToggleGroup>
 
-        <ThemeToggle />
         <Button
           variant="ghost"
           size="sm"
@@ -575,6 +589,7 @@ export default function Chat() {
                         <p className="min-w-0 flex-1 text-xs text-muted-foreground">
                           {turn.result.safeguard?.disclaimer || "AI-generated research summary, not legal advice."}
                         </p>
+                        <ExportMenu result={turn.result} runId={turn.runId} onPrint={() => setPrinting(turn)} />
                         <Button
                           variant="ghost"
                           size="sm"
@@ -674,6 +689,8 @@ export default function Chat() {
           </SheetContent>
         </Sheet>
       )}
+
+      {printing && <PrintReport result={printing.result} runId={printing.runId} />}
 
       <DetailDrawer
         open={authority !== null}
