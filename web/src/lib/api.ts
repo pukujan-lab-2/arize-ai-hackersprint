@@ -131,9 +131,14 @@ async function pollRun(runId: string, onTick?: (tick: AskTick) => void): Promise
   }
 }
 
-/** The sample run for a question: the record whose subject the question names, else the main one. */
-function sampleResultFor(question: string): RunResult {
+/**
+ * The sample run for a question, or null when the bundled sample has nothing on its subject. The sample
+ * holds a few homestead records only, so a question about anything else gets no answer rather than a
+ * memo about something it did not ask.
+ */
+function sampleResultFor(question: string): RunResult | null {
   const q = question.toLowerCase();
+  if (!/homestead|mineral|exempt|savings|proceed|reinvest|bankrupt|petition/.test(q)) return null;
   const pick =
     (/proceed|savings|reinvest/.test(q) && DEMO_RESULTS[1]) ||
     (/bankrupt|estate|petition/.test(q) && DEMO_RESULTS[2]) ||
@@ -175,6 +180,11 @@ async function sampleAsk(
   options: { prevRunId?: string | null; onTick?: (tick: AskTick) => void },
 ): Promise<{ runId: string; result: RunResult; source: Source }> {
   const result = sampleResultFor(question);
+  if (!result) {
+    throw new AskRefused(
+      "The server cannot be reached, so this offline demo can only answer its homestead examples. Try one of those, or reload when you are online.",
+    );
+  }
   const runId = `sample-${Date.now().toString(36)}`;
   const stages: StageTick[] = STAGE_PLAN.map((name) => ({ name, state: "waiting", message: "" }));
   const report = (name: StageName, detail: string, draft = "") => {

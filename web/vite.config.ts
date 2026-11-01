@@ -45,6 +45,9 @@ export default defineConfig(() => ({
     port: 8080,
   },
   plugins: [dyadComponentTagger(), react(), buildIdPlugin()],
+  // maplibre-gl 6 loads its worker from a file next to it; pre-bundling moves the library and leaves the
+  // worker behind, so in dev the map would stay blank with "Worker failed to load".
+  optimizeDeps: { exclude: ["maplibre-gl"] },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

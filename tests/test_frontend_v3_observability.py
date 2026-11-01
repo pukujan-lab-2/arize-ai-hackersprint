@@ -4,6 +4,8 @@ timings, opens a step's raw details, and says so when the data source is unavail
 O104-O106: the page shows the retrieval stages a run actually took, reports tracing honestly, and reports
 the first-in-first-out caps of the saved runs and the trace queue."""
 
+import re
+
 import pytest
 
 from ui_server import DESKTOP, app_server, needs_chromium, needs_v3, open_page
@@ -64,7 +66,10 @@ def _stub(page, runs=RUNS, runs_status=200):
                 return route.fulfill(status=runs_status, content_type="application/json", body="{}")
             return route.fulfill(json=runs)
         if "/api/run/" in url:
-            return route.fulfill(json={"events": EVENTS, "result": RESULT})
+            run_id = url.rsplit("/", 1)[-1]
+            run = next(run for run in RUNS if run["run_id"] == run_id)
+            result = dict(RESULT, run_id=run_id, question=run["question"])
+            return route.fulfill(json={"events": EVENTS, "result": result})
         if "observability.json" in url:
             return route.fulfill(json={"traces": [], "project": "precedent"})
         route.continue_()
@@ -81,5 +86,11 @@ def _open(browser, base, **kw):
 def test_O39_saved_runs_are_listed_and_selectable(base, browser):
     ctx, page = _open(browser, base)
     for run in RUNS:
-        assert page.get_by_role("button", name=run["question"]).count() == 1, f"{run['run_id']} is not listed by its question"
+        # The options menu also names the question; select the history entry itself.
+        entry = page.get_by_role("navigation", name="Conversations").get_by_role("button", name=re.compile(rf"^{re.escape(run['question'])}(?:\s|$)"))
+        sync_api.expect(entry).to_have_count(1)
+        entry.click()
+        sync_api.expect(page).to_have_url(re.compile(rf"\?run={run['run_id']}$"))
+        sync_api.expect(entry).to_have_attribute("aria-current", "true")
+        sync_api.expect(page.locator("article")).to_contain_text("the exemption follows the residence")
     ctx.close()
