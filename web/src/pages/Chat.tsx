@@ -37,6 +37,7 @@ import CheckPopover from "@/components/CheckPopover";
 import ExportMenu from "@/components/ExportMenu";
 import PrintReport from "@/components/PrintReport";
 import QuestionBank from "@/components/QuestionBank";
+import QuickAnswerNotice from "@/components/QuickAnswerNotice";
 import SourcePane from "@/components/SourcePane";
 import MapPanel, { type PanelTab } from "@/components/MapPanel";
 import TurnDetails from "@/components/TurnDetails";
@@ -602,10 +603,11 @@ export default function Chat() {
                         <p className="mt-2 text-sm text-muted-foreground">The run recorded no answer.</p>
                       )}
                       {waking && (
-                        <p role="status" className="mt-2 text-sm text-muted-foreground">
-                          The full search engine was asleep and is waking up, which takes about 1–2 minutes. This
-                          answer used the quicker backup search; ask again shortly for the full search.
-                        </p>
+                        <QuickAnswerNotice
+                          question={turn.result.question || ""}
+                          watch={turn.id === latest?.id && !busy}
+                          onRun={(question) => void askQuestion(question)}
+                        />
                       )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-0.5">

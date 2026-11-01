@@ -233,6 +233,27 @@ def last_retrieval():
     return getattr(_local, "record", None)
 
 
+def _backup(h, question, k, engine_error, waking):
+    """The backup search (live Octo, then the snapshot), recorded as the path this run took. None if neither answers."""
+    from app import stats
+
+    for name, fn in (("octo-live", _live), ("octo-snapshot", _snapshot)):
+        res = fn(question)
+        if res:
+            seen, uniq = set(), []  # one best passage per case first, then extras
+            for p in res:
+                if p["work_id"] not in seen:
+                    seen.add(p["work_id"])
+                    uniq.append(p)
+            record = _fallback_record(name, engine_error, waking)
+            _cache_put(h, question, name, uniq, record)
+            stats.bump("octo_live" if name == "octo-live" else "octo_snapshot")
+            stats.put("octo_last_source", name)
+            _local.record = record
+            return uniq[:k], name
+    return None
+
+
 def search(question, k=12):
     """Returns (passages, source). Source: `engine:<stages>` | 'octo-live' | 'octo-snapshot' | None."""
     from app import stats
@@ -241,6 +262,8 @@ def search(question, k=12):
     h = hashlib.sha256(question.strip().lower().encode()).hexdigest()[:24]
     stats.bump("octo_searches")
     d = _cache_get(h)
+    if d and not _is_engine(d.get("source")) and engine.configured() and engine.awake():
+        d = None  # the engine is up now: a cached backup answer must not stand in for the full search
     if d:
         stats.bump("octo_cache_hits")
         source = d["source"] + " (cached)"
@@ -251,6 +274,16 @@ def search(question, k=12):
         _local.record = record
         return d["passages"][:k], source
     engine_error, waking = None, False
+    asleep = engine.configured() and engine.sleeping()
+    if asleep:
+        # A sleeping engine takes a minute or two to load, and the first question used to wait for all of it.
+        # Start it loading and answer from the backup search now; with no backup result, fall through and wait.
+        engine.warm()
+        engine_error, waking = engine.WAKING_REASON, True
+        stats.put("octo_last_source", "engine waking")
+        quick = _backup(h, question, k, engine_error, waking)
+        if quick:
+            return quick
     if engine.configured():
         try:
             doc = engine.retrieve(question, k=k)
@@ -267,20 +300,9 @@ def search(question, k=12):
                 _local.record = record
                 return passages[:k], record["source"]
             engine_error = "the engine returned no authority"
-    for name, fn in (("octo-live", _live), ("octo-snapshot", _snapshot)):
-        res = fn(question)
-        if res:
-            seen, uniq = set(), []  # one best passage per case first, then extras
-            for p in res:
-                if p["work_id"] not in seen:
-                    seen.add(p["work_id"])
-                    uniq.append(p)
-            record = _fallback_record(name, engine_error, waking)
-            _cache_put(h, question, name, uniq, record)
-            stats.bump("octo_live" if name == "octo-live" else "octo_snapshot")
-            stats.put("octo_last_source", name)
-            _local.record = record
-            return uniq[:k], name
+    quick = _backup(h, question, k, engine_error, waking)
+    if quick:
+        return quick
     _local.record = _fallback_record(None, engine_error or "no retrieval path answered", waking)
     return [], None
 
