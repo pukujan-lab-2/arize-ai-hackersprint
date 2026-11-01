@@ -42,20 +42,28 @@ PACKAGE_FILES = {
     ".github/workflows/issue-triage.yml": ".github/workflows/issue-triage.yml",
     ".github/scripts/oio_installer.py": ".github/scripts/oio_installer.py",
     ".github/scripts/oio_triage.py": ".github/scripts/oio_triage.py",
+    ".github/scripts/oio_record.py": ".github/scripts/oio_record.py",
 }
-# Callers for OIO's reusable close workflows, rendered with the OIO commit that
-# installed them so an adopter's close behaviour changes only when it upgrades.
+# Callers for OIO's reusable close workflows, rendered with the agent-stack-train
+# commit that installed them so an adopter's close behaviour changes only when it
+# upgrades. The reusable workflows live at the root of agent-stack-train, the
+# only place GitHub runs them from; a caller from before the move names
+# Pukujan/observational-issue-ops instead and keeps working at its pinned commit.
 # The sweep's switches are repository variables, not file edits, because an
 # edited managed file blocks the next upgrade.
 OIO_REF_PLACEHOLDER = "<oio-ref>"
+# Repositories whose reusable close workflows a hand-added caller may name.
+CALLER_REPOSITORIES = ("agent-stack-train", "observational-issue-ops")
 CALLER_FILES = {
     ".github/workflows/oio-close-on-merge.yml": (
         "close-on-merge.yml",
         """name: OIO close on merge
 
-# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
-# pin instead of editing this file. Closes the issue logs a merged pull request
+# Installed by OIO's installer; rerun it from a newer agent-stack-train checkout
+# to move the pin instead of editing this file. Closes the issue logs a merged pull request
 # names with Closes, Fixes or Resolves.
+# The repository variable OIO_RUNS_ON picks the runner, as JSON; it defaults to
+# "ubuntu-latest".
 
 on:
   pull_request:
@@ -69,9 +77,10 @@ permissions:
 jobs:
   close:
     if: github.event.pull_request.merged == true
-    uses: Pukujan/observational-issue-ops/.github/workflows/close-on-merge.yml@<oio-ref>
+    uses: Pukujan/agent-stack-train/.github/workflows/close-on-merge.yml@<oio-ref>
     with:
       oio_ref: <oio-ref>
+      runs_on: ${{ vars.OIO_RUNS_ON || '"ubuntu-latest"' }}
     secrets:
       CROSS_REPO_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
 """,
@@ -80,13 +89,14 @@ jobs:
         "close-sweep.yml",
         """name: OIO close sweep
 
-# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
-# pin instead of editing this file. Settles open logs that a merged pull
+# Installed by OIO's installer; rerun it from a newer agent-stack-train checkout
+# to move the pin instead of editing this file. Settles open logs that a merged pull
 # request names but did not close, and flags open parents whose sub-issues are
 # all closed. It only reports until the repository variable
 # OIO_CLOSE_SWEEP_APPLY is `true`: read the first report and label any issue
 # that must stay open `oio:keep-open` first. Set OIO_CLOSE_SWEEP_ROLLUP to
 # `close` to close finished parents instead of labelling them.
+# OIO_RUNS_ON picks the runner, as JSON; it defaults to "ubuntu-latest".
 
 on:
   schedule:
@@ -100,9 +110,10 @@ permissions:
 
 jobs:
   sweep:
-    uses: Pukujan/observational-issue-ops/.github/workflows/close-sweep.yml@<oio-ref>
+    uses: Pukujan/agent-stack-train/.github/workflows/close-sweep.yml@<oio-ref>
     with:
       oio_ref: <oio-ref>
+      runs_on: ${{ vars.OIO_RUNS_ON || '"ubuntu-latest"' }}
       apply: ${{ vars.OIO_CLOSE_SWEEP_APPLY == 'true' }}
       rollup: ${{ vars.OIO_CLOSE_SWEEP_ROLLUP || 'label' }}
     secrets:
@@ -699,10 +710,11 @@ def _current_project_file(target: Path, project_id: str, namespace: str, default
 
 
 def _source_ref(manifest: dict | None) -> str | None:
-    """Return the full OIO commit the close callers pin, or None when it is unknown.
+    """Return the full stack commit the close callers pin, or None when it is unknown.
 
-    From an OIO checkout it is that checkout's HEAD. The copy installed in an
-    adopter has no OIO history, so it reuses the ref the install recorded.
+    From an agent-stack-train checkout it is that checkout's HEAD. The copy
+    installed in an adopter has no stack history, so it reuses the ref the
+    install recorded.
     """
     if SOURCE_IS_ADOPTER:
         ref = (manifest or {}).get("oio_ref")
@@ -724,12 +736,13 @@ def _existing_caller(target: Path, reusable: str) -> str | None:
     workflows = target / ".github/workflows"
     if workflows.is_symlink() or not workflows.is_dir():
         return None
-    needle = f"observational-issue-ops/.github/workflows/{reusable}@"
+    needles = tuple(f"{repo}/.github/workflows/{reusable}@" for repo in CALLER_REPOSITORIES)
     for path in sorted(workflows.iterdir()):
         if path.suffix not in {".yml", ".yaml"} or path.is_symlink() or not path.is_file():
             continue
         try:
-            if needle in path.read_text(encoding="utf-8", errors="replace"):
+            text = path.read_text(encoding="utf-8", errors="replace")
+            if any(needle in text for needle in needles):
                 return f".github/workflows/{path.name}"
         except OSError:
             continue
@@ -784,7 +797,7 @@ def _install_in_target(target: Path, target_fs: _TargetFS, project_id: str | Non
                 notes.append(f"{caller} already calls OIO's {reusable}, so OIO did not add {relative}.")
                 continue
         elif oio_ref is None:
-            raise InstallError(f"{relative} is managed, but the OIO commit it pins is unknown; run the installer from an OIO git checkout")
+            raise InstallError(f"{relative} is managed, but the OIO commit it pins is unknown; run the installer from an agent-stack-train git checkout")
         planned[relative] = template.replace(OIO_REF_PLACEHOLDER, oio_ref).encode("utf-8")
     for relative in planned:
         _target_file(target, relative)

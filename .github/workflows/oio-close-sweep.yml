@@ -1,12 +1,13 @@
 name: OIO close sweep
 
-# Installed by OIO's installer; rerun it from a newer OIO checkout to move the
-# pin instead of editing this file. Settles open logs that a merged pull
+# Installed by OIO's installer; rerun it from a newer agent-stack-train checkout
+# to move the pin instead of editing this file. Settles open logs that a merged pull
 # request names but did not close, and flags open parents whose sub-issues are
 # all closed. It only reports until the repository variable
 # OIO_CLOSE_SWEEP_APPLY is `true`: read the first report and label any issue
 # that must stay open `oio:keep-open` first. Set OIO_CLOSE_SWEEP_ROLLUP to
 # `close` to close finished parents instead of labelling them.
+# OIO_RUNS_ON picks the runner, as JSON; it defaults to "ubuntu-latest".
 
 on:
   schedule:
@@ -20,9 +21,10 @@ permissions:
 
 jobs:
   sweep:
-    uses: Pukujan/observational-issue-ops/.github/workflows/close-sweep.yml@6a9a7cd67810debe0da76e847ac9897ebc281248
+    uses: Pukujan/agent-stack-train/.github/workflows/close-sweep.yml@496bf33e0a8327345a8e3ba19e3dc40eae47164a
     with:
-      oio_ref: 6a9a7cd67810debe0da76e847ac9897ebc281248
+      oio_ref: 496bf33e0a8327345a8e3ba19e3dc40eae47164a
+      runs_on: ${{ vars.OIO_RUNS_ON || '"ubuntu-latest"' }}
       apply: ${{ vars.OIO_CLOSE_SWEEP_APPLY == 'true' }}
       rollup: ${{ vars.OIO_CLOSE_SWEEP_ROLLUP || 'label' }}
     secrets:
