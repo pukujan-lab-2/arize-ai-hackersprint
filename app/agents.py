@@ -442,11 +442,36 @@ def _cited_span(cite, sentence):
     return None, None
 
 
+_LEADING_REFS = re.compile(r"^(?:\[\d+\][\s,;]*)+")
+
+
+def split_sentences(text):
+    """Sentences, each keeping the citations written after its full stop ("... exception. [1][4]").
+
+    A citation group that opens a piece belongs to the sentence before it, so it is never a sentence of its
+    own and the sentence it follows is never mistaken for an uncited one.
+    """
+    out = []
+    for piece in re.split(r"(?<=[.!?])\s+", text or ""):
+        lead = _LEADING_REFS.match(piece) if out else None
+        if lead:
+            out[-1] += " " + lead.group(0).strip()
+            piece = piece[lead.end() :]
+        if piece.strip():
+            out.append(piece)
+    return out
+
+
+def uncited_claims(text):
+    """Sentences of more than six words that carry no citation."""
+    return [s for s in split_sentences(text) if len(s.split()) > 6 and not re.search(r"\[\d+\]", s)]
+
+
 def support_claims(text, cites):
     """One claim per cited sentence: the sentence, the span it cites, and the chunk that span lives in."""
     by_ref = {c["ref"]: c for c in cites if c.get("ref")}
     claims, unchecked = [], []
-    for sentence in re.split(r"(?<=[.!?])\s+", " ".join((text or "").split())):
+    for sentence in split_sentences(" ".join((text or "").split())):
         refs = re.findall(r"\[\d+\]", sentence)
         if not refs:
             continue
@@ -515,8 +540,7 @@ def safeguard(run, question, ret, ans):
             return [p for p in pats if p.strip() not in known]
 
         def check_claims():
-            sents = [s for s in re.split(r"(?<=[.!?])\s+", text) if len(s.split()) > 6]
-            return [s for s in sents if not re.search(r"\[\d+\]", s)]
+            return uncited_claims(text)
 
         with ThreadPoolExecutor(3) as ex:  # parallel checks
             f1, f2, f3 = ex.submit(check_refs), ex.submit(check_named), ex.submit(check_claims)
