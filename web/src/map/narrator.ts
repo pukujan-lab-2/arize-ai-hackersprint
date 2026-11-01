@@ -6,7 +6,8 @@
 // network, no key and no clip — it starts on the click that asked for it, and on Edge and Windows it is
 // the Microsoft natural voices, which is the voice people already recognise from reading a page aloud.
 // So the browser speaks, and only a browser that cannot speak at all — or that errors mid-line — hands
-// the line to `/api/tts_ts`, whose clips are still cached and still better than silence.
+// the line to `/api/tts_ts`, whose clips are still cached and still better than silence. When the server
+// has its own open-model voice (the `server` hook), the order flips: that voice is the one people chose.
 
 type Clip = { audio_b64?: string; starts?: number[] } | null;
 
@@ -31,6 +32,8 @@ export type Narration = { stop: () => void };
 export type NarrationHooks = {
   /** The reader has muted the voice: the line ends on its own timer without fetching or playing. */
   muted?: boolean;
+  /** The server has an open-model voice: play its clip first and let the browser speak only if it cannot. */
+  server?: boolean;
   /** Told when this line's clip is being fetched, so the page can say so while it waits. */
   loading?: (loading: boolean) => void;
   /** The voice is speaking: the page can show a live indicator. */
@@ -336,7 +339,7 @@ function playClip(text: string, onEnd: () => void, hooks: NarrationHooks): Narra
       const binary = atob(clip.audio_b64);
       const bytes = new Uint8Array(binary.length);
       for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-      const url = URL.createObjectURL(new Blob([bytes], { type: "audio/mpeg" }));
+      const url = URL.createObjectURL(new Blob([bytes], { type: clip.audio_b64.startsWith("UklG") ? "audio/wav" : "audio/mpeg" }));
       objectUrl = url;
       const el = new Audio(url);
       audio = el;
@@ -392,6 +395,22 @@ function playClip(text: string, onEnd: () => void, hooks: NarrationHooks): Narra
 export function narrate(text: string, onEnd: () => void, hooks: NarrationHooks = {}): Narration {
   if (hooks.muted) return silent(onEnd);
   if (!canSpeak()) return playClip(text, onEnd, hooks);
+  if (hooks.server) {
+    const live: { clip: Narration | null; browser: Narration | null } = { clip: null, browser: null };
+    live.clip = playClip(text, onEnd, {
+      ...hooks,
+      unavailable: () => {
+        live.clip?.stop();
+        live.browser = speakHere(text, onEnd, hooks, () => hooks.unavailable?.());
+      },
+    });
+    return {
+      stop() {
+        live.clip?.stop();
+        live.browser?.stop();
+      },
+    };
+  }
 
   // A clip that takes over from a failed browser voice; the caller's stop must reach whichever is live.
   const handover: { clip: Narration | null } = { clip: null };
