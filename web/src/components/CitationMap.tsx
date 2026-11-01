@@ -796,7 +796,7 @@ export default function CitationMap({
       <div className="absolute left-3 top-3 z-10 flex flex-wrap items-start gap-2">
         <Button type="button" variant="ghost" size="sm" onClick={fit} className={chip}>
           <LocateFixed className="h-4 w-4" />
-          Fit to the authorities
+          Fit<span className="hidden sm:inline"> to the authorities</span>
         </Button>
         <Button
           type="button"

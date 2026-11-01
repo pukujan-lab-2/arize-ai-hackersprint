@@ -66,3 +66,32 @@
     --ring: 213 27% 78%;
   }
 }
+
+/* The map is a dark canvas whatever the page theme is, so its built-in controls are dark too. */
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: rgba(2, 6, 23, 0.78);
+  color: #94a3b8;
+}
+.maplibregl-ctrl-attrib a {
+  color: #cbd5e1;
+}
+.maplibregl-ctrl-attrib.maplibregl-compact-show {
+  background: rgba(2, 6, 23, 0.9);
+}
+.maplibregl-ctrl-group {
+  background: rgba(2, 6, 23, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+.maplibregl-ctrl-scale {
+  background: rgba(2, 6, 23, 0.7);
+  border-color: #94a3b8;
+  color: #cbd5e1;
+}
