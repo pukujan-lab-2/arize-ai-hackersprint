@@ -112,7 +112,7 @@ function History({
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="absolute right-0 top-0.5 h-10 w-10 text-muted-foreground sm:right-1 sm:top-1.5 sm:h-7 sm:w-7 opacity-100 transition-opacity hover:text-foreground focus-visible:opacity-100 data-[state=open]:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+                      className="absolute right-1 top-1.5 h-7 w-7 text-muted-foreground roomy:right-0 roomy:top-0.5 roomy:h-10 roomy:w-10 opacity-100 transition-opacity hover:text-foreground focus-visible:opacity-100 data-[state=open]:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
                       aria-label={`Options for: ${run.question}`}
                     >
                       <MoreHorizontal className="h-4 w-4" />
@@ -195,7 +195,7 @@ export default function AppShell() {
         <Brand />
       </div>
       <div className="px-3">
-        <Button className="h-11 w-full justify-start gap-2 sm:h-9" size="sm" onClick={newChat}>
+        <Button className="h-9 w-full justify-start gap-2 roomy:h-11" size="sm" onClick={newChat}>
           <MessageSquarePlus className="h-4 w-4" />
           New chat
         </Button>

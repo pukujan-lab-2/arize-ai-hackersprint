@@ -92,5 +92,12 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    // Roomy touch sizes on narrow windows AND on any touch screen (a phone turned sideways is wider than
+    // the `sm` breakpoint but is still operated with a thumb).
+    function ({ addVariant }: { addVariant: (name: string, definition: string[]) => void }) {
+      addVariant("roomy", ["@media (max-width: 639px)", "@media (pointer: coarse)"]);
+    },
+  ],
 } satisfies Config;

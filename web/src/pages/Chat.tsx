@@ -46,7 +46,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useNarration } from "@/hooks/use-narration";
 import { useTour } from "@/hooks/use-tour";
-import { useWide } from "@/hooks/use-wide";
+import { useMedia, useWide } from "@/hooks/use-wide";
 import { pathLine, plainText, tourPlan } from "@/map/tour";
 import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, warmEngine, type AskTick, type Source, type StageTick } from "@/lib/api";
 import { citeType, locate, type Citation, type RunResult } from "@/lib/citations";
@@ -142,6 +142,10 @@ export default function Chat() {
   /** The source open beside the memo: which answer it belongs to and where it sits in that answer's list. */
   const [source, setSource] = useState<{ turnId: string; index: number } | null>(null);
   const wide = useWide();
+  // A phone turned sideways is wide but only a few hundred pixels tall: a bottom sheet would leave the map
+  // a sliver, so the map panel stands beside it, as on a desktop.
+  const landscape = useMedia("(max-height: 500px) and (min-width: 560px)");
+  const sidePanel = wide || landscape;
   const [sources, setSources] = useState<Citation[] | null>(null);
   const [place, setPlace] = useState<MapPlace | null>(null);
   /** The map panel: which tab is open, which opinion in its Sources tab, and how tall the phone sheet is. */
@@ -451,11 +455,11 @@ export default function Chat() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <header className="flex h-14 shrink-0 items-center gap-1 border-b border-border px-2 sm:h-12 sm:px-3">
+      <header className="flex h-12 shrink-0 items-center gap-1 border-b border-border px-2 roomy:h-14 sm:px-3">
         <Button
           variant="ghost"
           size="icon"
-          className="h-11 w-11 shrink-0 sm:h-9 sm:w-9 lg:hidden"
+          className="h-9 w-9 shrink-0 roomy:h-11 roomy:w-11 lg:hidden"
           aria-label="Open conversations"
           onClick={openNav}
         >
@@ -473,10 +477,10 @@ export default function Chat() {
           className="rounded-full border border-border p-0.5"
           aria-label="Show the conversation or the map"
         >
-          <ToggleGroupItem value="chat" className="h-11 w-11 rounded-full p-0 sm:h-8 sm:w-8" aria-label="Chat" title="Chat">
+          <ToggleGroupItem value="chat" className="h-8 w-8 rounded-full p-0 roomy:h-11 roomy:w-11" aria-label="Chat" title="Chat">
             <MessagesSquare className="h-4 w-4" />
           </ToggleGroupItem>
-          <ToggleGroupItem value="map" className="h-11 w-11 rounded-full p-0 sm:h-8 sm:w-8" aria-label="Map" title="Map">
+          <ToggleGroupItem value="map" className="h-8 w-8 rounded-full p-0 roomy:h-11 roomy:w-11" aria-label="Map" title="Map">
             <MapPin className="h-4 w-4" />
           </ToggleGroupItem>
         </ToggleGroup>
@@ -484,7 +488,7 @@ export default function Chat() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-11 w-11 shrink-0 sm:h-9 sm:w-9"
+          className="h-9 w-9 shrink-0 roomy:h-11 roomy:w-11"
           onClick={clearThread}
           disabled={!turns.length && !busy}
           aria-label="New chat"
@@ -496,8 +500,8 @@ export default function Chat() {
 
       {mode === "map" ? (
         <div className="relative flex min-h-0 flex-1">
-          {mapTurn && wide && (
-            <aside className="w-[24rem] shrink-0 border-r border-border bg-background xl:w-[26rem]">{mapPanel("side")}</aside>
+          {mapTurn && sidePanel && (
+            <aside className="w-[24rem] shrink-0 border-r border-border bg-background max-lg:w-[19rem] xl:w-[26rem]">{mapPanel("side")}</aside>
           )}
           <div className="relative min-h-0 min-w-0 flex-1">
             {mapTurn ? (
@@ -507,12 +511,12 @@ export default function Chat() {
                   edges={mapTurn.result.edges}
                   focus={tour.active ? tour.current?.place ?? null : place?.key ?? null}
                   walking={tour.active}
-                  inset={wide ? 0 : sheetH}
+                  inset={sidePanel ? 0 : sheetH}
                   trail={trail}
                   onSelect={selectPlace}
                   className="h-full rounded-none border-0"
                 />
-                {!wide && mapPanel("sheet")}
+                {!sidePanel && mapPanel("sheet")}
               </>
             ) : (
               <div className="grid h-full place-items-center bg-card p-6 text-center">
@@ -608,7 +612,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
                           onClick={() => void copyAnswer(turn.result.answer || "")}
                           aria-label="Copy the memo"
                           title="Copy the memo"
@@ -618,7 +622,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
                           onClick={() => {
                             if (narrating) {
                               stopNarration();
@@ -635,7 +639,7 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
                           onClick={() => openMap(turn)}
                           aria-label="Show on the map"
                           title="Show on the map"
@@ -646,14 +650,14 @@ export default function Chat() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-11 w-11 text-muted-foreground hover:text-foreground sm:h-9 sm:w-9"
+                          className="h-9 w-9 text-muted-foreground hover:text-foreground roomy:h-11 roomy:w-11"
                           onClick={() => setActions(turn)}
                           aria-label="Answer tools"
                           title="Answer tools"
                         >
                           <PanelRight className="h-4 w-4" />
                         </Button>
-                        <span className="ml-auto flex items-center gap-2 pl-2 text-xs text-muted-foreground">
+                        <span className="ml-auto flex max-w-full flex-wrap items-center gap-2 pl-2 text-xs text-muted-foreground">
                         <CheckPopover safeguard={turn.result.safeguard} citations={citations.length} />
                         {elapsed !== null && (
                           <span className="inline-flex items-center gap-1 tabular-nums" title="Time to answer">

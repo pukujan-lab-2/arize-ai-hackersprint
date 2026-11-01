@@ -63,14 +63,14 @@ function TourTab({ tour }: { tour: PanelTour }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <Button className="h-11 gap-2 sm:h-10" onClick={active ? tour.stop : tour.start} disabled={!tour.steps.length}>
+        <Button className="h-10 gap-2 roomy:h-11" onClick={active ? tour.stop : tour.start} disabled={!tour.steps.length}>
           {active ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
           {active ? "Stop" : "Play the tour"}
         </Button>
-        <Button variant="outline" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" onClick={tour.prev} disabled={!tour.canPrev} aria-label="Previous location" title="Previous location">
+        <Button variant="outline" size="icon" className="h-10 w-10 roomy:h-11 roomy:w-11" onClick={tour.prev} disabled={!tour.canPrev} aria-label="Previous location" title="Previous location">
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <Button variant="outline" size="icon" className="h-11 w-11 sm:h-10 sm:w-10" onClick={tour.next} disabled={!tour.canNext} aria-label={active ? "Next location" : "First location"} title={active ? "Next location" : "First location"}>
+        <Button variant="outline" size="icon" className="h-10 w-10 roomy:h-11 roomy:w-11" onClick={tour.next} disabled={!tour.canNext} aria-label={active ? "Next location" : "First location"} title={active ? "Next location" : "First location"}>
           <ChevronRight className="h-4 w-4" />
         </Button>
         <span className="ml-auto text-xs tabular-nums text-muted-foreground">
