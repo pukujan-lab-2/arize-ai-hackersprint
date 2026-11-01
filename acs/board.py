@@ -151,7 +151,10 @@ def oio_record(
         import jsonschema
 
         jsonschema.validate(rec, json.loads((ACS / ".oio/schemas/v1/issue-log-record.schema.json").read_text()))
-    except ImportError:
+    except (ImportError, OSError):
+        # No jsonschema, or an adopter tree without the schema: file the record unvalidated rather
+        # than crash. ImportError alone missed the second case, which only shows where jsonschema
+        # is installed.
         pass
     OIO_DIR.mkdir(parents=True, exist_ok=True)
     p = OIO_DIR / f"{name}.json"
@@ -162,7 +165,9 @@ def oio_record(
 def log(topic, title, status="open", note="", agent="cli", impact_band=None):
     import re as _re
 
-    slug = _re.sub(r"[^a-z0-9]+", "-", topic.lower()).strip("-")[:60]
+    if not str(topic or "").strip():
+        raise ValueError("log needs a topic")
+    slug = _re.sub(r"[^a-z0-9]+", "-", str(topic).lower()).strip("-")[:60]
     p = oio_record(
         f"log-{slug}",
         f"{title}. {note}".strip(),

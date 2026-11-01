@@ -48,6 +48,9 @@ try:
         print(f"OK {a.task} -> {a.status}")
     elif a.cmd == "log":
         st = a.status if a.status in ("open", "resolved") else "open"
+        if not (a.task or "").strip():
+            print('ERROR: log needs a topic, e.g. `log HACK-04 --title "..."`', file=sys.stderr)
+            sys.exit(2)
         print("OK wrote", B.log(a.task, a.title or a.task, st, a.note, a.agent))
     elif a.cmd == "add":
         B.add(a.task, a.title, a.priority, a.agent)
