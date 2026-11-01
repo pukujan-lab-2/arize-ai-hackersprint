@@ -168,6 +168,19 @@ def _add_session(rid, sid):
         (d / "sessions.json").write_text(json.dumps(sorted(ss)))
 
 
+def _client_ip(request):
+    return request.headers.get("x-forwarded-for", request.client.host if request.client else "?").split(",")[0].strip()
+
+
+@app.post("/api/engine/warm", response_model=contracts.WarmResponse, response_model_exclude_unset=True)
+def engine_warm(request: Request):
+    """Start the sleeping retrieval engine loading when a reader opens the page, so their first question does
+    not wait the full ~75 s. Opens at most one connection per 5 minutes for everyone; status reads never do."""
+    if not limits.warm_ok(_client_ip(request)):
+        return JSONResponse({"started": False, "reason": "rate limited"}, 429)
+    return engine.warm()
+
+
 def _rl_msg():
     return JSONResponse(
         {"error": "You're asking a bit fast - max %d questions per minute. Give it a few seconds and try again." % limits.ASK_PER_MIN, "rate_limited": True},
@@ -181,7 +194,7 @@ def ask(request: Request, q: dict = Depends(contracts.body(contracts.AskRequest)
     if len(question) < 3:
         return JSONResponse({"error": "empty question"}, 400)
     sid = _sid(request)
-    ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "?").split(",")[0].strip()
+    ip = _client_ip(request)
     if not limits.ask_ok(sid, ip):
         return _rl_msg()
     prev_id = str(q.get("prev_run_id") or "")[:40]

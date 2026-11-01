@@ -101,6 +101,7 @@ def test_stale_answers_never_served(octo, llm_env, bad):
 
 
 def test_retrieval_shared_through_octo(octo, monkeypatch, tmp_path):
+    """Engine answers are shared through Octo; a fallback answer is not (#161), so a second host asks again."""
     from app import octo_retriever, octocache
 
     live = []
@@ -113,11 +114,17 @@ def test_retrieval_shared_through_octo(octo, monkeypatch, tmp_path):
         got, src = octo_retriever.search(q)
     octocache.flush()
     assert src == "octo-live" and got == passages and live == [q]
-    assert octo.query("SELECT source, n, run_id FROM retrieval")[0] == {"source": "octo-live", "n": 1, "run_id": "run-R"}
+    assert octo.query("SELECT source FROM retrieval") == []
+
+    h = octo_retriever.hashlib.sha256(q.strip().lower().encode()).hexdigest()[:24]
+    with octocache.run_context("run-R"):
+        octo_retriever._cache_put(h, q, "engine:bm25+rerank", passages)
+    octocache.flush()
+    assert octo.query("SELECT source, n, run_id FROM retrieval")[0] == {"source": "engine:bm25+rerank", "n": 1, "run_id": "run-R"}
     monkeypatch.setattr(octo_retriever, "CACHE", tmp_path / "o2")
     (tmp_path / "o2").mkdir()
     got2, src2 = octo_retriever.search(q)
-    assert got2 == passages and src2 == "octo-live (cached)" and live == [q]
+    assert got2 == passages and src2 == "engine:bm25+rerank (cached)" and live == [q]
     assert len(list((tmp_path / "o2").glob("*.json"))) == 1
 
 

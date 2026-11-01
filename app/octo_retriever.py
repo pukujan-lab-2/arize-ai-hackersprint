@@ -18,6 +18,9 @@ SNAP = ROOT / "data" / "octo_snapshot.sqlite"
 BASE = os.environ.get("OCTO_BASE_URL", "https://octodb.design-bakery.com/api")
 WS = os.environ.get("OCTO_WORKSPACE_ID", "76d7577b-2274-42b4-a8dc-1ff1c0efa741")
 _live_ok = {"t": 0, "ok": None}
+# A fallback answer (engine asleep or failing) is kept only this long, so the question reaches the engine again
+# once it is awake. Engine answers stay cached for good.
+FALLBACK_TTL_S = float(os.environ.get("RETRIEVAL_FALLBACK_TTL_S", "600"))
 LIVE_SQL = (
     "SELECT c.chunk_id, e.work_id, w.case_name, w.court_id, w.decided_on, w.ext_ids, ts_rank(c.tsv, q) AS score, left(c.body, 900) AS body "
     "FROM legal_graph.chunk c JOIN legal_graph.expression e USING (expr_id) JOIN legal_graph.work w ON w.work_id = e.work_id, "
@@ -89,6 +92,10 @@ def _snapshot(question):
     ]
 
 
+def _is_engine(source):
+    return str(source or "").startswith("engine:")
+
+
 def _cache_get(h):
     f = CACHE / f"{h}.json"
     if f.exists():
@@ -96,12 +103,13 @@ def _cache_get(h):
             d = json.loads(f.read_text())
         except Exception:
             d = {}
-        if d.get("passages"):
+        fresh = _is_engine(d.get("source")) or time.time() - float(d.get("cached_at") or f.stat().st_mtime) < FALLBACK_TTL_S
+        if d.get("passages") and fresh:
             octocache.link("retrieval", h, True)
             return d
     for r in octocache.query("SELECT source, passages FROM retrieval WHERE key = $1", [h]):
         ps = loads(r.get("passages")) or []
-        if ps:
+        if ps and _is_engine(r.get("source")):  # older rows may hold a fallback answer; never reuse those
             d = {"passages": ps, "source": r["source"]}
             f.write_text(json.dumps(d))  # sync back to the local layer
             octocache.link("retrieval", h, True)
@@ -110,7 +118,9 @@ def _cache_get(h):
 
 
 def _cache_put(h, question, source, passages, retrieval=None):
-    (CACHE / f"{h}.json").write_text(json.dumps({"passages": passages, "source": source, "retrieval": retrieval}))
+    (CACHE / f"{h}.json").write_text(json.dumps({"passages": passages, "source": source, "retrieval": retrieval, "cached_at": time.time()}))
+    if not _is_engine(source):
+        return  # a fallback answer stays in the short-lived local layer only
     octocache.write(
         "INSERT INTO retrieval(key, query, source, passages, n, run_id, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (key) DO NOTHING",
         [h, question[:500], source, json.dumps(passages), len(passages), octocache.RUN.get() or None, octocache.now()],
@@ -210,14 +220,12 @@ def _from_engine(doc):
     return passages, record
 
 
-def _fallback_record(source, reason):
+def _fallback_record(source, reason, waking=False):
     """What a run reports when the engine did not supply the passages."""
-    return {
-        "source": source,
-        "stages": [],
-        "graph": {"source": "local-citation-edges", "revision": None},
-        "engine": {"configured": engine.configured(), "ok": False, "reason": reason or "not configured"},
-    }
+    block = {"configured": engine.configured(), "ok": False, "reason": reason or "not configured"}
+    if waking:
+        block["waking"] = True
+    return {"source": source, "stages": [], "graph": {"source": "local-citation-edges", "revision": None}, "engine": block}
 
 
 def last_retrieval():
@@ -242,13 +250,14 @@ def search(question, k=12):
         record["cached"] = True
         _local.record = record
         return d["passages"][:k], source
-    engine_error = None
+    engine_error, waking = None, False
     if engine.configured():
         try:
             doc = engine.retrieve(question, k=k)
         except engine.EngineError as failure:
-            engine_error = failure.reason
-            stats.put("octo_last_source", "engine unreachable")
+            waking = failure.waking
+            engine_error = engine.WAKING_REASON if waking else failure.reason
+            stats.put("octo_last_source", "engine waking" if failure.waking else "engine unreachable")
         else:
             passages, record = _from_engine(doc)
             if passages:
@@ -266,13 +275,13 @@ def search(question, k=12):
                 if p["work_id"] not in seen:
                     seen.add(p["work_id"])
                     uniq.append(p)
-            record = _fallback_record(name, engine_error)
+            record = _fallback_record(name, engine_error, waking)
             _cache_put(h, question, name, uniq, record)
             stats.bump("octo_live" if name == "octo-live" else "octo_snapshot")
             stats.put("octo_last_source", name)
             _local.record = record
             return uniq[:k], name
-    _local.record = _fallback_record(None, engine_error or "no retrieval path answered")
+    _local.record = _fallback_record(None, engine_error or "no retrieval path answered", waking)
     return [], None
 
 

@@ -48,9 +48,9 @@ import { useNarration } from "@/hooks/use-narration";
 import { useTour } from "@/hooks/use-tour";
 import { useWide } from "@/hooks/use-wide";
 import { pathLine, plainText, tourPlan } from "@/map/tour";
-import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, type AskTick, type Source, type StageTick } from "@/lib/api";
+import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, warmEngine, type AskTick, type Source, type StageTick } from "@/lib/api";
 import { citeType, locate, type Citation, type RunResult } from "@/lib/citations";
-import { seconds } from "@/lib/runs";
+import { seconds, toRetrieval } from "@/lib/runs";
 import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 
@@ -222,6 +222,11 @@ export default function Chat() {
     },
     [lastRunId, refreshRuns, setParams],
   );
+
+  // The retrieval engine sleeps when idle; start it loading while the reader is still reading the page.
+  useEffect(() => {
+    warmEngine("load");
+  }, []);
 
   // A saved run named in the address opens as its own conversation.
   useEffect(() => {
@@ -577,6 +582,7 @@ export default function Chat() {
                   const citations = turn.result.citations || [];
                   const pass = turn.result.safeguard?.pass ?? null;
                   const elapsed = typeof turn.result.elapsed_s === "number" ? turn.result.elapsed_s : null;
+                  const waking = toRetrieval(turn.result.retrieval)?.engineWaking === true;
 
                   return (
                     <article
@@ -590,6 +596,12 @@ export default function Chat() {
                         </div>
                       ) : (
                         <p className="mt-2 text-sm text-muted-foreground">The run recorded no answer.</p>
+                      )}
+                      {waking && (
+                        <p role="status" className="mt-2 text-sm text-muted-foreground">
+                          The full search engine was asleep and is waking up, which takes about 1–2 minutes. This
+                          answer used the quicker backup search; ask again shortly for the full search.
+                        </p>
                       )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-0.5">
@@ -699,6 +711,7 @@ export default function Chat() {
                   ref={inputRef}
                   aria-label="Ask a question"
                   rows={1}
+                  onFocus={() => warmEngine("focus")}
                   value={draft}
                   onChange={(event) => {
                     setDraft(event.target.value);

@@ -27,6 +27,19 @@ export function probeSource(): Promise<Source> {
   return probe;
 }
 
+const warmed = new Set<"load" | "focus">();
+
+/**
+ * Ask the server to start the retrieval engine loading (it sleeps when idle and takes a minute or two to
+ * wake). Sent once on page load and once on the first focus of the question box; an idle tab sends nothing
+ * more, so the engine can go back to sleep. The server wakes it at most once per 5 minutes for everyone.
+ */
+export function warmEngine(trigger: "load" | "focus"): void {
+  if (warmed.has(trigger)) return;
+  warmed.add(trigger);
+  void fetch("/api/engine/warm", { method: "POST", keepalive: true }).catch(() => undefined);
+}
+
 export async function loadRuns(): Promise<{ runs: SavedRun[]; source: Source }> {
   try {
     return { runs: toRuns(await readJson("/api/runs")), source: "live" };
