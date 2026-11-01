@@ -72,3 +72,60 @@ def test_sends_otlp_to_the_workspace_traces_route_with_the_octo_key(fresh, monke
 def test_the_legacy_octo_key_name_is_accepted(fresh, monkeypatch):
     monkeypatch.setenv("octo_db_legal", "legacy-key")
     assert fresh.enabled() is True
+
+
+def test_a_delivered_span_flips_the_status_to_ok(fresh, monkeypatch):
+    """The status must follow the exporter whatever shape the installed SDK has; spans that arrive count."""
+    from opentelemetry.sdk.trace.export import SpanExportResult
+
+    monkeypatch.setenv("OCTO_API_KEY", "key")
+
+    class Exporter:
+        def __init__(self, **_):
+            self.batches = 0
+
+        def export(self, spans):
+            self.batches += 1
+            return SpanExportResult.SUCCESS
+
+        def shutdown(self):
+            pass
+
+        def force_flush(self, *_args, **_kwargs):
+            return True
+
+    monkeypatch.setattr("opentelemetry.exporter.otlp.proto.http.trace_exporter.OTLPSpanExporter", Exporter)
+    with fresh.span("pipeline"):
+        pass
+    fresh._provider.force_flush()
+    status = fresh.status()
+    assert status["ok"] is True
+    assert status["sent"] >= 1
+    assert "reason" not in status
+
+
+def test_a_rejected_batch_is_reported_as_the_reason(fresh, monkeypatch):
+    from opentelemetry.sdk.trace.export import SpanExportResult
+
+    monkeypatch.setenv("OCTO_API_KEY", "key")
+
+    class Exporter:
+        def __init__(self, **_):
+            pass
+
+        def export(self, spans):
+            return SpanExportResult.FAILURE
+
+        def shutdown(self):
+            pass
+
+        def force_flush(self, *_args, **_kwargs):
+            return True
+
+    monkeypatch.setattr("opentelemetry.exporter.otlp.proto.http.trace_exporter.OTLPSpanExporter", Exporter)
+    with fresh.span("pipeline"):
+        pass
+    fresh._provider.force_flush()
+    status = fresh.status()
+    assert status["ok"] is False
+    assert status["reason"] == "FAILURE"

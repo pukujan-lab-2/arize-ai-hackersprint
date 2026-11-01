@@ -24,6 +24,7 @@ OCTO_BASE_DEFAULT = "https://octodb.design-bakery.com/api"
 OCTO_WORKSPACE_DEFAULT = "76d7577b-2274-42b4-a8dc-1ff1c0efa741"
 
 _tracer = None
+_provider = None
 _lock = threading.Lock()
 _state = {
     "ok": False,
@@ -89,32 +90,6 @@ class _Recorder:
         return result
 
 
-def _wrap_provider(provider):
-    """Point every span processor at a recording exporter. False when the SDK's shape is not recognised."""
-    seen = set()
-
-    def visit(obj, depth=0):
-        if obj is None or depth > 4 or id(obj) in seen:
-            return False
-        seen.add(id(obj))
-        for attr in ("_span_exporter", "span_exporter"):
-            exporter = getattr(obj, attr, None)
-            if exporter is not None and not isinstance(exporter, _Recorder):
-                try:
-                    setattr(obj, attr, _Recorder(exporter))
-                    return True
-                except Exception:
-                    pass
-        for attr in ("_span_processors", "span_processors"):
-            children = getattr(obj, attr, None)
-            if children:
-                results = [visit(child, depth + 1) for child in children]
-                return any(results)
-        return False
-
-    return visit(getattr(provider, "_active_span_processor", None))
-
-
 class _Capture(logging.Handler):
     """The exporter logs its rejections; capture them so the reason is the exporter's own words."""
 
@@ -139,7 +114,7 @@ def _install_capture():
 
 
 def _init():
-    global _tracer
+    global _tracer, _provider
     if _tracer is not None:
         return
     key = os.environ.get("OCTO_API_KEY") or os.environ.get("octo_db_legal")
@@ -155,14 +130,18 @@ def _init():
         from opentelemetry.sdk.trace import TracerProvider
         from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-        exporter = OTLPSpanExporter(
-            endpoint=f"{base}/workspaces/{workspace}/otel/v1/traces",
-            headers={"Authorization": f"Bearer {key}"},
+        # The recorder wraps the exporter itself, before the SDK takes it, so every batch is counted
+        # whatever shape the installed SDK's span processor has inside.
+        exporter = _Recorder(
+            OTLPSpanExporter(
+                endpoint=f"{base}/workspaces/{workspace}/otel/v1/traces",
+                headers={"Authorization": f"Bearer {key}"},
+            )
         )
         provider = TracerProvider(resource=Resource.create({"service.name": "precedent"}))
         provider.add_span_processor(BatchSpanProcessor(exporter))
+        _provider = provider
         _tracer = provider.get_tracer("legal-graphrag")
-        _wrap_provider(provider)
         _install_capture()
         with _lock:
             _state["ok"] = False
