@@ -264,6 +264,16 @@ const reducedMotion = () => !!window.matchMedia?.("(prefers-reduced-motion: redu
 /** One empty list, shared, so a missing prop does not look like new data on every render. */
 const NONE: never[] = [];
 
+/**
+ * What a pin says on the map: the court's name without the route to it or the seat's city, so
+ * "Boulder County (Boulder) → Colorado Court of Appeals (Denver)" reads "Boulder County" and nothing is
+ * cut off. The full label stays in the pin's tooltip and in the card it opens.
+ */
+function shortLabel(label: string): string {
+  const first = label.split(" → ")[0] ?? label;
+  return first.replace(/\s*\([^)]*\)\s*$/, "").trim() || label;
+}
+
 /** The glow a pin gives off, in its own colour: a tight halo and a soft bloom. */
 const glow = (color: string) => `0 0 0 4px ${color}33, 0 0 18px 2px ${color}99`;
 
@@ -497,9 +507,32 @@ export default function CitationMap({
       element.dataset.cluster = members.length > 1 ? "1" : "";
       const label = element.querySelector<HTMLElement>("[data-label]");
       if (label) {
-        label.textContent = members.length > 1 ? `${members.length} places` : pin.label;
-        label.classList.toggle("hidden", map.getZoom() < 5.5 && members.length === 1);
+        // A pin standing for several places carries its count in the dot, not a second name under it.
+        label.textContent = shortLabel(pin.label);
+        label.classList.toggle("hidden", members.length > 1 || map.getZoom() < 5.5);
+        label.classList.remove("invisible");
       }
+    }
+
+    // Names are laid down in order of importance and a name that would land on one already placed, or on
+    // another pin, is hidden until the camera is close enough to part them.
+    const taken: DOMRect[] = [];
+    for (const entry of kept) {
+      const dot = markers.current.find((item) => item.pin.key === entry.pin.key)?.marker.getElement();
+      const rect = dot?.querySelector<HTMLElement>("[data-dot]")?.getBoundingClientRect();
+      if (rect) taken.push(rect);
+    }
+    for (const entry of kept) {
+      const element = markers.current.find((item) => item.pin.key === entry.pin.key)?.marker.getElement();
+      const label = element?.querySelector<HTMLElement>("[data-label]");
+      if (!label || label.classList.contains("hidden")) continue;
+      const box = label.getBoundingClientRect();
+      const clash = taken.some(
+        (other) =>
+          box.left < other.right + 2 && box.right > other.left - 2 && box.top < other.bottom + 2 && box.bottom > other.top - 2,
+      );
+      if (clash) label.classList.add("invisible");
+      else taken.push(box);
     }
   }, []);
 
@@ -610,8 +643,8 @@ export default function CitationMap({
       const label = document.createElement("span");
       label.dataset.label = "";
       label.className =
-        "pointer-events-none absolute left-1/2 top-full mt-0.5 max-w-[10rem] -translate-x-1/2 truncate rounded border border-white/10 bg-slate-950/80 px-1.5 text-[10px] font-medium leading-tight text-slate-100 shadow-sm";
-      label.textContent = pin.label;
+        "pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-md border border-white/10 bg-slate-950/85 px-2 py-0.5 text-xs font-medium leading-tight text-slate-100 shadow-sm";
+      label.textContent = shortLabel(pin.label);
 
       element.append(dot, label);
       const marker = new maplibregl.Marker({ element, anchor: "center" }).setLngLat(pin.lngLat).addTo(map);
