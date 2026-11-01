@@ -9,6 +9,11 @@ EVENTS = H / "events.jsonl"
 LOCK = H / "board.lock"
 OIO_DIR = ACS / ".oio" / "issue-logs" / "hackathon"
 
+# The project a log is about, and the repository its record is filed into. They are separate on
+# purpose: this app files observations into the ACS stack, which does not make ACS their subject.
+PROJECT_ID = "Pukujan-lab/arize-ai-hackersprint"
+DESTINATION = "Pukujan/agent-custom-setup"
+
 
 def now():
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
@@ -107,22 +112,35 @@ def oio_record(
     outcome="hackathon demo",
     extra_session=None,
     status=None,
+    project_id=None,
+    destination=None,
+    content_author=None,
+    directing_human=None,
 ):
-    """Write an OIO issue-log record (schema oio.issue-log-record.v1) into ACS; validated if jsonschema is available."""
+    """Write an OIO issue-log record (schema oio.issue-log-record.v1) into ACS; validated if jsonschema is available.
+
+    `project` is what the log is about and `destination` is where it is filed. They were both pinned
+    to the ACS repo, so an observation about this app's own tooling was stamped as belonging to ACS,
+    and the directing human was a constant rather than a record of who asked for it.
+    """
+    project = project_id or os.environ.get("OIO_PROJECT_ID") or PROJECT_ID
+    destination = destination or os.environ.get("OIO_DESTINATION_REPOSITORY") or DESTINATION
+    author = content_author or os.environ.get("OIO_CONTENT_AUTHOR") or PROJECT_ID
+    director = directing_human if directing_human is not None else os.environ.get("OIO_DIRECTING_HUMAN") or None
     rec = {
         "schema_version": "oio.issue-log-record.v1",
         "issue_type": "operational",
-        "project": {"id": "Pukujan/agent-custom-setup", "repository": "Pukujan/agent-custom-setup"},
+        "project": {"id": project, "repository": project},
         "ontology": {"default_version": "1.1.0", "project_version": "1.0.0"},
         "filer": {
             "origin": origin,
             "authenticated_actor": "daytona-sandbox",
-            "content_author": "legal-graphrag-demo",
-            "directing_human": "alex",
+            "content_author": author,
+            "directing_human": director,
             "authorization_state": "claimed",
             "authorization_evidence": None,
             "session_reference": extra_session,
-            "destination_repository": "Pukujan/agent-custom-setup",
+            "destination_repository": destination,
             "created_at": now(),
         },
         "priority": {"status": "unresolved", "path": None, "concept_id": None},
@@ -162,7 +180,7 @@ def oio_record(
     return p
 
 
-def log(topic, title, status="open", note="", agent="cli", impact_band=None):
+def log(topic, title, status="open", note="", agent="cli", impact_band=None, **provenance):
     import re as _re
 
     if not str(topic or "").strip():
@@ -176,6 +194,7 @@ def log(topic, title, status="open", note="", agent="cli", impact_band=None):
         origin="human-via-agent",
         status=status,
         extra_session=f"agent:{agent}",
+        **provenance,
     )
     event({"agent": agent, "kind": "issue_log", "topic": topic, "status": status, "msg": f"issue log {p.name}: {title} [{status}]"})
     return p

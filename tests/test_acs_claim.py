@@ -66,6 +66,38 @@ def test_log_files_a_record_when_the_adopter_has_no_schema():
         assert [p.name for p in _issue_logs(acs_root)] == ["log-hack-09.json"]
 
 
+def test_log_records_the_project_it_is_about_and_where_it_is_filed():
+    with tempfile.TemporaryDirectory() as tmp:
+        acs_root = pathlib.Path(tmp)
+        _seed_schemas(acs_root)
+        done = _run(["log", "HACK-10", "--agent", "tester", "--directing-human", "operator"], acs_root)
+        assert done.returncode == 0, done.stderr
+        record = json.loads(_issue_logs(acs_root)[0].read_text())
+        assert record["project"]["id"] == "Pukujan-lab/arize-ai-hackersprint"
+        assert record["filer"]["destination_repository"] == "Pukujan/agent-custom-setup"
+        assert record["filer"]["directing_human"] == "operator"
+
+
+def test_log_leaves_the_directing_human_unset_when_nobody_directed_it():
+    # It used to be the constant "alex", which invented an attribution for every record.
+    with tempfile.TemporaryDirectory() as tmp:
+        acs_root = pathlib.Path(tmp)
+        _seed_schemas(acs_root)
+        env = dict(os.environ, ACS_ROOT=str(acs_root))
+        env.pop("OIO_DIRECTING_HUMAN", None)
+        done = subprocess.run(
+            [sys.executable, str(CLAIM), "log", "HACK-10", "--agent", "tester"],
+            capture_output=True,
+            text=True,
+            env=env,
+            cwd=str(ROOT),
+            timeout=60,
+        )
+        assert done.returncode == 0, done.stderr
+        record = json.loads(_issue_logs(acs_root)[0].read_text())
+        assert record["filer"]["directing_human"] is None
+
+
 def test_board_log_rejects_a_missing_topic():
     import pytest
 
