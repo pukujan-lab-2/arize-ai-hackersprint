@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { pollRun, streamRun, type AskTick } from "./api";
 
 afterEach(() => {
@@ -43,6 +43,10 @@ describe("pollRun while the engine wakes", () => {
 });
 
 describe("streamRun", () => {
+  beforeEach(() => {
+    vi.stubGlobal("window", { setTimeout: globalThis.setTimeout.bind(globalThis), clearTimeout: globalThis.clearTimeout.bind(globalThis) });
+  });
+
   class FakeSource {
     static last: FakeSource;
     listeners: Record<string, ((event: MessageEvent) => void)[]> = {};
