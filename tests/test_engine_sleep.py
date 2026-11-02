@@ -172,7 +172,9 @@ def test_with_no_backup_result_it_still_waits_for_the_engine(configured, monkeyp
     monkeypatch.setattr(octo_retriever, "_snapshot", lambda q: [])
     doc = {"result": {"results": [{"work_id": "w9", "passages": [{"text": "from engine"}]}]}, "stages": []}
     monkeypatch.setattr(engine, "retrieve", lambda *a, **k: doc)
-    monkeypatch.setattr(octo_retriever, "_from_engine", lambda d: ([{"work_id": "w9", "text": "from engine"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}}))
+    monkeypatch.setattr(
+        octo_retriever, "_from_engine", lambda d: ([{"work_id": "w9", "text": "from engine"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}})
+    )
     passages, source = octo_retriever.search("sleeping engine no backup")
     assert source == "engine:bm25" and passages[0]["work_id"] == "w9"
 
@@ -182,7 +184,9 @@ def test_an_awake_engine_ignores_a_cached_backup_answer(configured, monkeypatch,
     _systemd(monkeypatch, "active")
     monkeypatch.setattr(octo_retriever, "_live", lambda q: [{"work_id": "old", "text": "t"}])
     question = "cached backup then full search"
-    monkeypatch.setattr(octo_retriever, "_from_engine", lambda d: ([{"work_id": "full", "text": "t"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}}))
+    monkeypatch.setattr(
+        octo_retriever, "_from_engine", lambda d: ([{"work_id": "full", "text": "t"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}})
+    )
     monkeypatch.setattr(engine, "retrieve", lambda *a, **k: {"stages": []})
     h = __import__("hashlib").sha256(question.strip().lower().encode()).hexdigest()[:24]
     octo_retriever._cache_put(h, question, "octo-live", [{"work_id": "old", "text": "t"}])
