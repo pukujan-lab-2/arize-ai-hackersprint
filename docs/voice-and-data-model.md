@@ -21,3 +21,13 @@ The LLM answer cache (`app/llm.py`) and the Octo passage-retrieval cache (`app/o
 - `schema/__init__.py` holds `SCHEMA_VERSION` and `MODELS` (`tts_clip`, `tour_step`, `schema_version`) plus `validate()`. `migrations/NNNN_name.sql` are numbered and portable (they run on Postgres and SQLite).
 - `python -m schema.migrate [--apply]` compares and applies migrations to Octo. Each applied migration writes a `schema_version` row. The deploy step (`deploy/deploy.sh`) runs `--apply`. On startup the app checks that Octo's version equals `SCHEMA_VERSION` and uses Octo only when they match.
 - To change the schema: bump `SCHEMA_VERSION`, add the next numbered migration (never edit a released one), then run `python -m schema.lock`. CI (`tests/test_schema.py`) checks that models validate, that migrations apply in order and are idempotent on an in-memory store, that the version equals the newest migration, and that the schema fingerprint matches `schema/schema.lock.json`. That last check fails if the schema changes without a version bump.
+
+## Model fallback chain
+
+`app/llmchain.py`, off until `LLM_CHAIN` is set (a JSON list of providers in order; each has `name`, `base_url`, `model`, and `key_env` or `vault`). Without it the app keeps its built-in path (InferHub DeepSeek, then Anthropic Haiku, then a labelled template).
+
+- Every provider is called with an OpenAI-compatible streaming request, so the draft appears as it is written whichever provider answers.
+- Any failure moves to the next provider. A busy answer (429, 503, 529) is retried twice first (0.6 s, then 1.2 s). A provider that has not started answering within 6 s is dropped; the last provider is waited for. If all fail, the labelled template answers.
+- A provider with `vault` calls through the Octo vault relay: the app leases a working key with `OCTO_VAULT_GRANT` (`POST /api/vault/open/lease`) and sends it as the Bearer token to `/api/vault/proxy`, with the vendor URL in `x-octo-target`. The real key never leaves the vault. Give Precedent its own grant limited to the model keys it needs.
+- A watcher probes each provider every 5 minutes (a one-word streamed reply, 20 s limit) and moves failed ones to the back of the line, still kept as a last resort; it renews the vault leases daily. State is in memory per process. `/api/health` reports it under `llm`.
+- Answers carry the label `chain/<name>/<model>`, so a run shows which provider wrote it.

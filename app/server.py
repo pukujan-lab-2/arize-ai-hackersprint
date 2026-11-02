@@ -3,7 +3,7 @@ import os, time, uuid, threading, pathlib, httpx, subprocess
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse, Response, JSONResponse, RedirectResponse, StreamingResponse
 from app import contracts
-from app import agents, engine, retention, tracing, limits, ttschain, octocache, speech
+from app import agents, engine, retention, tracing, limits, ttschain, octocache, llmchain, speech
 from acs import board as acs_board
 from app.coord import Run, CLAIM
 
@@ -132,6 +132,7 @@ def health():
         # `arize` stays for older readers, but it is the same honest answer as `tracing.ok`, never a guess.
         "arize": trace["ok"],
         "tracing": trace,
+        "llm": llmchain.status(),
         "engine": engine.status(),
         "sandbox": os.environ.get("DAYTONA_SANDBOX_ID", ""),
     }
@@ -368,6 +369,7 @@ def tour_steps(run_id: str):
     return ttschain.tour(run_id)
 
 
+llmchain.start_watcher()  # no-op unless LLM_CHAIN is set
 threading.Thread(target=octocache.octo_check, daemon=True).start()  # startup: Octo schema_version must match the repo
 
 

@@ -188,6 +188,18 @@
             ],
             "title": "Kokoro"
           },
+          "llm": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm"
+          },
           "nodes": {
             "anyOf": [
               {
