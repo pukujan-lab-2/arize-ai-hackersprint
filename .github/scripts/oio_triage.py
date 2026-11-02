@@ -103,6 +103,34 @@ def _sections(body: str) -> dict[str, str]:
     return result
 
 
+def _optional_section(norm: dict[str, str], prefix: str) -> str:
+    """Return a section by normalized prefix.
+
+    GitHub renders a form field's label as its heading, so a label such as
+    ``Hypotheses (unverified)`` arrives as ``hypotheses(unverified)``. The
+    optional tier headings are matched on their normalized prefix so the
+    parenthetical does not hide the field from triage.
+    """
+    target = prefix.replace(" ", "").lower()
+    for key, value in norm.items():
+        if key == target or key.startswith(target):
+            return value
+    return ""
+
+
+OPTIONAL_INVESTIGATION_FIELDS = {
+    "summary": "summary",
+    "identity_and_lineage": "identityandlineage",
+    "acceptance_criteria": "acceptancecriteria",
+    "boundaries_and_next_action": "boundariesandnextaction",
+    "symptoms": "symptoms",
+    "hypotheses": "hypotheses",
+    "counter_signal": "counter-signal",
+    "honest_caveat": "honestcaveat",
+    "problems_vs_gaps": "problemsvsgaps",
+}
+
+
 def classify_issue(issue: dict, root: Path, repository_id: str | None = None, event: dict | None = None) -> dict:
     """Return deterministic labels and classification warnings for one issue."""
     default_path = root / ".oio/ontology/default.json"
@@ -133,6 +161,16 @@ def classify_issue(issue: dict, root: Path, repository_id: str | None = None, ev
     else:
         labels.add("needs-issue-type")
         warnings.append("missing-or-invalid-issue-type")
+
+    optional_sections = {
+        name: _optional_section(norm, prefix) for name, prefix in OPTIONAL_INVESTIGATION_FIELDS.items()
+    }
+    # Investigation-tier fields are optional for every log. An operational log
+    # is the one case where the hypothesis block is expected: without it the
+    # record says something is broken but records no candidate cause.
+    if issue_type == "operational" and not optional_sections["hypotheses"].strip():
+        labels.add("needs-investigation-block")
+        warnings.append("operational-log-missing-hypotheses")
 
     status_values = _lifecycle_statuses(default)
     lifecycle_text = norm.get("lifecyclestatus", "").strip().lower()
@@ -360,7 +398,7 @@ def classify_issue(issue: dict, root: Path, repository_id: str | None = None, ev
 
     labels.add(f"ontology:oio-{default['version']}")
     labels.add(f"ontology:project-{project['version']}")
-    return {"labels": sorted(labels), "warnings": warnings, "origin": origin, "actor_id": actor_id, "actor_login": actor_login, "record": record, "queue_order_key": queue_order_key}
+    return {"labels": sorted(labels), "warnings": warnings, "origin": origin, "actor_id": actor_id, "actor_login": actor_login, "record": record, "queue_order_key": queue_order_key, "optional_fields": optional_sections}
 
 
 def _api(token: str, method: str, url: str, payload: dict | None = None) -> tuple[int, object]:
@@ -486,7 +524,7 @@ def apply_github_labels(decision: dict, event: dict, token: str, repository: str
         raise RuntimeError(f"could not read existing labels: HTTP {status}: {current}")
     current_names = {item["name"] for item in current}
     managed_prefixes = ("type:", "filer:", "queue:", "account:", "authorization:", "priority:", "impact:", "likelihood:", "exposure:", "recoverability:", "evidence:", "release:", "ontology:", "review:", "status:", "relation:")
-    managed_exact = {"needs-issue-type", "needs-filer-stamp", "needs-account-review", "needs-human-verification", "needs-priority-definition", "needs-impact-evidence", "needs-release-relevance", "needs-record-schema", "needs-record-context", "needs-lifecycle-status", "needs-relation-review"}
+    managed_exact = {"needs-issue-type", "needs-filer-stamp", "needs-account-review", "needs-human-verification", "needs-priority-definition", "needs-impact-evidence", "needs-release-relevance", "needs-record-schema", "needs-record-context", "needs-lifecycle-status", "needs-relation-review", "needs-investigation-block"}
     stale = [name for name in current_names if name.startswith(managed_prefixes) or name in managed_exact]
     stale.extend(name for name in current_names if name.startswith("oio-auth:") and name not in decision["labels"])
     if stale:
