@@ -157,6 +157,9 @@ class AnyObject(Model):
 
 EVENTS = List[Dict[str, Any]]
 RUNS = List[RunSummary]
+SSE: Dict[Union[int, str], Dict[str, Any]] = {
+    200: {"content": {"text/event-stream": {"schema": {"type": "string"}}}, "description": "Server-sent events: tick, done, timeout"}
+}
 AUDIO: Dict[Union[int, str], Dict[str, Any]] = {200: {"content": {"audio/mpeg": {}}, "description": "MP3 audio"}}
 
 

@@ -1,5 +1,5 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { pollRun, type AskTick } from "./api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { pollRun, streamRun, type AskTick } from "./api";
 
 afterEach(() => {
   vi.useRealTimers();
@@ -39,5 +39,54 @@ describe("pollRun while the engine wakes", () => {
     expect(settled).not.toHaveBeenCalled();
     await vi.advanceTimersByTimeAsync(45_000);
     await expect(pending).resolves.toBeNull();
+  });
+});
+
+describe("streamRun", () => {
+  beforeEach(() => {
+    vi.stubGlobal("window", { setTimeout: globalThis.setTimeout.bind(globalThis), clearTimeout: globalThis.clearTimeout.bind(globalThis) });
+  });
+
+  class FakeSource {
+    static last: FakeSource;
+    listeners: Record<string, ((event: MessageEvent) => void)[]> = {};
+    onerror: (() => void) | null = null;
+    closed = false;
+    constructor(public url: string) {
+      FakeSource.last = this;
+    }
+    addEventListener(name: string, fn: (event: MessageEvent) => void) {
+      (this.listeners[name] ||= []).push(fn);
+    }
+    emit(name: string, data: unknown) {
+      this.listeners[name]?.forEach((fn) => fn({ data: JSON.stringify(data) } as MessageEvent));
+    }
+    close() {
+      this.closed = true;
+    }
+  }
+
+  it("reports each tick and resolves with the result", async () => {
+    vi.stubGlobal("EventSource", FakeSource);
+    const ticks: AskTick[] = [];
+    const pending = streamRun("run-9", (tick) => ticks.push(tick));
+    FakeSource.last.emit("tick", { events: [{ agent: "answer", kind: "start", msg: "writing" }], partial: "Short answer" });
+    FakeSource.last.emit("done", { events: [], result: { answer: "ok" } });
+    await expect(pending).resolves.toEqual({ answer: "ok" });
+    expect(FakeSource.last.url).toBe("/api/run/run-9/stream");
+    expect(ticks[0].draft).toBe("Short answer");
+    expect(FakeSource.last.closed).toBe(true);
+  });
+
+  it("hands back to polling when the stream fails", async () => {
+    vi.stubGlobal("EventSource", FakeSource);
+    const pending = streamRun("run-10");
+    FakeSource.last.onerror?.();
+    await expect(pending).resolves.toBeUndefined();
+  });
+
+  it("hands back to polling when the browser has no EventSource", async () => {
+    vi.stubGlobal("EventSource", undefined);
+    await expect(streamRun("run-11")).resolves.toBeUndefined();
   });
 });

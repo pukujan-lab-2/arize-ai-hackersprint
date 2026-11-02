@@ -1,7 +1,7 @@
 import re, json
 import os, time, uuid, threading, pathlib, httpx, subprocess
 from fastapi import FastAPI, Depends, HTTPException
-from fastapi.responses import FileResponse, HTMLResponse, Response, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response, JSONResponse, RedirectResponse, StreamingResponse
 from app import contracts
 from app import agents, engine, retention, tracing, limits, ttschain, octocache, speech
 from acs import board as acs_board
@@ -257,6 +257,64 @@ def run(rid: str):
         "result": json.loads(res.read_text()) if res.exists() else None,
         "partial": pf.read_text() if (pf.exists() and not res.exists()) else None,
     }
+
+
+STREAM_POLL_S = 0.15  # how often a run's files are read while a stream is open
+STREAM_MAX_S = 300.0  # no stream outlives this; the page falls back to polling
+STREAM_BEAT_S = 15.0  # a comment line this often keeps proxies from closing a quiet stream
+
+
+def _sse(name, data):
+    return f"event: {name}\ndata: {json.dumps(data)}\n\n"
+
+
+@app.get("/api/run/{rid}/stream", responses=contracts.SSE)
+def run_stream(rid: str):
+    """A run's progress as server-sent events: `tick` ({events, partial}) whenever either changes, then `done`
+    ({events, result}) once the result exists, or `timeout` at the cap. Reads the same files as /api/run/{id}."""
+    d = ROOT / "runs" / rid
+    if not re.fullmatch(r"[\w-]+", rid) or not d.is_dir():
+        return JSONResponse({"error": "no such run"}, 404)
+
+    def events():
+        log, pf, res = d / "events.jsonl", d / "partial.txt", d / "result.json"
+        deadline, beat, last = time.time() + STREAM_MAX_S, time.time(), None
+        while True:
+            if res.exists():
+                try:
+                    result = json.loads(res.read_text())
+                except ValueError:  # being written: read it on the next pass
+                    result = None
+                if result is not None:
+                    yield _sse("done", {"events": _read_events(log), "result": result})
+                    return
+            state = (_read_events(log), pf.read_text() if pf.exists() else None)
+            if state != last:
+                last = state
+                yield _sse("tick", {"events": state[0], "partial": state[1]})
+                beat = time.time()
+            elif time.time() - beat > STREAM_BEAT_S:
+                yield ": keep-alive\n\n"
+                beat = time.time()
+            if time.time() > deadline:
+                yield _sse("timeout", {})
+                return
+            time.sleep(STREAM_POLL_S)
+
+    return StreamingResponse(events(), media_type="text/event-stream", headers={"Cache-Control": "no-store", "X-Accel-Buffering": "no"})
+
+
+def _read_events(log):
+    out = []
+    try:
+        for line in open(log):
+            try:
+                out.append(json.loads(line))
+            except ValueError:  # a line still being written
+                pass
+    except OSError:
+        pass
+    return out
 
 
 @app.get("/api/seats", response_model=contracts.AnyObject)
