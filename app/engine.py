@@ -159,6 +159,16 @@ def systemd_state():
     return state
 
 
+def sleeping():
+    """True when systemd says the engine is stopped or still loading. Never connects, so it never wakes it."""
+    return systemd_state() in ("inactive", "activating")
+
+
+def awake():
+    """True when systemd says the engine is up."""
+    return systemd_state() == "active"
+
+
 _warm_lock = threading.Lock()
 _warm = {"at": 0.0}
 

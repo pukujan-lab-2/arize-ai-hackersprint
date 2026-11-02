@@ -128,3 +128,68 @@ def test_a_sleeping_engine_says_it_is_waking(configured, monkeypatch, tmp_path):
     assert source == "octo-live"
     block = octo_retriever.last_retrieval()["engine"]
     assert block["reason"] == engine.WAKING_REASON and block["waking"] is True
+
+
+# ---- a sleeping engine must not hold the first question for its whole load (quick answer first) ----
+def _no_cache(monkeypatch, tmp_path):
+    monkeypatch.setattr(octo_retriever, "CACHE", tmp_path)
+    monkeypatch.setattr(octo_retriever.octocache, "query", lambda sql, params=(): [])
+    monkeypatch.setattr(octo_retriever.octocache, "write", lambda sql, params: None)
+
+
+def test_sleeping_and_awake_follow_systemd(configured, monkeypatch):
+    for state, sleeping, awake in [("inactive", True, False), ("activating", True, False), ("active", False, True), ("failed", False, False)]:
+        engine._unit.update(at=0.0, state=None)
+        _systemd(monkeypatch, state)
+        assert (engine.sleeping(), engine.awake()) == (sleeping, awake), state
+    engine._unit.update(at=0.0, state=None)
+    _systemd(monkeypatch, "inactive", load_state="not-found")
+    assert (engine.sleeping(), engine.awake()) == (False, False)  # not managed here: never guess
+
+
+def test_a_question_asked_while_the_engine_sleeps_is_answered_from_the_backup_and_wakes_it(configured, monkeypatch, tmp_path):
+    _no_cache(monkeypatch, tmp_path)
+    _systemd(monkeypatch, "inactive")
+    started = []
+    monkeypatch.setattr(engine, "_warm_once", lambda: started.append(1))
+    monkeypatch.setattr(octo_retriever, "_live", lambda q: [{"work_id": "w1", "text": "t"}])
+    reached = []
+    monkeypatch.setattr(engine, "retrieve", lambda *a, **k: reached.append(1))
+    passages, source = octo_retriever.search("sleeping engine quick answer")
+    time.sleep(0.05)
+    assert source == "octo-live" and passages
+    assert reached == []  # it did not wait for the engine
+    assert started == [1]  # but it did start waking it
+    block = octo_retriever.last_retrieval()["engine"]
+    assert block["waking"] is True and block["reason"] == engine.WAKING_REASON
+
+
+def test_with_no_backup_result_it_still_waits_for_the_engine(configured, monkeypatch, tmp_path):
+    _no_cache(monkeypatch, tmp_path)
+    _systemd(monkeypatch, "inactive")
+    monkeypatch.setattr(engine, "_warm_once", lambda: None)
+    monkeypatch.setattr(octo_retriever, "_live", lambda q: [])
+    monkeypatch.setattr(octo_retriever, "_snapshot", lambda q: [])
+    doc = {"result": {"results": [{"work_id": "w9", "passages": [{"text": "from engine"}]}]}, "stages": []}
+    monkeypatch.setattr(engine, "retrieve", lambda *a, **k: doc)
+    monkeypatch.setattr(
+        octo_retriever, "_from_engine", lambda d: ([{"work_id": "w9", "text": "from engine"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}})
+    )
+    passages, source = octo_retriever.search("sleeping engine no backup")
+    assert source == "engine:bm25" and passages[0]["work_id"] == "w9"
+
+
+def test_an_awake_engine_ignores_a_cached_backup_answer(configured, monkeypatch, tmp_path):
+    _no_cache(monkeypatch, tmp_path)
+    _systemd(monkeypatch, "active")
+    monkeypatch.setattr(octo_retriever, "_live", lambda q: [{"work_id": "old", "text": "t"}])
+    question = "cached backup then full search"
+    monkeypatch.setattr(
+        octo_retriever, "_from_engine", lambda d: ([{"work_id": "full", "text": "t"}], {"source": "engine:bm25", "stages": [], "engine": {"ok": True}})
+    )
+    monkeypatch.setattr(engine, "retrieve", lambda *a, **k: {"stages": []})
+    h = __import__("hashlib").sha256(question.strip().lower().encode()).hexdigest()[:24]
+    octo_retriever._cache_put(h, question, "octo-live", [{"work_id": "old", "text": "t"}])
+    assert octo_retriever._cache_get(h)  # the backup answer is cached
+    passages, source = octo_retriever.search(question)
+    assert source == "engine:bm25" and passages[0]["work_id"] == "full"
