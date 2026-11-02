@@ -47,6 +47,8 @@ Exceptions (only these):
 - Human-facing research plans, architecture explanations, and evidence briefs → load modules/writing-direction/SKILL.md (reader-facing explanation, not a manuscript or data writeup)
 - Generated artifact filenames / asset-manifest paths / media basenames / filename legends → load modules/human-output-naming/SKILL.md (hon) for basenames; visible prose inside HTML still uses hsw
 
+Marketing intro sites, sales sites, and technical demo pages are not one of those exceptions. Load modules/writing-direction/SKILL.md and modules/human-sounding-writing/SKILL.md together, plus modules/visual-direction/SKILL.md, modules/brand-foundation/SKILL.md, and modules/html-demo/SKILL.md, and follow the marketing_intro_site review checklist. Product-entry bold stays one short scan anchor. The human-sounding tell scrub and the verified-number rule still apply. Words and pictures come from the brand feeling.
+
 HTML reports, compare HTML, and compare UIs have NO skip path. An exception reason is not allowed for those surfaces.
 
 If you cannot load the skill file from the pinned CGM checkout, stop and report that — do not draft jargon-heavy or tool-dump HTML instead.
@@ -142,7 +144,7 @@ The writing-helper checks need the pinned helper checked out in `.cgm/` (gitigno
 
 ```bash
 git clone https://github.com/Pukujan/content-generation-modules.git .cgm
-git -C .cgm checkout 6831f91e165b62d719c05eb492f7375fa932b560
+git -C .cgm checkout c47740d71ca68be6a782b24dd8f28b905c620506
 python tools/validate_cgm_adoption.py --helper-root .cgm
 python .cgm/scripts/validate_content_system.py --root .cgm --adapter .content-system --project-root .
 python .cgm/scripts/verify_hsw_applied.py --root .cgm

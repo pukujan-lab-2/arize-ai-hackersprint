@@ -25,11 +25,11 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
-      - name: Check out the pinned writing helper (CGM 0.5.12, see docs/continuity/cgm-pin.md)
+      - name: Check out the pinned writing helper (CGM 0.5.13, see docs/continuity/cgm-pin.md)
         uses: actions/checkout@v4
         with:
           repository: Pukujan/content-generation-modules
-          ref: 6831f91e165b62d719c05eb492f7375fa932b560
+          ref: c47740d71ca68be6a782b24dd8f28b905c620506
           path: .cgm
       - uses: actions/setup-python@v5
         with:
@@ -87,7 +87,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Pukujan/observational-issue-ops
-          ref: e5e5fb1250aa8d154e9a83554638aec4cc8b2c8a
+          ref: 6a9a7cd67810debe0da76e847ac9897ebc281248
           path: .oio-src
       - name: OIO adoption (pin, installer --check, AGENTS.md guidance)
         run: |
