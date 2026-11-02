@@ -3,7 +3,7 @@ import os, time, uuid, threading, pathlib, httpx, subprocess
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse, Response, JSONResponse, RedirectResponse
 from app import contracts
-from app import agents, engine, retention, tracing, limits, ttschain, octocache
+from app import agents, engine, retention, tracing, limits, ttschain, octocache, speech
 from acs import board as acs_board
 from app.coord import Run, CLAIM
 
@@ -128,6 +128,7 @@ def health():
         "anthropic": bool(os.environ.get("ANTHROPIC_API_KEY")),
         "elevenlabs": bool(os.environ.get("ELEVENLABS_API_KEY")),
         **ttschain.health(),
+        "speech": speech.status(),
         # `arize` stays for older readers, but it is the same honest answer as `tracing.ok`, never a guess.
         "arize": trace["ok"],
         "tracing": trace,
@@ -274,7 +275,7 @@ def tts(q: dict = Depends(contracts.body(contracts.TtsRequest))):
     res, tried = ttschain.synth(q.get("text", ""))
     if not res:
         return _tts_fallback(tried)
-    return Response(res["audio"], media_type="audio/mpeg", headers={"X-TTS-Cache": res["cache"], "X-TTS-Provider": res["provider"]})
+    return Response(res["audio"], media_type=ttschain.media_type(res["audio"]), headers={"X-TTS-Cache": res["cache"], "X-TTS-Provider": res["provider"]})
 
 
 @app.post("/api/tts_ts", response_model=contracts.TtsTsResponse, response_model_exclude_unset=True)
@@ -292,6 +293,7 @@ def tts_ts(q: dict = Depends(contracts.body(contracts.TtsRequest))):
         "cache": res["cache"],
         "provider": res["provider"],
         "duration_s": res.get("duration_s"),
+        "format": ttschain.ext(res["audio"])[1:],
     }
     return JSONResponse(body, headers={"X-TTS-Cache": res["cache"], "X-TTS-Provider": res["provider"]})
 
@@ -542,28 +544,54 @@ from fastapi import UploadFile, File
 
 @app.post("/api/stt", response_model=contracts.SttResponse, response_model_exclude_unset=True)
 async def stt(file: UploadFile = File(...)):
+    """Dictation. The shared speech host first (WAV only, nothing stored); ElevenLabs only if it is keyed."""
+    from fastapi.concurrency import run_in_threadpool
+    from app import stats
+
     key = os.environ.get("ELEVENLABS_API_KEY")
-    if not key:
-        return JSONResponse({"error": "ELEVENLABS_API_KEY not set"}, 503)
+    if not speech.enabled() and not key:
+        return JSONResponse({"error": "no speech-to-text engine configured"}, 503)
     data = await file.read()
     if len(data) > 2_000_000:
         return JSONResponse({"error": "audio too long"}, 413)
+    reason = None
+    if speech.enabled():
+        if data[:4] == b"RIFF":
+            if not limits.take("speech_stt"):
+                return JSONResponse({"error": "STT hourly cap reached"}, 429)
+            stats.bump("stt_calls")
+            stats.vlog("stt", len(data), False)
+            try:
+                out = await run_in_threadpool(speech.stt, data)
+                return {"text": out.get("text", ""), "engine": "speech", "ms": int(out.get("ms") or 0)}
+            except speech.SpeechError as e:
+                reason = e.reason
+        elif not key:
+            return JSONResponse({"error": "send 16-bit WAV audio"}, 415)
+    if not key:
+        return JSONResponse({"error": "speech-to-text unavailable", "reason": reason}, 503)
     if not limits.take("elevenlabs_stt"):
         return JSONResponse({"error": "STT hourly cap reached"}, 429)
-    from app import stats
-
     stats.bump("stt_calls")
     stats.vlog("stt", len(data), False)
-    r = httpx.post(
-        "https://api.elevenlabs.io/v1/speech-to-text",
-        timeout=60,
-        headers={"xi-api-key": key},
-        data={"model_id": "scribe_v1", "language_code": "en"},
-        files={"file": (file.filename or "audio.webm", data, file.content_type or "audio/webm")},
+    r = await run_in_threadpool(
+        lambda: httpx.post(
+            "https://api.elevenlabs.io/v1/speech-to-text",
+            timeout=60,
+            headers={"xi-api-key": key},
+            data={"model_id": "scribe_v1", "language_code": "en"},
+            files={"file": (file.filename or "audio.webm", data, file.content_type or "audio/webm")},
+        )
     )
     if r.status_code != 200:
         return JSONResponse({"error": r.text[:200]}, 502)
-    return {"text": r.json().get("text", "")}
+    return {"text": r.json().get("text", ""), "engine": "elevenlabs"}
+
+
+@app.post("/api/speech/warm", response_model=contracts.WarmResponse, response_model_exclude_unset=True)
+def speech_warm():
+    """Wake the shared speech host before the user speaks (mic tapped); cheap and safe to repeat."""
+    return speech.warm()
 
 
 @app.get("/api/limits", response_model=contracts.AnyObject)
