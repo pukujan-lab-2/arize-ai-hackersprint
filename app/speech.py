@@ -65,7 +65,11 @@ def status():
             return _st["v"]
     try:
         r = httpx.get(url() + "/health", timeout=_f("SPEECH_HEALTH_TIMEOUT_S", 1.0))
-        v = {"ok": True, **{k: r.json().get(k) for k in ("active", "stt", "tts", "loaded") if k in r.json()}} if r.status_code == 200 else {"ok": False, "reason": "http:%d" % r.status_code}
+        v = (
+            {"ok": True, **{k: r.json().get(k) for k in ("active", "stt", "tts", "loaded") if k in r.json()}}
+            if r.status_code == 200
+            else {"ok": False, "reason": "http:%d" % r.status_code}
+        )
     except Exception as e:
         v = {"ok": False, "reason": _why(e)}
     with _lock:

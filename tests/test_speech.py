@@ -64,8 +64,9 @@ class FakeHost:
             def do_GET(self):
                 host.calls.append(("GET", self.path, b"", dict(self.headers)))
                 if urlparse(self.path).path == "/health":
-                    return self._json(200, {"ok": True, "stt": "fake-stt", "tts": "fake-tts", "rate": 24000,
-                                            "active": host.active, "loaded": ["fake-stt", "fake-tts"]})
+                    return self._json(
+                        200, {"ok": True, "stt": "fake-stt", "tts": "fake-tts", "rate": 24000, "active": host.active, "loaded": ["fake-stt", "fake-tts"]}
+                    )
                 self._json(404, {})
 
             def do_POST(self):
@@ -77,8 +78,7 @@ class FakeHost:
                     time.sleep(host.stt_delay)
                     if host.stt_status != 200:
                         return self._json(host.stt_status, {"error": "boom"})
-                    return self._json(200, {"text": host.transcript, "language": "en", "ms": 12, "seconds": 1.0,
-                                            "confidence": 0.9})
+                    return self._json(200, {"text": host.transcript, "language": "en", "ms": 12, "seconds": 1.0, "confidence": 0.9})
                 if path == "/tts":
                     if host.tts_status != 200:
                         return self._json(host.tts_status, {"error": "boom"})
@@ -89,7 +89,7 @@ class FakeHost:
                     self.send_header("transfer-encoding", "chunked")
                     self.end_headers()
                     for i in range(0, len(pcm), 4096):
-                        chunk = pcm[i:i + 4096]
+                        chunk = pcm[i : i + 4096]
                         self.wfile.write(f"{len(chunk):x}\r\n".encode() + chunk + b"\r\n")
                     self.wfile.write(b"0\r\n\r\n")
                     return
@@ -141,9 +141,9 @@ def test_stt_sends_the_wav_and_no_stack_unless_one_is_chosen(host, monkeypatch):
     wav = make_wav()
     out = speech.stt(wav)
     assert out["text"] == host.transcript and out["ms"] == 12
-    (_, path, body, headers), = host.posts("/stt")
+    ((_, path, body, headers),) = host.posts("/stt")
     assert body == wav and headers["Content-Type"] == "audio/wav"
-    assert parse_qs(urlparse(path).query) == {"lang": ["en"]}      # no stack: the host's active stack is used
+    assert parse_qs(urlparse(path).query) == {"lang": ["en"]}  # no stack: the host's active stack is used
     monkeypatch.setenv("SPEECH_STACK", "parakeet-kokoro")
     speech.stt(wav)
     assert parse_qs(urlparse(host.posts("/stt")[-1][1]).query)["stack"] == ["parakeet-kokoro"]
@@ -189,11 +189,11 @@ def test_status_is_honest_and_follows_the_host(host):
 
 def test_warm_loads_the_chosen_stack_only_when_it_is_not_already_active(host, monkeypatch):
     assert speech.warm()["started"] is True
-    assert host.posts("/load") == []                                  # no stack chosen: never swap models
+    assert host.posts("/load") == []  # no stack chosen: never swap models
     monkeypatch.setenv("SPEECH_STACK", "multilingual")
     speech._reset()
     speech.warm()
-    assert host.posts("/load") == []                                  # already active: no swap
+    assert host.posts("/load") == []  # already active: no swap
     monkeypatch.setenv("SPEECH_STACK", "parakeet-kokoro")
     speech._reset()
     speech.warm()
@@ -221,7 +221,7 @@ def test_api_stt_without_any_engine_says_so(monkeypatch):
 
 def test_api_stt_rejects_what_the_host_cannot_read(host):
     assert upload(b"not audio at all", "q.webm", "audio/webm").status_code == 415
-    assert upload(make_wav(seconds=70)).status_code == 413        # more than 2 MB
+    assert upload(make_wav(seconds=70)).status_code == 413  # more than 2 MB
     assert host.posts("/stt") == []
 
 
@@ -289,7 +289,7 @@ def test_the_chain_puts_the_speech_host_first_and_caches_its_clips(host):
     assert tried[0]["provider"] == "speech" and tried[0]["result"] == "ok"
     again, _ = ttschain.synth("Colorado requires probable cause for a car search.")
     assert again["cache"] == "hit" and again["audio"] == first["audio"]
-    assert len(host.posts("/tts")) == 1                                # the second line never reached the host
+    assert len(host.posts("/tts")) == 1  # the second line never reached the host
 
 
 def test_a_failing_host_falls_through_and_is_reported(host):
