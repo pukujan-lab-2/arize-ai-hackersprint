@@ -12,8 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from validate_cgm_adoption import EXPECTED_MODULES, INJECT_END, INJECT_START, validate_adoption
 
 
-COMMIT = "6831f91e165b62d719c05eb492f7375fa932b560"
-VERSION = "0.5.12"
+COMMIT = "c47740d71ca68be6a782b24dd8f28b905c620506"
+VERSION = "0.5.13"
 BLOCK = "CGM ALWAYS-ON WRITING RULE (every adopter that pins this helper)\n\nLoad the pinned writing modules before human-facing work."
 
 
