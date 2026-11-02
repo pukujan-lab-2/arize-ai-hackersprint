@@ -69,6 +69,7 @@ class HealthResponse(Model):
     llm: Optional[Dict[str, Any]] = None  # fallback chain: {chain: [{name, model, healthy, probed_at}]}, empty without LLM_CHAIN
     tts: Optional[List[str]] = None  # ordered provider chain, e.g. ["fish", "kokoro", "browser"]
     fish: Optional[bool] = None
+    speech: Optional[Dict[str, Any]] = None  # shared speech host: {ok, reason?, active?, stt?, tts?}
     kokoro: Optional[bool] = None
     tts_cache: Optional[Dict[str, Any]] = None
     data_schema: Optional[Dict[str, Any]] = None  # {repo, store, ok, pending}: Octo schema_version vs schema.SCHEMA_VERSION
@@ -87,6 +88,7 @@ class TtsTsResponse(Model):
     cache: Optional[str] = None
     provider: Optional[str] = None
     duration_s: Optional[float] = None
+    format: Optional[str] = None  # "wav" or "mp3"
 
 
 class TourStep(Model):
@@ -136,6 +138,8 @@ class TaskResponse(Model):
 
 class SttResponse(Model):
     text: Optional[str] = None
+    engine: Optional[str] = None  # "speech" (shared host) or "elevenlabs"
+    ms: Optional[int] = None
 
 
 class HotloadStatus(Model):

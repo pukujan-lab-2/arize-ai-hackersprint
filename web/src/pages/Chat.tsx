@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 import {
   ArrowUp,
+  AudioLines,
   Clock,
   Menu,
   ShieldAlert,
@@ -20,6 +21,7 @@ import {
   Loader2,
   MapPin,
   MessagesSquare,
+  Mic,
   PanelRight,
   Plus,
   Sparkles,
@@ -36,7 +38,9 @@ import Memo from "@/components/Memo";
 import CheckPopover from "@/components/CheckPopover";
 import ExportMenu from "@/components/ExportMenu";
 import PrintReport from "@/components/PrintReport";
+import VoiceMode, { type VoiceReply } from "@/components/VoiceMode";
 import QuestionBank from "@/components/QuestionBank";
+import QuickAnswerNotice from "@/components/QuickAnswerNotice";
 import SourcePane from "@/components/SourcePane";
 import MapPanel, { type PanelTab } from "@/components/MapPanel";
 import TurnDetails from "@/components/TurnDetails";
@@ -44,6 +48,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useDictation } from "@/hooks/use-dictation";
 import { useNarration } from "@/hooks/use-narration";
 import { useTour } from "@/hooks/use-tour";
 import { useMedia, useWide } from "@/hooks/use-wide";
@@ -51,6 +56,7 @@ import { pathLine, plainText, tourPlan } from "@/map/tour";
 import { AskRefused, STAGE_PLAN, STAGE_WORDS, ask, loadRunResult, warmEngine, type AskTick, type Source, type StageTick } from "@/lib/api";
 import { citeType, locate, type Citation, type RunResult } from "@/lib/citations";
 import { seconds, toRetrieval } from "@/lib/runs";
+import { speechInfo } from "@/lib/speech";
 import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 
@@ -166,6 +172,24 @@ export default function Chat() {
   const tokenRef = useRef(resetToken);
 
   const { status: narrationStatus, speak, stop: stopNarration, active: narrating } = useNarration();
+
+  /** Dictation and hands-free mode appear only when the server can transcribe. */
+  const [voiceOpen, setVoiceOpen] = useState(false);
+  const [localVoice, setLocalVoice] = useState(false);
+  const dictation = useDictation(
+    (words) => {
+      setDraft((current) => (current.trim() ? `${current.trim()} ${words}` : words));
+      inputRef.current?.focus();
+    },
+    showError,
+  );
+  useEffect(() => {
+    let live = true;
+    void speechInfo().then((info) => live && setLocalVoice(info.localVoice));
+    return () => {
+      live = false;
+    };
+  }, []);
 
   /** The tour is declared below the answer it walks, so the thread's own controls reach it through a ref. */
   const stopTourRef = useRef<() => void>(() => {});
@@ -287,6 +311,18 @@ export default function Chat() {
     [turns],
   );
   const latest = assistants.length ? assistants[assistants.length - 1] : null;
+  /** What hands-free mode says back: the short answer, or the error that came instead. */
+  const voiceReply = useMemo<VoiceReply>(() => {
+    const last = turns[turns.length - 1];
+    if (!last || last.role === "user") return null;
+    if (last.role === "error") return { id: last.id, lines: [last.text] };
+    const lines = tourPlan(last.result)
+      .filter((step) => step.section === "Short answer")
+      .slice(0, 2)
+      .map((step) => step.text);
+    return { id: last.id, lines: lines.length ? lines : ["The memo is ready in the chat."] };
+  }, [turns]);
+
   const mapTurn = useMemo(
     () => assistants.find((turn) => turn.id === mapTurnId) ?? latest,
     [assistants, mapTurnId, latest],
@@ -602,10 +638,11 @@ export default function Chat() {
                         <p className="mt-2 text-sm text-muted-foreground">The run recorded no answer.</p>
                       )}
                       {waking && (
-                        <p role="status" className="mt-2 text-sm text-muted-foreground">
-                          The full search engine was asleep and is waking up, which takes about 1–2 minutes. This
-                          answer used the quicker backup search; ask again shortly for the full search.
-                        </p>
+                        <QuickAnswerNotice
+                          question={turn.result.question || ""}
+                          watch={turn.id === latest?.id && !busy}
+                          onRun={(question) => void askQuestion(question)}
+                        />
                       )}
 
                       <div className="mt-3 flex flex-wrap items-center gap-0.5">
@@ -732,9 +769,29 @@ export default function Chat() {
                   placeholder={turns.length ? "Ask a follow-up question…" : "Ask a legal question…"}
                   className="max-h-40 min-h-[2.25rem] min-w-0 flex-1 resize-none bg-transparent px-2 py-1.5 text-base leading-relaxed text-foreground placeholder:text-muted-foreground focus-visible:outline-none"
                 />
-                <Button type="submit" size="icon" className="h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" disabled={busy || !draft.trim()} aria-label="Send question">
-                  {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
-                </Button>
+                {dictation.available && (
+                  <Button
+                    type="button"
+                    variant={dictation.active ? "default" : "ghost"}
+                    size="icon"
+                    className={cn("h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none", dictation.state === "hearing" && "ring-4 ring-primary/30")}
+                    onClick={dictation.toggle}
+                    disabled={busy || dictation.state === "transcribing"}
+                    aria-label={dictation.active ? "Finish dictating" : "Dictate a question"}
+                    aria-pressed={dictation.active}
+                  >
+                    {dictation.state === "transcribing" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mic className="h-4 w-4" />}
+                  </Button>
+                )}
+                {dictation.available && !draft.trim() && !busy ? (
+                  <Button type="button" size="icon" className="h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" onClick={() => setVoiceOpen(true)} aria-label="Talk hands-free">
+                    <AudioLines className="h-4 w-4" />
+                  </Button>
+                ) : (
+                  <Button type="submit" size="icon" className="h-11 w-11 shrink-0 rounded-full transition-transform duration-150 active:scale-95 motion-reduce:transition-none" disabled={busy || !draft.trim()} aria-label="Send question">
+                    {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
+                  </Button>
+                )}
               </div>
               <p className="mt-2 px-1 text-center text-xs text-muted-foreground">
                 {corpus === "sample"
@@ -743,6 +800,19 @@ export default function Chat() {
                 {narrationStatus === "unavailable" ? " The voice is unavailable here, so the memo stays in text." : ""}
               </p>
             </form>
+            {voiceOpen && (
+              <VoiceMode
+                busy={busy}
+                reply={voiceReply}
+                serverVoice={localVoice}
+                onAsk={(question) => void askQuestion(question)}
+                onClose={() => {
+                  stopNarration();
+                  setVoiceOpen(false);
+                }}
+                onProblem={showError}
+              />
+            )}
           </div>
           </div>
           {wide && sourcePane && (

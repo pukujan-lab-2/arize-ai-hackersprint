@@ -28,7 +28,7 @@ def test_every_api_route_has_a_contract():
             if path.startswith("/api/"):
                 ok = op["responses"]["200"].get("content", {})
                 assert ok and any(v.get("schema") or k == "audio/mpeg" for k, v in ok.items()), f"{method} {path}"
-                if method == "post" and path not in ("/api/acs/reload", "/api/stt", "/api/engine/warm"):
+                if method == "post" and path not in ("/api/acs/reload", "/api/stt", "/api/engine/warm", "/api/speech/warm"):
                     assert "requestBody" in op, f"{method} {path} has no request model"
 
 
