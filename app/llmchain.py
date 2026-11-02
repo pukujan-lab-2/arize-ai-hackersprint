@@ -72,11 +72,17 @@ def providers():
     if raw:
         try:
             for spec in json.loads(raw):
-                out.append(Provider(
-                    name=str(spec["name"]), base_url=str(spec["base_url"]).rstrip("/"), model=str(spec["model"]),
-                    key_env=str(spec.get("key_env") or ""), vault=str(spec.get("vault") or ""),
-                    extra=dict(spec.get("extra") or {}), max_tokens_floor=int(spec.get("max_tokens_floor") or 0),
-                ))
+                out.append(
+                    Provider(
+                        name=str(spec["name"]),
+                        base_url=str(spec["base_url"]).rstrip("/"),
+                        model=str(spec["model"]),
+                        key_env=str(spec.get("key_env") or ""),
+                        vault=str(spec.get("vault") or ""),
+                        extra=dict(spec.get("extra") or {}),
+                        max_tokens_floor=int(spec.get("max_tokens_floor") or 0),
+                    )
+                )
         except (ValueError, KeyError, TypeError):
             out = []  # a malformed chain is no chain: the app falls back to its built-in path, never to a half list
     with _lock:
@@ -152,8 +158,12 @@ def _lease(label, force=False):
         r = httpx.post(_vault_url() + "/vault/open/lease", headers=_vault_headers(), json={"itemId": _item_id(label)}, timeout=15)
         r.raise_for_status()
         j = r.json()
-        held = {"secret": j["rawSecret"], "proxy": j["proxy"]["url"], "target_header": j["proxy"].get("targetHeader") or "x-octo-target",
-                "expires": _expires((j.get("lease") or {}).get("expiresAt"))}
+        held = {
+            "secret": j["rawSecret"],
+            "proxy": j["proxy"]["url"],
+            "target_header": j["proxy"].get("targetHeader") or "x-octo-target",
+            "expires": _expires((j.get("lease") or {}).get("expiresAt")),
+        }
     except ProviderError:
         raise
     except Exception as e:
@@ -187,8 +197,13 @@ def _request(p):
 
 def _stream_once(p, system, prompt, mt, on_delta, read_s):
     url, headers = _request(p)
-    body = {"model": p.model, "max_tokens": max(mt, p.max_tokens_floor), "stream": True,
-            "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}], **p.extra}
+    body = {
+        "model": p.model,
+        "max_tokens": max(mt, p.max_tokens_floor),
+        "stream": True,
+        "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+        **p.extra,
+    }
     out = []
     try:
         with httpx.stream("POST", url, headers=headers, json=body, timeout=httpx.Timeout(connect=6.0, read=read_s, write=10.0, pool=6.0)) as r:

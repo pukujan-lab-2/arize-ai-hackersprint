@@ -49,8 +49,14 @@ class Fake:
                 host.vault_headers.append(dict(self.headers))
                 if self.path == "/api/vault/open/lease":
                     host.lease_calls += 1
-                    return self._send(201, {"lease": {"itemId": body.get("itemId"), "expiresAt": host.lease_expires}, "rawSecret": "octo_tmp_FAKE%d" % host.lease_calls,
-                                            "proxy": {"url": host.url + "/api/vault/proxy", "targetHeader": "x-octo-target"}})
+                    return self._send(
+                        201,
+                        {
+                            "lease": {"itemId": body.get("itemId"), "expiresAt": host.lease_expires},
+                            "rawSecret": "octo_tmp_FAKE%d" % host.lease_calls,
+                            "proxy": {"url": host.url + "/api/vault/proxy", "targetHeader": "x-octo-target"},
+                        },
+                    )
                 path = self.path
                 if self.path == "/api/vault/proxy":
                     path = urlparse(self.headers["x-octo-target"]).path
