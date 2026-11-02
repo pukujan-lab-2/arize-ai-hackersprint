@@ -153,3 +153,8 @@ Behaviour notes:
   answer is mapped. With reduced motion requested, camera moves jump instead of gliding.
 - A saved run opens as its own conversation and the address keeps `?run=<id>`, so the thread can be
   linked to and reloaded; asking a follow-up moves the address to the new run.
+
+## Voice
+
+- `components/VoiceMode.tsx`: hands-free conversation overlay (waveform button in the composer when the box is empty).
+- `hooks/use-dictation.ts`, `lib/mic.ts`, `lib/audio.ts`, `lib/speech.ts`: dictation (microphone button in the composer), capture, 16 kHz WAV, endpointing, calls to `/api/stt` and `/api/speech/warm`. Both buttons appear only when `/api/health` reports a speech engine. See `docs/specs/2026-11-01-voice-dictation-handsfree.md`.

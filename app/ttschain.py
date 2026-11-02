@@ -1,6 +1,6 @@
 """TTS: provider chain + single-worker generation queue + two-layer clip cache + tour-step metadata.
 
-Chain: Fish Audio -> (ElevenLabs if keyed) -> Kokoro (local HTTP service, tools/kokoro) -> browser speechSynthesis.
+Chain: shared speech host (open models, when SPEECH_URL is set) -> Fish Audio -> (ElevenLabs if keyed) -> Kokoro (local HTTP service, tools/kokoro) -> browser speechSynthesis.
 Queue: ONE worker generates clips, so a tour never fans out parallel Fish calls. Identical in-flight requests share a
        job. Priority: a clip the user is waiting for (0) > the first FAST_START tour steps (1) > the rest of the tour (2,
        in playback order).
@@ -10,7 +10,7 @@ Cache: every request checks the cache first, so each line hits a paid API at mos
 
 import base64, datetime, hashlib, heapq, itertools, os, pathlib, threading, time
 import httpx
-from app import limits, octocache
+from app import limits, octocache, speech
 from schema import validate
 from schema.store import SqliteStore, dumps, loads
 
@@ -18,7 +18,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent  # repo root
 FISH_URL = "https://api.fish.audio/v1/tts"
 ELEVEN_DEFAULT_VOICE = "21m00Tcm4TlvDq8ikWAM"
 FAST_START = 2  # tour steps generated on their own first so playback starts fast
-PREF = {"fish": 0, "elevenlabs": 1, "kokoro": 2, "legacy": 3}
+PREF = {"speech": 0, "fish": 1, "elevenlabs": 2, "kokoro": 3, "legacy": 4}
 
 
 def _f(name, default):
@@ -62,12 +62,33 @@ def kokoro_on():
     return not _off("TTS_DISABLE_KOKORO")
 
 
+def speech_on():
+    return speech.enabled() and not _off("TTS_DISABLE_SPEECH")
+
+
 def voice_for(p):
     return {
+        "speech": speech.voice(),
         "fish": os.environ.get("FISH_VOICE_ID") or "fish",
         "elevenlabs": os.environ.get("ELEVENLABS_VOICE_ID", ELEVEN_DEFAULT_VOICE),
         "kokoro": kokoro_voice(),
     }.get(p, p)
+
+
+def ext(audio):
+    return ".wav" if audio[:4] == b"RIFF" else ".mp3"
+
+
+def media_type(audio):
+    return "audio/wav" if audio[:4] == b"RIFF" else "audio/mpeg"
+
+
+def _clip_file(key):
+    for e in (".wav", ".mp3"):
+        f = cache_dir() / (key + e)
+        if f.exists():
+            return f
+    return None
 
 
 def clip_key(text, voice, provider):
@@ -94,7 +115,7 @@ def kokoro_up():
 
 
 def chain():
-    return [p for p, on in (("fish", fish_on()), ("elevenlabs", eleven_on()), ("kokoro", kokoro_on())) if on] + ["browser"]
+    return [p for p, on in (("speech", speech_on()), ("fish", fish_on()), ("elevenlabs", eleven_on()), ("kokoro", kokoro_on())) if on] + ["browser"]
 
 
 # ---------------- providers: (result|None, reason); result = {audio, chars, starts, duration_s}
@@ -112,6 +133,20 @@ def _mp3_duration(b):
                 return round((len(b) - i) * 8 / ((v1 if (b[i + 1] >> 3) & 3 == 3 else v2)[bi] * 1000), 3)
         i += 1
     return None
+
+
+def _speech(text):
+    if not speech_on():
+        return None, "off"
+    if not limits.take("speech_tts"):
+        return None, "cap"
+    try:
+        res = speech.tts(text)
+    except speech.SpeechError as e:
+        return None, e.reason
+    dur = res["duration_s"]
+    n = max(len(text), 1)  # no word timings from the host: spread characters evenly so captions keep pace
+    return {"audio": res["audio"], "chars": list(text), "starts": [round(i * dur / n, 3) for i in range(len(text))], "duration_s": dur}, "ok"
 
 
 def _fish(text):
@@ -180,7 +215,7 @@ def _kokoro(text):
     return {"audio": r.content, "chars": list(text), "starts": [round(i * dur / n, 3) for i in range(len(text))], "duration_s": round(dur, 3)}, "ok"
 
 
-PROVIDERS = {"fish": _fish, "elevenlabs": _eleven, "kokoro": _kokoro}
+PROVIDERS = {"speech": _speech, "fish": _fish, "elevenlabs": _eleven, "kokoro": _kokoro}
 
 
 # ---------------- cache layers
@@ -238,7 +273,7 @@ def _store_clip(text, provider, voice, res, to_octo=True):
         "created_at": _now(),
     }
     assert validate("tts_clip", meta) == [], validate("tts_clip", meta)
-    (cache_dir() / (meta["key"] + ".mp3")).write_bytes(res["audio"])
+    (cache_dir() / (meta["key"] + ext(res["audio"]))).write_bytes(res["audio"])
     row = dict(meta, chars=dumps(meta["chars"]), starts=dumps(meta["starts"]))
     cols = CLIP_COLS[:-2] + ["created_at"]
     local().execute(_clip_sql(cols), [row[c] for c in cols])
@@ -275,8 +310,8 @@ def lookup(text, meta_only=False):
     ts = text_sha(text)
     rows = sorted(local().query("SELECT * FROM tts_clip WHERE text_sha = $1", [ts]), key=lambda r: PREF.get(r["provider"], 9))
     for r in rows:
-        f = cache_dir() / (r["key"] + ".mp3")
-        if f.exists():
+        f = _clip_file(r["key"])
+        if f:
             return _clip(r, None if meta_only else f.read_bytes(), "hit")
     old = _legacy(text)
     if old:
@@ -427,7 +462,7 @@ def _save_step(step, clip=None):
 
 def _view(rec):
     out = {c: (loads(rec.get(c)) if c in ("cite_ids", "refs", "node_ids", "coords") else rec.get(c)) for c in STEP_COLS if c != "created_at"}
-    out["ready"] = bool(out.get("clip_key")) and (cache_dir() / (out["clip_key"] + ".mp3")).exists()
+    out["ready"] = bool(out.get("clip_key")) and _clip_file(out["clip_key"]) is not None
     return out
 
 
@@ -474,9 +509,10 @@ def tour(run_id):
 def health():
     st = octocache.status()
     kokoro_reachable = kokoro_on() and kokoro_up()
+    speech_reachable = speech_on() and speech.status().get("ok", False)
     return {
         # what health reports: only providers we can actually reach (#32). The real fallback chain, chain(), is untouched.
-        "tts": [p for p in chain() if p != "kokoro" or kokoro_reachable],
+        "tts": [p for p in chain() if (p != "kokoro" or kokoro_reachable) and (p != "speech" or speech_reachable)],
         "fish": fish_on(),
         "kokoro": kokoro_reachable,
         "tts_cache": {"local": True, "octo": octocache.up()},

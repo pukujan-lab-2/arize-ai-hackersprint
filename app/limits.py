@@ -8,6 +8,8 @@ CAPS = {
     "anthropic": 40,
     "elevenlabs_tts": 30,
     "elevenlabs_stt": 20,
+    "speech_stt": int(os.environ.get("SPEECH_STT_PER_HOUR", "600")),  # the host is ours and free; cap only as a runaway guard
+    "speech_tts": int(os.environ.get("SPEECH_TTS_PER_HOUR", "1000")),
     "fish_tts": int(os.environ.get("FISH_TTS_PER_HOUR", "200")),
     "kokoro_tts": int(os.environ.get("KOKORO_TTS_PER_HOUR", "1000")),  # Kokoro is local + free; cap only as a runaway guard
 }

@@ -221,6 +221,18 @@
             ],
             "title": "Sandbox"
           },
+          "speech": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Speech"
+          },
           "tts": {
             "anyOf": [
               {
@@ -479,6 +491,28 @@
       "SttResponse": {
         "additionalProperties": true,
         "properties": {
+          "engine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Engine"
+          },
+          "ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ms"
+          },
           "text": {
             "anyOf": [
               {
@@ -804,6 +838,17 @@
               }
             ],
             "title": "Duration S"
+          },
+          "format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Format"
           },
           "provider": {
             "anyOf": [
@@ -1353,6 +1398,25 @@
         "summary": "Seats"
       }
     },
+    "/api/speech/warm": {
+      "post": {
+        "description": "Wake the shared speech host before the user speaks (mic tapped); cheap and safe to repeat.",
+        "operationId": "speech_warm_api_speech_warm_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WarmResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Speech Warm"
+      }
+    },
     "/api/sponsor": {
       "get": {
         "operationId": "sponsor_api_sponsor_get",
@@ -1391,6 +1455,7 @@
     },
     "/api/stt": {
       "post": {
+        "description": "Dictation. The shared speech host first (WAV only, nothing stored); ElevenLabs only if it is keyed.",
         "operationId": "stt_api_stt_post",
         "requestBody": {
           "content": {
