@@ -1,6 +1,6 @@
 # Writing-helper pin
 
-Precedent pins the content-generation-modules helper at **0.5.12**, commit `6831f91e165b62d719c05eb492f7375fa932b560`. That is the same commit Pukujan-lab/hades-v2 pins, and when this was set up on 2026-10-17 the helper's `main` still reported 0.5.12, so there was nothing newer to move to. The pin names a commit, not a tag.
+Precedent pins the content-generation-modules helper at **0.5.13**, commit `c47740d71ca68be6a782b24dd8f28b905c620506`. It is the version the release train (`Pukujan/agent-stack-train` stack-releases.json) certifies. It replaced 0.5.12 (`6831f91e`) on 2026-11-01. The pin names a commit, not a tag.
 
 The pin is recorded in two places, and they have to agree: `.content-system/system-version.json` and `pins.cgm` in `.coord/assignment.json`. None of the helper's source is copied into this repo. CI checks it out into `.cgm/` at that commit and validates against it.
 
@@ -26,7 +26,7 @@ None of this grades the writing. It proves the wiring is in place.
 
 ```bash
 git clone https://github.com/Pukujan/content-generation-modules.git .cgm
-git -C .cgm checkout 6831f91e165b62d719c05eb492f7375fa932b560
+git -C .cgm checkout c47740d71ca68be6a782b24dd8f28b905c620506
 python tools/validate_cgm_adoption.py --helper-root .cgm
 python .cgm/scripts/validate_content_system.py --root .cgm --adapter .content-system --project-root .
 python .cgm/scripts/verify_hsw_applied.py --root .cgm
