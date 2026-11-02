@@ -66,6 +66,7 @@ class HealthResponse(Model):
     elevenlabs: Optional[bool] = None
     arize: Optional[Any] = None
     sandbox: Optional[str] = None
+    llm: Optional[Dict[str, Any]] = None  # fallback chain: {chain: [{name, model, healthy, probed_at}]}, empty without LLM_CHAIN
     tts: Optional[List[str]] = None  # ordered provider chain, e.g. ["fish", "kokoro", "browser"]
     fish: Optional[bool] = None
     kokoro: Optional[bool] = None

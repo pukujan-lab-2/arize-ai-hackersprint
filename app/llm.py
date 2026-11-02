@@ -2,7 +2,7 @@
 Cache by prompt hash: local cache/<key>.json first, shared Octo llm_answer table second (synced back); template/empty never cached."""
 
 import os, json, hashlib, pathlib, httpx, logging
-from app import octocache
+from app import octocache, llmchain
 
 log = logging.getLogger("llm")
 CACHE = pathlib.Path(__file__).resolve().parent.parent / "cache"
@@ -145,7 +145,14 @@ def complete(system, prompt, max_tokens=500, fallback=None):
     if d:
         return d["text"], d["provider"] + " (cached)"
     capped = False
-    if os.environ.get("LLM_MODE") != "fake":
+    if os.environ.get("LLM_MODE") != "fake" and llmchain.configured():
+        try:
+            t, name = llmchain.run(system, prompt, max_tokens)
+            _cache_put(h, t, name, max_tokens)
+            return t, name
+        except llmchain.ChainFailed:
+            pass
+    elif os.environ.get("LLM_MODE") != "fake":
         for name, fn in (("inferhub/deepseek", _inferhub), ("anthropic/claude-haiku-4-5", _anthropic)):
             try:
                 t = fn(system, prompt, max_tokens)
@@ -206,6 +213,13 @@ def complete_stream(system, prompt, max_tokens=400, fallback=None, on_delta=None
         on_delta and on_delta(d["text"])
         return d["text"], d["provider"] + " (cached)"
     capped = False
+    if os.environ.get("LLM_MODE") != "fake" and on_delta and llmchain.configured():
+        try:
+            t, name = llmchain.run(system, prompt, max_tokens, on_delta)
+            _cache_put(h, t, name, max_tokens)
+            return t, name + " (streamed)"
+        except llmchain.ChainFailed:
+            return (fallback() if fallback else ""), "template (offline)"
     if os.environ.get("LLM_MODE") != "fake" and on_delta:
         try:
             t = _anthropic_stream(system, prompt, max_tokens, on_delta)
