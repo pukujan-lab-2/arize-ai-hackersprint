@@ -30,7 +30,7 @@ RENEW_EVERY_S = 86400.0
 RENEW_WINDOW_S = 86400.0
 
 _lock = threading.RLock()
-_state = {"cfg": None, "health": {}, "probed": {}, "leases": {}, "items": None, "watcher": None}
+_state: dict = {"cfg": None, "health": {}, "probed": {}, "leases": {}, "items": None, "watcher": None}
 
 
 class ChainFailed(Exception):
