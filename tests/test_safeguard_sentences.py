@@ -99,3 +99,31 @@ def test_a_quote_that_differs_only_by_curly_punctuation_is_still_verbatim():
     text = 'Thiret [1] - "the police may conduct a warrantless search if the vehicle\'s unavailability is a risk".'
     claims, _ = agents.support_claims(text, [cite])
     assert [c["verbatim"] for c in claims] == [True]
+
+
+def _cites(*scores):
+    return [{"title": f"Case {i}", "passage": "some text", "score": x} for i, x in enumerate(scores)]
+
+
+def test_a_reranked_retrieval_with_low_scores_is_off_corpus():
+    # 'I meant a gun license' retrieved driver's, liquor and contract licence cases; the reranker scored the best at -1.57.
+    assert agents._coverage("I meant a gun license", _cites(-1.57, -3.96, -4.76), reranked=True) == "off_corpus"
+    assert agents._coverage("Hello", _cites(0.06, 0.06, 0.05), reranked=True) == "off_corpus"
+
+
+def test_a_reranked_retrieval_with_high_scores_is_on_point():
+    assert agents._coverage("Where is it illegal to carry a firearm in Colorado?", _cites(5.26, 5.16, 4.01), reranked=True) == "on_point"
+
+
+def test_without_a_rerank_stage_the_old_test_stands():
+    assert agents._coverage("gun license", _cites(0.08, 0.08), reranked=False) == "on_point"
+
+
+def test_the_no_authority_answer_is_not_a_failed_check():
+    class _Run:
+        def claim(self, *a, **k): pass
+        def event(self, *a, **k): pass
+        def release(self, *a, **k): pass
+
+    out = agents.safeguard(_Run(), "q", {"citations": []}, {"text": agents.NO_AUTHORITY, "provider": "scope:no-authority"})
+    assert out["pass"] is True and out["used"] == []

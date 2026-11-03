@@ -225,7 +225,8 @@ def retriever(run, question, extra_seeds=None):
             "graph": {"source": graph_source, "revision": (record.get("graph") or {}).get("revision")},
             "engine": record.get("engine") or {"configured": engine.configured(), "ok": False, "reason": "not reported"},
         }
-        coverage = _coverage(question, cites)
+        reranked = any(st.get("name") == "rerank" and not st.get("skipped") for st in retrieval["stages"])
+        coverage = _coverage(question, cites, reranked)
 
         try:
             from app import octo_retriever as _octo
@@ -290,17 +291,37 @@ def retriever(run, question, extra_seeds=None):
     }
 
 
-def _coverage(question, cites):
+# How many of the top authorities, and the cross-encoder score the best of them needs, before a retrieval counts
+# as on point. Measured on stored runs: on-point retrievals score 1.9 to 8.3 at the top, off-topic ones 0.06 and below.
+_RELEVANT_MIN = 2
+_RELEVANT_WINDOW = 10
+_REL_TOP_SCORE = float(os.environ.get("RELEVANCE_MIN_TOP_SCORE", "1.0"))
+
+
+def _scored_on_point(cites):
+    """Whether the reranker's own scores put the retrieved authorities on the question; None when none carry a score."""
+    scores = [float(c["score"]) for c in cites[:_RELEVANT_WINDOW] if isinstance(c.get("score"), (int, float)) and not isinstance(c.get("score"), bool)]
+    if not scores:
+        return None
+    return max(scores) >= _REL_TOP_SCORE and sum(1 for x in scores if x > 0) >= min(_RELEVANT_MIN, len(scores))
+
+
+def _coverage(question, cites, reranked=False):
     """Whether the retrieved authorities address the question, said plainly.
 
     `off_corpus` when the question names no subject to search for, when nothing came back, or when the
-    best authority shares no word with the question and scored no better than nothing.
+    reranker scored the best authority too low to be about the question: a licence question that retrieves
+    driver's, liquor and contract licence cases shares the word "licence" with all of them and is about none.
+    Without a rerank stage the old test stands: the best authority shares no word with the question and
+    scored no better than nothing.
     """
     terms = content_terms(question)
-    if not terms:
+    if not terms or not cites:
         return "off_corpus"
-    if not cites:
-        return "off_corpus"
+    if reranked:
+        verdict = _scored_on_point(cites)
+        if verdict is not None:
+            return "on_point" if verdict else "off_corpus"
     top = cites[0]
     hay = (str(top.get("title") or "") + " " + str(top.get("passage") or "")).lower()
     overlap = sum(1 for term in set(terms) if term in hay)
@@ -574,6 +595,31 @@ def _support(text, cites):
 def safeguard(run, question, ret, ans):
     A = "safeguard"
     run.claim(A, "eval + citation guard")
+    if ans.get("text") == NO_AUTHORITY:
+        # An honest "no authority on point" makes no claim to verify and cites nothing: it is not a failed check.
+        with tracing.span("safeguard") as _sp:
+            tracing.oi(
+                _sp,
+                openinference__span__kind="GUARDRAIL",
+                input__value=ans["text"],
+                output__value="PASS",
+                eval__support__label="not_applicable",
+                eval__citation_guard__label="not_applicable",
+            )
+        run.event(A, "checks", "no authority on point: nothing to verify")
+        run.release(A, status="pass", summary="PASS (no authority answer)")
+        return {
+            "pass": True,
+            "regex_pass": True,
+            "used": [],
+            "invalid": [],
+            "unknown_authorities": [],
+            "unsupported_claims": [],
+            "support": {"ran": False, "skipped": "no authority answer: nothing to verify"},
+            "abstain": False,
+            "answer_confidence": None,
+            "disclaimer": DISCLAIMER,
+        }
     with tracing.span("safeguard") as _sp:
         cites = ret["citations"]
         valid = {c["ref"] for c in cites}
