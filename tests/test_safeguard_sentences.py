@@ -121,9 +121,14 @@ def test_without_a_rerank_stage_the_old_test_stands():
 
 def test_the_no_authority_answer_is_not_a_failed_check():
     class _Run:
-        def claim(self, *a, **k): pass
-        def event(self, *a, **k): pass
-        def release(self, *a, **k): pass
+        def claim(self, *a, **k):
+            pass
+
+        def event(self, *a, **k):
+            pass
+
+        def release(self, *a, **k):
+            pass
 
     out = agents.safeguard(_Run(), "q", {"citations": []}, {"text": agents.NO_AUTHORITY, "provider": "scope:no-authority"})
     assert out["pass"] is True and out["used"] == []
