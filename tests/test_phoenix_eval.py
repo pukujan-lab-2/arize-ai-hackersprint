@@ -62,3 +62,31 @@ def test_dev_and_holdout_do_not_share_questions():
 def test_an_on_subject_authority_that_mentions_a_wrong_word_in_passing_is_not_wrong_subject():
     out = _out(["Godfrey v. County, a firearm statute; the opinion also mentions a theater"])
     assert evaluate(GUN, out)["no_wrong_subject_citations"]["score"] == 1.0
+
+
+def test_the_judge_reply_is_parsed_into_named_scores():
+    from tools.phoenix_judges import parse
+
+    reply = 'Sure:\n```json\n{"groundedness": {"label": "grounded", "score": 0.9, "explanation": "ok"}, "hallucination": {"label": "factual", "score": 7}, "legal_safety": {"label": "safe"}}\n```'
+    out = parse(reply)
+    assert out["judge_groundedness"] == {"label": "grounded", "score": 0.9, "explanation": "ok"}
+    assert out["judge_hallucination"]["score"] == 1.0  # clamped
+    assert "judge_legal_safety" not in out and "judge_citation_relevance" not in out  # no numeric score: left out
+    assert parse("not json") == {} and parse("") == {}
+
+
+def test_a_template_fallback_or_a_failing_model_gives_no_judgement(monkeypatch):
+    from app import llm
+    from tools.phoenix_judges import judge
+
+    monkeypatch.setattr(llm, "complete", lambda *a, **k: ("", "template (offline)"))
+    assert judge("q", "a", []) == {}
+    monkeypatch.setattr(llm, "complete", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("down")))
+    assert judge("q", "a", []) == {}
+
+
+def test_the_prompt_carries_question_answer_and_passages():
+    from tools.phoenix_judges import prompt
+
+    text = prompt("Is it legal?", "Short answer [1]", [{"ref": "[1]", "title": "Robertson", "passage": "a license to carry"}])
+    assert "Is it legal?" in text and "Short answer [1]" in text and "Robertson: a license to carry" in text
