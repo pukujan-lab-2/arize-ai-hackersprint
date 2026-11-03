@@ -425,9 +425,7 @@ _CITED_CONTEXT_CHARS = 600
 
 # Typography the model and the source disagree on without changing a word: curly versus straight quotes
 # and apostrophes, dashes, non-breaking spaces. A quote that differs only by these is still verbatim.
-_TYPOGRAPHY = str.maketrans(
-    {"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u2013": "-", "\u2014": "-", "\u00a0": " "}
-)
+_TYPOGRAPHY = str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u2013": "-", "\u2014": "-", "\u00a0": " "})
 
 
 def _plain(text):
