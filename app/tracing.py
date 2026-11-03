@@ -195,6 +195,60 @@ def span(name, **attrs):
         yield s
 
 
+ANNOTATE_DELAYS = (5, 20, 60)  # seconds to wait for the span to reach Phoenix before each attempt
+
+
+def _annotation_url():
+    base = os.environ.get("OCTO_BASE_URL", OCTO_BASE_DEFAULT).rstrip("/")
+    return f"{base}/workspaces/{os.environ.get('OCTO_WORKSPACE_ID', OCTO_WORKSPACE_DEFAULT)}/otel/v1/span_annotations"
+
+
+def _post_annotations(span_id, annotations, key):
+    """POST the scores to Octo, which forwards them to Phoenix. Retries while the span is still in flight."""
+    import time
+
+    import httpx
+
+    body = {
+        "data": [
+            {
+                "span_id": span_id,
+                "name": name,
+                "annotator_kind": "CODE",
+                "result": {k: v for k, v in result.items() if k in ("label", "score", "explanation") and v is not None},
+            }
+            for name, result in annotations.items()
+        ]
+    }
+    for delay in ANNOTATE_DELAYS:
+        time.sleep(delay)
+        try:
+            reply = httpx.post(_annotation_url(), json=body, headers={"Authorization": f"Bearer {key}"}, timeout=15)
+        except Exception:
+            continue
+        if reply.status_code < 300:
+            return True
+        if reply.status_code != 404:  # 404: the span has not arrived yet; anything else will not get better
+            return False
+    return False
+
+
+def annotate(s, annotations):
+    """Record eval scores as Phoenix span annotations on `s`, so Phoenix can filter and trend them.
+
+    `annotations` is {name: {label, score, explanation}}. Runs on a background thread: the span reaches
+    Phoenix with the next export batch, and an annotation sent before it is rejected. Never raises.
+    """
+    key = os.environ.get("OCTO_API_KEY") or os.environ.get("octo_db_legal")
+    if not s or not key or not annotations or os.environ.get("OCTO_TRACES", "").lower() == "off":
+        return
+    try:
+        span_id = format(s.get_span_context().span_id, "016x")
+        threading.Thread(target=_post_annotations, args=(span_id, annotations, key), daemon=True).start()
+    except Exception:
+        pass
+
+
 def oi(s, **kv):
     """Set OpenInference attributes on a span (no-op when tracing is off). Keys use __ for dots."""
     if not s:
