@@ -135,3 +135,8 @@ def test_a_cached_retrieval_is_recognised_as_reranked_by_its_source_label():
     assert agents._was_reranked({"stages": [{"name": "rerank", "skipped": False}], "source": "x"})
     assert not agents._was_reranked({"stages": [{"name": "rerank", "skipped": True}], "source": "engine:parse+bm25"})
     assert not agents._was_reranked({"stages": [], "source": "octo-live"})
+
+
+def test_a_reranked_passage_below_the_floor_is_not_offered():
+    assert agents._below_floor(-1.2) and not agents._below_floor(0.4)
+    assert not agents._below_floor(None) and not agents._below_floor(True)

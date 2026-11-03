@@ -163,10 +163,13 @@ def retriever(run, question, extra_seeds=None):
 
         # The candidate set is the engine's result list, in its order. Nothing is dropped for want of a node.
         cites, seen = [], set()
+        was_reranked = _was_reranked({"stages": record.get("stages"), "source": record.get("source") or psrc})
         for passage in passages:
             nid = str(passage.get("work_id") or "").strip()
             if not nid or nid in seen:
                 continue
+            if was_reranked and _below_floor(passage.get("score")):
+                continue  # the reranker scored this passage as not about the question: it is not offered as an authority
             seen.add(nid)
             node = {}
             if g is not None and nid in getattr(g, "nodes", {}):
@@ -303,6 +306,15 @@ def _scored_on_point(cites):
     if not scores:
         return None
     return max(scores) >= _REL_TOP_SCORE and sum(1 for x in scores if x > 0) >= min(_RELEVANT_MIN, len(scores))
+
+
+# A reranked passage scoring below this is not about the question. The tail of a reranked list is where the
+# wrong-subject cases sit (a liquor-licence case at rank 8 of a firearms answer).
+_REL_FLOOR = float(os.environ.get("RELEVANCE_FLOOR_SCORE", "0.0"))
+
+
+def _below_floor(score):
+    return isinstance(score, (int, float)) and not isinstance(score, bool) and score < _REL_FLOOR
 
 
 def _was_reranked(retrieval):
