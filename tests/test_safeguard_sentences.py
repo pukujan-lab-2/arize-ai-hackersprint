@@ -88,7 +88,7 @@ def test_a_claim_that_is_not_a_quotation_still_goes_to_the_checker(monkeypatch):
     monkeypatch.setattr(agents.engine, "check", fake)
     support = agents._support("A hunch is not enough to search a car here [2].", [cite])
     assert support["verbatim_claims"] == 0
-    assert seen["claims"] == [{"text": "A hunch is not enough to search a car here [2].", "cited_text": "Probable cause requires specific facts."}]
+    assert seen["claims"] == [{"text": "A hunch is not enough to search a car here.", "cited_text": "Probable cause requires specific facts."}]
 
 
 def test_a_quote_that_differs_only_by_curly_punctuation_is_still_verbatim():
@@ -145,3 +145,18 @@ def test_a_cached_retrieval_is_recognised_as_reranked_by_its_source_label():
 def test_a_reranked_passage_below_the_floor_is_not_offered():
     assert agents._below_floor(-1.2) and not agents._below_floor(0.4)
     assert not agents._below_floor(None) and not agents._below_floor(True)
+
+
+def test_the_checked_claim_is_plain_prose():
+    claim = agents._claim_text("**Short answer:** Police may search a car with probable cause [1][4].")
+    assert claim == "Police may search a car with probable cause."
+
+
+def test_a_sentence_citing_two_authorities_is_checked_against_both_passages():
+    cites = [
+        {"ref": "[1]", "chunk_id": "c1", "passages": [{"chunk_id": "c1", "text": "Probable cause is required."}]},
+        {"ref": "[4]", "chunk_id": "c4", "passages": [{"chunk_id": "c4", "text": "A warrant is preferred where practicable."}]},
+    ]
+    claims, unchecked = agents.support_claims("Police need probable cause and should get a warrant where practicable [1][4].", cites)
+    assert unchecked == [] and len(claims) == 1
+    assert "Probable cause is required." in claims[0]["cited_text"] and "A warrant is preferred" in claims[0]["cited_text"]

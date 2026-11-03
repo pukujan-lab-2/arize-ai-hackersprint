@@ -572,6 +572,19 @@ def _quote_is_verbatim(sentence, cited_text):
     return bool(needle) and needle in _plain(cited_text)
 
 
+_CLAIM_LEAD = re.compile(r"^\W*(?:short answer|bottom line)\s*:\s*", re.I)
+
+
+def _claim_text(sentence):
+    """The sentence as prose for the checker: no Markdown emphasis, no [n] markers, no 'Short answer:' label.
+
+    The checker reads the claim next to a court's prose; the formatting the memo is written in is noise to it
+    (the same claim scored 0.41 with it and 0.61 without).
+    """
+    text = re.sub(r"\s*\[\d+\]", "", sentence.replace("**", ""))
+    return " ".join(_CLAIM_LEAD.sub("", text).split())
+
+
 def support_claims(text, cites):
     """One claim per cited sentence: the sentence, the span it cites, and the chunk that span lives in."""
     by_ref = {c["ref"]: c for c in cites if c.get("ref")}
@@ -580,16 +593,26 @@ def support_claims(text, cites):
         refs = re.findall(r"\[\d+\]", sentence)
         if not refs:
             continue
-        cite = by_ref.get(refs[0])
-        if cite is None:
-            continue  # an invented reference: the citation guard already reports it
-        chunk_id, cited_text = _cited_span(cite, sentence)
-        if not chunk_id or not cited_text:
-            unchecked.append(refs[0])
+        # A sentence often synthesises several authorities ("... [1][4]"): the checker must read every passage it
+        # cites, not just the first, or a claim the second one supports looks unsupported.
+        spans, unseen = [], []
+        for ref in dict.fromkeys(refs):
+            cite = by_ref.get(ref)
+            if cite is None:
+                continue  # an invented reference: the citation guard already reports it
+            chunk_id, text = _cited_span(cite, sentence)
+            if chunk_id and text:
+                spans.append((chunk_id, text))
+            else:
+                unseen.append(ref)
+        if not spans:
+            unchecked.extend(unseen or refs[:1])
             continue
+        chunk_id = spans[0][0]
+        cited_text = "\n\n".join(dict.fromkeys(text for _, text in spans))
         claims.append(
             {
-                "text": sentence[:4000],
+                "text": _claim_text(sentence)[:4000],
                 "cited_text": cited_text[:20000],
                 "citation": refs[0],
                 "chunk_id": chunk_id,
