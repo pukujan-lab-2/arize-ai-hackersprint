@@ -225,8 +225,7 @@ def retriever(run, question, extra_seeds=None):
             "graph": {"source": graph_source, "revision": (record.get("graph") or {}).get("revision")},
             "engine": record.get("engine") or {"configured": engine.configured(), "ok": False, "reason": "not reported"},
         }
-        reranked = any(st.get("name") == "rerank" and not st.get("skipped") for st in retrieval["stages"])
-        coverage = _coverage(question, cites, reranked)
+        coverage = _coverage(question, cites, _was_reranked(retrieval))
 
         try:
             from app import octo_retriever as _octo
@@ -304,6 +303,13 @@ def _scored_on_point(cites):
     if not scores:
         return None
     return max(scores) >= _REL_TOP_SCORE and sum(1 for x in scores if x > 0) >= min(_RELEVANT_MIN, len(scores))
+
+
+def _was_reranked(retrieval):
+    """Whether the engine's rerank stage ran. A retrieval served from the shared cache has no stage list, but its
+    source label (`engine:parse+bm25+...+rerank`) still names the stages it ran."""
+    stages = retrieval.get("stages") or []
+    return any(st.get("name") == "rerank" and not st.get("skipped") for st in stages) or "rerank" in str(retrieval.get("source") or "")
 
 
 def _coverage(question, cites, reranked=False):

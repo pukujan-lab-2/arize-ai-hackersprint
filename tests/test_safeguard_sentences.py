@@ -127,3 +127,11 @@ def test_the_no_authority_answer_is_not_a_failed_check():
 
     out = agents.safeguard(_Run(), "q", {"citations": []}, {"text": agents.NO_AUTHORITY, "provider": "scope:no-authority"})
     assert out["pass"] is True and out["used"] == []
+
+
+def test_a_cached_retrieval_is_recognised_as_reranked_by_its_source_label():
+    # The shared retrieval cache returns passages without a stage list; its source still says 'rerank'.
+    assert agents._was_reranked({"stages": [], "source": "engine:parse+bm25+dense+hybrid+graph+rerank"})
+    assert agents._was_reranked({"stages": [{"name": "rerank", "skipped": False}], "source": "x"})
+    assert not agents._was_reranked({"stages": [{"name": "rerank", "skipped": True}], "source": "engine:parse+bm25"})
+    assert not agents._was_reranked({"stages": [], "source": "octo-live"})
