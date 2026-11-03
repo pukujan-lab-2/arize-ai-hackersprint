@@ -42,7 +42,11 @@ def evaluate(case, output):
     topic = re.compile(case["topic"], re.I)
     on = [c for c in cites if topic.search(_text(c))]
     share = len(on) / len(cites) if cites else 0.0
-    scores["on_topic_citations"] = {"label": "pass" if cites and share >= 0.5 else "fail", "score": round(share, 3), "explanation": f"{len(on)} of {len(cites)} cited authorities mention the subject"}
+    scores["on_topic_citations"] = {
+        "label": "pass" if cites and share >= 0.5 else "fail",
+        "score": round(share, 3),
+        "explanation": f"{len(on)} of {len(cites)} cited authorities mention the subject",
+    }
     if case.get("must_not_cite"):
         wrong = re.compile(case["must_not_cite"], re.I)
         # An authority on the subject that merely mentions "theater" in passing is not a wrong-subject citation.
@@ -50,8 +54,14 @@ def evaluate(case, output):
         scores["no_wrong_subject_citations"] = _score(not bad, "clean" if not bad else "wrong-subject", f"cited: {bad[:5]}" if bad else "none matched")
     sg = output.get("safeguard") or {}
     support = sg.get("support") or {}
-    scores["support_check"] = _score(bool(support.get("ran")) and not support.get("abstain"), "supported" if support.get("ran") and not support.get("abstain") else "abstained", f"confidence={support.get('answer_confidence')}")
-    scores["citation_guard"] = _score(bool(sg.get("regex_pass")), "pass" if sg.get("regex_pass") else "fail", f"invalid={sg.get('invalid')} unknown={sg.get('unknown_authorities')}")
+    scores["support_check"] = _score(
+        bool(support.get("ran")) and not support.get("abstain"),
+        "supported" if support.get("ran") and not support.get("abstain") else "abstained",
+        f"confidence={support.get('answer_confidence')}",
+    )
+    scores["citation_guard"] = _score(
+        bool(sg.get("regex_pass")), "pass" if sg.get("regex_pass") else "fail", f"invalid={sg.get('invalid')} unknown={sg.get('unknown_authorities')}"
+    )
     return scores
 
 
@@ -103,12 +113,23 @@ class Phoenix:
         return data["version_id"], data["examples"]
 
     def experiment(self, dataset_id, version_id, name, description, metadata):
-        return self._json("POST", f"/v1/datasets/{dataset_id}/experiments", json={"name": name, "description": description, "metadata": metadata, "version_id": version_id, "repetitions": 1})["id"]
+        return self._json(
+            "POST",
+            f"/v1/datasets/{dataset_id}/experiments",
+            json={"name": name, "description": description, "metadata": metadata, "version_id": version_id, "repetitions": 1},
+        )["id"]
 
     def record(self, experiment_id, example_id, output, started, ended, scores):
-        run_id = self._json("POST", f"/v1/experiments/{experiment_id}/runs", json={"dataset_example_id": example_id, "output": output, "repetition_number": 1, "start_time": started, "end_time": ended})["id"]
+        run_id = self._json(
+            "POST",
+            f"/v1/experiments/{experiment_id}/runs",
+            json={"dataset_example_id": example_id, "output": output, "repetition_number": 1, "start_time": started, "end_time": ended},
+        )["id"]
         for name, result in scores.items():
-            self.http.post("/v1/experiment_evaluations", json={"experiment_run_id": run_id, "name": name, "annotator_kind": "CODE", "start_time": started, "end_time": _now(), "result": result}).raise_for_status()
+            self.http.post(
+                "/v1/experiment_evaluations",
+                json={"experiment_run_id": run_id, "name": name, "annotator_kind": "CODE", "start_time": started, "end_time": _now(), "result": result},
+            ).raise_for_status()
 
 
 def main(argv=None):
