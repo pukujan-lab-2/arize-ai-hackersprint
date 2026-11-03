@@ -39,6 +39,33 @@ def content_terms(question):
     return [t for t in re.findall(r"[a-z0-9]+", (question or "").lower()) if len(t) > 2 and t not in _STOP and t not in _GREETING]
 
 
+_REWRITE_SYSTEM = (
+    "You rewrite a follow-up question into one self-contained search query for Colorado law. Resolve pronouns and "
+    "omissions from the earlier question and its bottom line, and keep every concrete subject (for example the "
+    "kind of license or weapon). Reply with the query only: one line, under 25 words, no quotes, no explanation."
+)
+
+
+def standalone_query(question, prior):
+    """The follow-up as a query that stands alone, so the search is not led astray by the words of the history.
+
+    `prior` is (earlier question, earlier bottom line). The model rewrites it; when it is unavailable or answers
+    with nothing usable, the follow-up is searched with the earlier question appended, as before.
+    """
+    from app import llm
+
+    fallback = f"{question} — in context of: {prior[0]}"
+    prompt = f"Earlier question: {prior[0]}\nEarlier bottom line: {prior[1]}\nFollow-up: {question}\nStandalone query:"
+    try:
+        text, provider = llm.complete(_REWRITE_SYSTEM, prompt, 80)
+    except Exception:
+        return fallback
+    text = " ".join((text or "").replace('"', " ").split())
+    if provider.startswith("template") or not (3 <= len(text) <= 240):
+        return fallback
+    return text
+
+
 def _graph_or_none():
     """(graph, reason it is unavailable). The graph is optional: the engine supplies the candidates."""
     try:
@@ -797,7 +824,7 @@ def _run_pipeline(question, run_id, prev=None):
     if prev:
         prior = (prev.get("question", ""), _bottom_line(prev.get("answer", "")))
         session = prev.get("session_id") or prev.get("run_id") or run.id
-        query = f"{question} — in context of: {prior[0]}"
+        query = standalone_query(question, prior)
         extra = [c.get("id") or c.get("node") for c in prev.get("citations", []) if c.get("ref")] or prev.get("seeds", [])
         extra = [x for x in extra if x]
         run.event("planner", "rewrite", f"follow-up rewritten to standalone query: {query[:160]}", question=query)
