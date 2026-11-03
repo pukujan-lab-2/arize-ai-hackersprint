@@ -743,7 +743,11 @@ def safeguard(run, question, ret, ans):
                     "score": support.get("answer_confidence") if support.get("answer_confidence") is not None else 0.0,
                     "explanation": f"scorer={support.get('scorer')} threshold={support.get('threshold')} abstain={support.get('abstain')}",
                 },
-                "citation_guard": {"label": "pass" if regex_pass else "fail", "score": 1.0 if regex_pass else 0.0, "explanation": f"{len(used)} cites used; invalid={bad}; unknown={unknown}"},
+                "citation_guard": {
+                    "label": "pass" if regex_pass else "fail",
+                    "score": 1.0 if regex_pass else 0.0,
+                    "explanation": f"{len(used)} cites used; invalid={bad}; unknown={unknown}",
+                },
                 "groundedness": {"label": "grounded" if _g >= 0.7 else "partially_grounded", "score": _g},
             },
         )
