@@ -66,6 +66,11 @@ def standalone_query(question, prior):
     return text
 
 
+def _model_name(provider):
+    """The model out of a provider label such as 'inferhub/cb/deepseek-v4.1-flash (cached)'."""
+    return re.sub(r"\s*\(.*\)\s*$", "", provider or "").split("/", 1)[-1] or "unknown"
+
+
 def _graph_or_none():
     """(graph, reason it is unavailable). The graph is optional: the engine supplies the candidates."""
     try:
@@ -460,9 +465,9 @@ def answer(run, question, ret, prior=None):
         tracing.oi(
             _sp,
             openinference__span__kind="LLM",
-            llm__model_name="",
-            llm__provider="anthropic",
-            llm__system="anthropic",
+            llm__model_name=_model_name(provider),
+            llm__provider=provider.split("/")[0].split(" ")[0],
+            llm__system=provider.split("/")[0].split(" ")[0],
             llm__invocation_parameters={"max_tokens": 400},
             llm__input_messages__0__message__role="system",
             llm__input_messages__0__message__content=sys_p,
@@ -728,6 +733,19 @@ def safeguard(run, question, ret, ans):
             eval__groundedness__label="grounded" if _g >= 0.7 else "partially_grounded",
             eval__groundedness__score=_g,
             eval__groundedness__explanation=f"{len(unsupported)} of ~{_sent} sentences lack a retrieved citation (heuristic, no LLM call)",
+        )
+        tracing.annotate(
+            _sp,
+            {
+                "safeguard": {"label": "pass" if passed else "fail", "score": 1.0 if passed else 0.0},
+                "support": {
+                    "label": "pass" if (support.get("ran") and not support.get("abstain")) else "fail",
+                    "score": support.get("answer_confidence") if support.get("answer_confidence") is not None else 0.0,
+                    "explanation": f"scorer={support.get('scorer')} threshold={support.get('threshold')} abstain={support.get('abstain')}",
+                },
+                "citation_guard": {"label": "pass" if regex_pass else "fail", "score": 1.0 if regex_pass else 0.0, "explanation": f"{len(used)} cites used; invalid={bad}; unknown={unknown}"},
+                "groundedness": {"label": "grounded" if _g >= 0.7 else "partially_grounded", "score": _g},
+            },
         )
         run.release(A, status="pass" if passed else "fail", summary="PASS" if passed else "FAIL")
     return {
