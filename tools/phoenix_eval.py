@@ -138,6 +138,7 @@ def main(argv=None):
     ap.add_argument("--name", required=True, help="experiment name, e.g. baseline or pr-62")
     ap.add_argument("--description", default="")
     ap.add_argument("--only", help="run only the case ids containing this text")
+    ap.add_argument("--judges", action="store_true", help="also score each answer with the four LLM judges (one model call each)")
     args = ap.parse_args(argv)
     from app import agents
 
@@ -155,6 +156,10 @@ def main(argv=None):
         started = _now()
         output = run_case(case, lambda q, prev: agents.run_pipeline(q, prev=prev))
         scores = evaluate(case, output)
+        if args.judges and case["expect"] == "answer":
+            from tools.phoenix_judges import judge
+
+            scores.update(judge(case["question"], output["answer"], output["citations"]))
         phoenix.record(experiment_id, ex["id"], output, started, _now(), scores)
         for name, r in scores.items():
             tally.setdefault(name, []).append(r["score"])
