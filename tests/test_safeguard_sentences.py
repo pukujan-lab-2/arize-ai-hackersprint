@@ -89,3 +89,13 @@ def test_a_claim_that_is_not_a_quotation_still_goes_to_the_checker(monkeypatch):
     support = agents._support("A hunch is not enough to search a car here [2].", [cite])
     assert support["verbatim_claims"] == 0
     assert seen["claims"] == [{"text": "A hunch is not enough to search a car here [2].", "cited_text": "Probable cause requires specific facts."}]
+
+
+def test_a_quote_that_differs_only_by_curly_punctuation_is_still_verbatim():
+    # The source prints vehicle’s with a curly apostrophe; the model wrote it straight. The words are the
+    # same, so the claim is the evidence and must not be sent to the checker (stored run 224353-1b3398).
+    passage = "Thus, “the police may conduct a warrantless search if the vehicle’s unavailability is a risk.” Meyer."
+    cite = {"ref": "[1]", "chunk_id": "c1", "passages": [{"chunk_id": "c1", "text": passage}]}
+    text = 'Thiret [1] - "the police may conduct a warrantless search if the vehicle\'s unavailability is a risk".'
+    claims, _ = agents.support_claims(text, [cite])
+    assert [c["verbatim"] for c in claims] == [True]

@@ -423,6 +423,17 @@ _QUOTE = re.compile(r'["\u201c]([^"\u201d]{12,})["\u201d]')
 # what the support checker actually reads, so it has to be prose, not the phrase on its own.
 _CITED_CONTEXT_CHARS = 600
 
+# Typography the model and the source disagree on without changing a word: curly versus straight quotes
+# and apostrophes, dashes, non-breaking spaces. A quote that differs only by these is still verbatim.
+_TYPOGRAPHY = str.maketrans(
+    {"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u2013": "-", "\u2014": "-", "\u00a0": " "}
+)
+
+
+def _plain(text):
+    """The text with typography folded and whitespace collapsed, for comparing a quote with its source."""
+    return " ".join((text or "").translate(_TYPOGRAPHY).split())
+
 
 def _cited_span(cite, sentence):
     """The span of the cited passage the claim leans on, and the chunk it comes from.
@@ -437,11 +448,10 @@ def _cited_span(cite, sentence):
         passages = [{"chunk_id": cite["chunk_id"], "text": cite.get("passage") or ""}]
     quote = _QUOTE.search(sentence)
     if quote:
-        for needle in (quote.group(1), " ".join(quote.group(1).split())):
-            if not needle:
-                continue
+        needle = _plain(quote.group(1))
+        if needle:
             for p in passages:
-                raw = p.get("text") or ""
+                raw = _plain(p.get("text"))
                 at = raw.find(needle)
                 if at >= 0:
                     start = max(0, at - _CITED_CONTEXT_CHARS)
@@ -489,8 +499,8 @@ def _quote_is_verbatim(sentence, cited_text):
     quote = _QUOTE.search(sentence)
     if not quote:
         return False
-    needle = " ".join(quote.group(1).split())
-    return bool(needle) and needle in " ".join((cited_text or "").split())
+    needle = _plain(quote.group(1))
+    return bool(needle) and needle in _plain(cited_text)
 
 
 def support_claims(text, cites):
