@@ -1,0 +1,92 @@
+name: Docs refresh
+# After every 10 PRs merged into main, ask Claude to bring README.md, AGENTS.md and docs/ in line with them and open one
+# docs PR for review. ci/docs_refresh.py decides when it is due. PRs merged by auto-merge (GITHUB_TOKEN) start no
+# workflows, so this polls like close-linked-issues does. Needs the repo secret ANTHROPIC_API_KEY; without it the run
+# says so and stops. The docs PR is opened by GITHUB_TOKEN, so CI does not start on it by itself: close and reopen it
+# (or push to its branch) to run the gates before merging.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Refresh now, whatever the count"
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+concurrency:
+  group: docs-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    name: refresh
+    runs-on: [self-hosted, org-pool]
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Is a refresh due?
+        id: due
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          python3 ci/docs_refresh.py --repo "$GITHUB_REPOSITORY" --out "$RUNNER_TEMP/prs.md" | tee -a "$GITHUB_OUTPUT"
+          if [ "$FORCE" = "true" ]; then echo "due=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Need the API key
+        id: key
+        if: steps.due.outputs.due == 'true'
+        env:
+          KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::warning::Docs refresh is due but the ANTHROPIC_API_KEY repo secret is not set. Add it, then run this workflow by hand."
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Update the docs
+        if: steps.due.outputs.due == 'true' && steps.key.outputs.has_key == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ github.token }}
+          prompt: |
+            These pull requests merged into main since the docs were last refreshed. The list is in
+            ${{ runner.temp }}/prs.md. Read each one (`gh pr view <n> --json title,body,files`) and bring README.md,
+            AGENTS.md and the Current files listed in docs/README.md in line with what changed. Edit only those Markdown
+            files. Keep the existing voice and structure; change a sentence only when a merged PR made it wrong or
+            left something out, and say nothing you cannot see in the code or the PRs. Do not touch code, tests,
+            workflows or the historical hackathon files in docs/. Do not commit, push or open a PR; a later step does.
+          claude_args: --max-turns 25 --allowedTools "Read,Edit,Glob,Grep,Bash(gh pr view:*),Bash(git log:*),Bash(git diff:*)"
+      - name: Open the docs PR
+        if: steps.due.outputs.due == 'true' && steps.key.outputs.has_key == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COUNT: ${{ steps.due.outputs.count }}
+        run: |
+          if git diff --quiet; then
+            echo "The docs already match; nothing to open."
+            exit 0
+          fi
+          branch="docs/auto-refresh-$(date -u +%Y%m%d-%H%M)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add README.md AGENTS.md docs
+          git commit -m "Refresh the docs for the last ${COUNT} merged PRs"
+          git push -u origin "$branch"
+          gh label create docs-refresh --color 0e8a16 --description "Automated docs refresh" --force
+          {
+            echo "Docs refresh after ${COUNT} merged PRs. Edited by Claude from the PRs below; check it reads right before merging."
+            echo
+            cat "$RUNNER_TEMP/prs.md"
+            echo
+            echo "Refs #56"
+          } > "$RUNNER_TEMP/body.md"
+          gh pr create --base main --head "$branch" --label docs-refresh --title "Refresh the docs for the last ${COUNT} merged PRs" --body-file "$RUNNER_TEMP/body.md"

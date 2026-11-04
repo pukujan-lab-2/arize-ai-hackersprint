@@ -96,9 +96,9 @@ Dependabot (`.github/dependabot.yml`) opens weekly update PRs for GitHub Actions
 
 ## What never goes in git
 
-Secrets stay in `~/.hack_env` on the Pro or in your own shell. Refer to them by variable name (`INFERHUB_API_KEY`, `ANTHROPIC_API_KEY`, `ELEVENLABS_API_KEY`, `ARIZE_API_KEY`, `OCTO_API_KEY`) and never print their values, even in logs or PR text.
+Secrets stay in `~/.hack_env` on the VPS or in your own shell. Refer to them by variable name (`INFERHUB_API_KEY`, `ANTHROPIC_API_KEY`, `ELEVENLABS_API_KEY`, `ARIZE_API_KEY`, `OCTO_API_KEY`) and never print their values, even in logs or PR text.
 
-Runtime data is not committed either: `cache/`, `runs/`, `data/`, `logs/`, `.tts_cache/` and `uvicorn.log` are gitignored. The case data and the Octo snapshot live in `~/precedent/data` on the Pro. Running the tests rewrites the seats in `.coord/assignment.json`; restore that file with `git checkout .coord/assignment.json` before you commit unless you meant to change it.
+Runtime data is not committed either: `cache/`, `runs/`, `data/`, `logs/`, `.tts_cache/` and `uvicorn.log` are gitignored. The case data and the Octo snapshot live in `~/precedent/data` on the VPS. Running the tests rewrites the seats in `.coord/assignment.json`; restore that file with `git checkout .coord/assignment.json` before you commit unless you meant to change it.
 
 ## Test first
 
@@ -109,7 +109,7 @@ Write or extend the test before the change and watch it fail. Then make it pass.
 1. Claim the task (next section), then branch from a fresh `main`: `git switch -c <you>/<task>`.
 2. Commit small steps. Rebase on `origin/main` right before you push, because several agents push to this repo at once.
 3. Open a PR. `automerge.yml` turns on squash auto-merge for the owner's and bots' PRs, and the PR merges as soon as the `gates` job passes. No review is required, so the tests are the review.
-4. After the merge, `deploy.yml` runs `deploy/deploy.sh` on the self-hosted runner on the Pro. It health-checks `http://127.0.0.1:3000/api/health` and `https://arize.design-bakery.com/api/health` and rolls back to the previous commit if either fails. It also refuses to deploy when `~/precedent` has uncommitted changes. A merge alone does not prove the site changed; check the deploy run.
+4. After the merge, `deploy.yml` runs `deploy/deploy.sh` on the self-hosted `precedent-vps` runner on the VPS. It health-checks `http://127.0.0.1:3000/api/health` and `https://arize.design-bakery.com/api/health` and rolls back to the previous commit if either fails. It also refuses to deploy when `~/precedent` has uncommitted changes. A merge alone does not prove the site changed; check the deploy run.
 5. If the live site breaks after your merge, revert the PR right away.
 
 ## Claiming work (ACS)
