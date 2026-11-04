@@ -22,9 +22,13 @@ DEFAULT_TIMEOUT = float(os.environ.get("ENGINE_TIMEOUT_S", "120"))
 HEALTH_TIMEOUT = float(os.environ.get("ENGINE_HEALTH_TIMEOUT_S", "2.5"))
 HEALTH_TTL = 10.0
 
-# On the VPS the engine sits behind systemd socket activation: any connection to it starts it (about 75 s) and
-# keeps it awake for 20 more minutes. Status reads therefore ask systemd, never the engine itself.
+# On the VPS the engine sleeps until something connects to it: any connection starts it (about 75 s) and keeps it
+# awake for a while. Status reads therefore ask the host what state the engine is in, never the engine itself.
+# ENGINE_STATE_SOURCE picks who to ask: `systemd` (socket-activated `legal-engine.service`), `docker` (the
+# `legal-engine` container that Sablier starts and stops, server-management#128), or `auto` (Docker, then systemd).
+STATE_SOURCE = os.environ.get("ENGINE_STATE_SOURCE", "systemd").strip().lower()
 SYSTEMD_UNIT = os.environ.get("ENGINE_SYSTEMD_UNIT", "legal-engine.service")
+DOCKER_CONTAINER = os.environ.get("ENGINE_DOCKER_CONTAINER", "legal-engine")
 SYSTEMD_TTL = 5.0
 WARM_EVERY_S = float(os.environ.get("ENGINE_WARM_EVERY_S", "300"))
 WAKING_REASON = "The retrieval engine is waking up (about 1-2 minutes). Ask again shortly for its full search."
@@ -133,39 +137,87 @@ def probe(force=False):
 _unit_lock = threading.Lock()
 _unit = {"at": 0.0, "state": None}
 
+# Docker's `.State.Status` and `.State.Health.Status`, in systemd's words, so the rest of this module reads one
+# vocabulary. A running container with no health check counts as up; an unhealthy one is reported as such.
+_DOCKER_STATES = {
+    ("running", "healthy"): "active",
+    ("running", ""): "active",
+    ("running", "starting"): "activating",
+    ("running", "unhealthy"): "unhealthy",
+    ("restarting", ""): "activating",
+    ("created", ""): "inactive",
+    ("exited", ""): "inactive",
+    ("paused", ""): "inactive",
+    ("dead", ""): "failed",
+}
+
+
+def _systemd_unit_state():
+    """`legal-engine.service`'s ActiveState, or None when systemd does not manage the engine on this host."""
+    if not (SYSTEMD_UNIT and shutil.which("systemctl")):
+        return None
+    try:
+        out = subprocess.run(
+            ["systemctl", "show", SYSTEMD_UNIT, "--property=LoadState,ActiveState"],
+            capture_output=True,
+            text=True,
+            timeout=2,
+        ).stdout
+    except Exception:
+        return None
+    props = dict(line.split("=", 1) for line in out.splitlines() if "=" in line)
+    if props.get("LoadState") != "loaded":
+        return None
+    return props.get("ActiveState") or None
+
+
+def _docker_container_state():
+    """The `legal-engine` container's state in systemd's words, or None when there is no such container here."""
+    if not (DOCKER_CONTAINER and shutil.which("docker")):
+        return None
+    try:
+        done = subprocess.run(
+            ["docker", "inspect", "-f", "{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}{{end}}", DOCKER_CONTAINER],
+            capture_output=True,
+            text=True,
+            timeout=2,
+        )
+    except Exception:
+        return None
+    if done.returncode != 0:
+        return None
+    status, _, health = done.stdout.strip().partition(" ")
+    if not status:
+        return None
+    health = health.strip() if status == "running" else ""
+    return _DOCKER_STATES.get((status, health), status)
+
 
 def systemd_state():
-    """`legal-engine.service`'s ActiveState (active, activating, inactive, failed...), or None when systemd does
-    not manage the engine on this host. Asking systemd opens no connection to the engine, so it never wakes it."""
+    """The engine's state in systemd's words (active, activating, inactive, failed...), or None when nothing on this
+    host manages it. It asks systemd or Docker as ENGINE_STATE_SOURCE says; neither opens a connection to the
+    engine, so it never wakes it."""
     with _unit_lock:
         if _unit["at"] and time.time() - _unit["at"] < SYSTEMD_TTL:
             return _unit["state"]
-    state = None
-    if SYSTEMD_UNIT and shutil.which("systemctl"):
-        try:
-            out = subprocess.run(
-                ["systemctl", "show", SYSTEMD_UNIT, "--property=LoadState,ActiveState"],
-                capture_output=True,
-                text=True,
-                timeout=2,
-            ).stdout
-            props = dict(line.split("=", 1) for line in out.splitlines() if "=" in line)
-            if props.get("LoadState") == "loaded":
-                state = props.get("ActiveState") or None
-        except Exception:
-            state = None
+    if STATE_SOURCE == "docker":
+        state = _docker_container_state()
+    elif STATE_SOURCE == "auto":
+        state = _docker_container_state() or _systemd_unit_state()
+    else:
+        state = _systemd_unit_state()
     with _unit_lock:
         _unit.update(at=time.time(), state=state)
     return state
 
 
 def sleeping():
-    """True when systemd says the engine is stopped or still loading. Never connects, so it never wakes it."""
+    """True when the host says the engine is stopped or still loading. Never connects, so it never wakes it."""
     return systemd_state() in ("inactive", "activating")
 
 
 def awake():
-    """True when systemd says the engine is up."""
+    """True when the host says the engine is up."""
     return systemd_state() == "active"
 
 
@@ -313,7 +365,7 @@ def status(stages=None):
         return reported
     unit = systemd_state()
     if unit is not None:
-        # Socket-activated: report systemd's view, and fill the details from the last health answer the engine
+        # Sleeps until woken: report the host's view, and fill the details from the last health answer the engine
         # gave (to a warm-up or an earlier probe) without asking it again.
         with _health_lock:
             data = _health["data"]
