@@ -1,5 +1,5 @@
-"""The legal engine sleeps behind systemd socket activation (#161): any connection to it wakes it. Status reads
-must ask systemd instead of the engine, a page visit warms it at most once per 5 minutes, and an answer taken
+"""The legal engine sleeps until something connects to it (#161): any connection wakes it. Status reads must ask
+the host (systemd's socket-activated unit, or the Docker container Sablier wakes) instead of the engine, a page visit warms it at most once per 5 minutes, and an answer taken
 from the fallback path is cached only briefly so the question reaches the engine once it is awake."""
 
 import json
@@ -18,6 +18,7 @@ from app.server import app
 def configured(monkeypatch):
     monkeypatch.setenv("ENGINE_BASE_URL", "http://127.0.0.1:8011/api/v1")
     monkeypatch.setenv("ENGINE_API_TOKEN", "test-token")
+    monkeypatch.setattr(engine, "STATE_SOURCE", "systemd")
     engine._unit.update(at=0.0, state=None)
     engine._warm.update(at=0.0)
     engine._health.update(at=0.0, data=None, error=None)
@@ -38,6 +39,20 @@ def _systemd(monkeypatch, active_state, load_state="loaded"):
     def fake_run(args, **kwargs):
         seen.append(args)
         return subprocess.CompletedProcess(args, 0, stdout=f"LoadState={load_state}\nActiveState={active_state}\n", stderr="")
+
+    monkeypatch.setattr(engine.subprocess, "run", fake_run)
+    return seen
+
+
+def _docker(monkeypatch, output, returncode=0):
+    """Answer `docker inspect` with `output` ("running healthy", "exited " ...); systemctl is absent."""
+    monkeypatch.setattr(engine, "STATE_SOURCE", "docker")
+    monkeypatch.setattr(engine.shutil, "which", lambda name: "/usr/bin/docker" if name == "docker" else None)
+    seen = []
+
+    def fake_run(args, **kwargs):
+        seen.append(args)
+        return subprocess.CompletedProcess(args, returncode, stdout=output + "\n", stderr="")
 
     monkeypatch.setattr(engine.subprocess, "run", fake_run)
     return seen
@@ -193,3 +208,75 @@ def test_an_awake_engine_ignores_a_cached_backup_answer(configured, monkeypatch,
     assert octo_retriever._cache_get(h)  # the backup answer is cached
     passages, source = octo_retriever.search(question)
     assert source == "engine:bm25" and passages[0]["work_id"] == "full"
+
+
+# ---- after server-management#128 the engine is the `legal-engine` Docker container, not a systemd unit ----
+@pytest.mark.parametrize(
+    "inspect,ok,status",
+    [
+        ("running healthy", True, "ready"),
+        ("running starting", False, "waking"),
+        ("exited ", False, "asleep"),
+        ("created ", False, "asleep"),
+        ("running unhealthy", False, "unhealthy"),
+    ],
+)
+def test_status_reports_docker_state_without_touching_the_engine(configured, monkeypatch, inspect, ok, status):
+    seen = _docker(monkeypatch, inspect)
+    reported = engine.status()
+    assert (reported["ok"], reported["status"]) == (ok, status)
+    assert configured == []
+    assert seen[0][:2] == ["docker", "inspect"] and seen[0][-1] == "legal-engine"
+
+
+def test_sleeping_and_awake_follow_docker(configured, monkeypatch):
+    for inspect, sleeping, awake in [("exited ", True, False), ("created ", True, False), ("running starting", True, False), ("running healthy", False, True)]:
+        engine._unit.update(at=0.0, state=None)
+        _docker(monkeypatch, inspect)
+        assert (engine.sleeping(), engine.awake()) == (sleeping, awake), inspect
+
+
+def test_health_and_stack_never_connect_to_a_sleeping_container(configured, monkeypatch):
+    _docker(monkeypatch, "exited ")
+    client = TestClient(app)
+    assert client.get("/api/health").json()["engine"]["status"] == "asleep"
+    assert client.get("/api/stack").status_code == 200
+    assert configured == []
+
+
+def test_docker_state_is_cached(configured, monkeypatch):
+    seen = _docker(monkeypatch, "running healthy")
+    engine.status()
+    engine.status()
+    assert len(seen) == 1
+
+
+def test_without_a_container_status_still_probes(configured, monkeypatch):
+    _docker(monkeypatch, "", returncode=1)  # docker inspect: No such object
+    assert (engine.sleeping(), engine.awake()) == (False, False)
+    engine._unit.update(at=0.0, state=None)
+    assert engine.status()["status"] == "unreachable"
+    assert configured == ["/health"]
+
+
+def test_systemd_source_does_not_ask_docker(configured, monkeypatch):
+    seen = _systemd(monkeypatch, "active")
+    assert engine.awake() is True
+    assert [args[0] for args in seen] == ["systemctl"]
+
+
+@pytest.mark.parametrize("container,expected", [(True, "active"), (False, "inactive")])
+def test_auto_asks_docker_first_then_systemd(configured, monkeypatch, container, expected):
+    monkeypatch.setattr(engine, "STATE_SOURCE", "auto")
+    monkeypatch.setattr(engine.shutil, "which", lambda name: "/usr/bin/" + name)
+    asked = []
+
+    def fake_run(args, **kwargs):
+        asked.append(args[0])
+        if args[0] == "docker":
+            return subprocess.CompletedProcess(args, 0 if container else 1, stdout="running healthy\n" if container else "", stderr="")
+        return subprocess.CompletedProcess(args, 0, stdout="LoadState=loaded\nActiveState=inactive\n", stderr="")
+
+    monkeypatch.setattr(engine.subprocess, "run", fake_run)
+    assert engine.systemd_state() == expected
+    assert asked == (["docker"] if container else ["docker", "systemctl"])
