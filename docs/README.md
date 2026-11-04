@@ -7,6 +7,7 @@ Current:
 - `FRONTEND_INVENTORY.md`: every page, control, owning file and API route in `web/`, plus known clutter. Start here for frontend work.
 - `continuity/cgm-pin.md`: which writing-helper commit this repo pins, what `.content-system/` holds, and how CI checks it.
 - `continuity/oio-pin.md`: which OIO commit this repo pins, the installer layout under `.oio/`, and how CI checks it.
+- `PIPELINE_QUALITY.md`: how retrieval, the relevance gate, the support check and statutes work now, how to run and read the Phoenix experiments, and what the legal engine's deploy looks like.
 - `voice-and-data-model.md`: the TTS provider chain and queue, the local-then-Octo answer, retrieval and clip caches, and how the Octo tables are versioned and migrated.
 - `issues/NETWORK_EGRESS_INFERHUB.md`: notes on the sandbox's blocked egress to InferHub, kept because it explains why model calls failed from the sandbox that day.
 

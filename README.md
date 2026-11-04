@@ -20,16 +20,18 @@ Every answer carries the same line: *this is an AI-generated research summary, n
 
 **Each agent claims a seat, does one job, logs it, and hands off.**
 
-1. **Planner** takes the question. For a follow-up it rewrites it into a standalone query, then dispatches the others.
-2. **Retriever** finds seed authorities in the case graph, pulls matching passages from Octo, expands one hop along citations, and ranks the results by citation-weighted PageRank.
+1. **Planner** takes the question. For a follow-up it asks the model to rewrite it into a standalone query (it falls back to the question plus the earlier one if the model is down), then dispatches the others.
+2. **Retriever** finds seed authorities in the case graph, pulls matching passages from the legal engine (BM25, dense, graph and a cross-encoder rerank over cases and Colorado statutes), expands one hop along citations, and ranks the results by citation-weighted PageRank. Everyday wording is also searched with the statutes' own words ("gun license" adds "firearm, concealed handgun, permit"). If the best reranked passage scores too low, the question is treated as off-corpus and gets an honest "no authority" answer instead of the nearest wrong cases.
 3. **Answer** drafts the memo from those numbered authorities only. It tries InferHub first, then Anthropic, and if both fail it returns a plain template that lists the authorities instead of making something up.
-4. **Safeguard** checks the draft without a model call. Every `[n]` must point at a retrieved authority, any citation-shaped string must be one it was given, and sentences without a citation are flagged. A draft with no citations fails.
+4. **Safeguard** checks the draft. Every `[n]` must point at a retrieved authority, any citation-shaped string must be one it was given, and sentences without a citation are flagged. A draft with no citations fails. A support check (MiniCheck, in the legal engine) then scores each sentence against every passage it cites; the weakest sentence sets the answer's score, and a score under 0.5 is reported as unsupported. An answer that says there is no authority passes without that check.
 
-**Every step is written down.** Each run gets a folder under `runs/<run_id>/` with an event log and the final result, and the seats are recorded in `.coord/assignment.json`. Steps are also traced to Arize, where groundedness and the citation guard are logged as evals.
+**Every step is written down.** Each run gets a folder under `runs/<run_id>/` with an event log and the final result, and the seats are recorded in `.coord/assignment.json`. Steps are also traced to Arize and Phoenix, where the safeguard, support, citation guard and groundedness scores are posted as span annotations. Prompt-level quality is measured with datasets and experiments in Phoenix; see `docs/PIPELINE_QUALITY.md`.
 
 ## Where it stops
 
 - **The safeguard checks citations, not legal reasoning.** It catches a made-up or out-of-set case. It can't tell whether a quote is a fair reading of the holding.
+- **The support check is strict.** Taking the weakest sentence means one vague summary sentence can pull a correct, well-cited answer under 0.5. This is known and measured; see `docs/PIPELINE_QUALITY.md`.
+- **Statutes are partial.** Only C.R.S. Title 18, Article 12 (the 2024 uncertified printout) is loaded so far. Those chunks have no embeddings; the engine embeds them at query time.
 - **The case data isn't in this repo.** The graph (`data/nodes.jsonl`, `data/edges.jsonl`) and the Octo passage snapshot live on the host that runs the app. Without them a run stops early and says the data isn't loaded.
 - **Answers are capped and rate-limited** (questions per minute, hourly model and voice caps), so a busy demo can fall back to the template or to the browser's own speech.
 
@@ -71,9 +73,9 @@ Set these in your shell or a local `.env` file, and never commit them:
 | `acs/` | Agent coordination: the task board, the `claim.py` CLI and the hot-loader, plus the vendored ACS runtime |
 | `web/` | The frontend: source in `web/src/`, build root in `web/package.json`. Built on the serving machine from the deployed commit; the output is not committed |
 | `contracts/` | `openapi.json` for the API, one contract per agent role in `agents/`, and `storage.json`, which says where each kind of data lives |
-| `tests/`, `ci/` | The test suite and offline triage helpers |
+| `tests/`, `ci/` | The test suite, offline triage helpers and `docs_refresh.py` (decides when the docs are due for a refresh) |
 | `deploy/` | The deploy script, the launchd wrapper and plists for the host |
-| `tools/` | `run_all.sh`, `ci_local.sh`, the adoption and dependency checks, the Kokoro installer and Arize helpers |
+| `tools/` | `run_all.sh`, `ci_local.sh`, the adoption and dependency checks, the Kokoro installer and Arize helpers; `phoenix_eval.py`, `phoenix_cases.py` and `phoenix_judges.py` (Phoenix datasets and experiments); `crs_chunks.py` and `crs_load.py` (the statute loader) |
 | `arize/` | Arize experiments and judge setup |
 | `docs/` | Project notes and hackathon records, indexed in `docs/README.md`. The voice chain, the caches and the data model are explained in `docs/voice-and-data-model.md` |
 
