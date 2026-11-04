@@ -66,6 +66,23 @@ def standalone_query(question, prior):
     return text
 
 
+# People ask about "a gun license"; the statutes say "firearm", "concealed handgun" and "permit". The index matches words,
+# so the question is searched with the statute's own words added (never replaced): without them a plain gun question
+# retrieved licensing cases about liquor and theatres and no firearm statute at all.
+_GUN = re.compile(r"\b(?:guns?|pistols?|revolvers?|rifles?|handguns?)\b", re.I)
+_LICENCE = re.compile(r"\blicen[cs]es?\b", re.I)
+
+
+def expand_query(question):
+    """The question with statutory vocabulary appended where everyday words stand in for it."""
+    extra = []
+    if _GUN.search(question):
+        extra += ["firearm", "concealed handgun"]
+        if _LICENCE.search(question):
+            extra.append("permit")
+    return f"{question} ({', '.join(extra)})" if extra else question
+
+
 def _model_name(provider):
     """The model out of a provider label such as 'inferhub/cb/deepseek-v4.1-flash (cached)'."""
     return re.sub(r"\s*\(.*\)\s*$", "", provider or "").split("/", 1)[-1] or "unknown"
@@ -154,7 +171,7 @@ def retriever(run, question, extra_seeds=None):
         passages, psrc = [], None
         if os.environ.get("USE_OCTO", "1") == "1":
             try:
-                passages, psrc = octo_retriever.search(question)
+                passages, psrc = octo_retriever.search(expand_query(question))
             except Exception as e:
                 run.event(A, "retrieval_error", f"retrieval failed: {type(e).__name__}: {str(e)[:200]}")
         record = octo_retriever.last_retrieval() or {
