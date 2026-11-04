@@ -51,11 +51,12 @@ def parse(text):
     for name in JUDGES:
         v = raw.get(name)
         if isinstance(v, dict) and isinstance(v.get("score"), (int, float)) and not isinstance(v.get("score"), bool):
-            out[f"judge_{name}"] = {
-                "label": str(v.get("label")),
-                "score": max(0.0, min(1.0, float(v["score"]))),
-                "explanation": str(v.get("explanation") or "")[:300],
-            }
+            score = max(0.0, min(1.0, float(v["score"])))
+            key = f"judge_{name}"
+            if name == "hallucination":
+                # The rubric scores 1 = hallucinated; every other score here is higher-is-better, so report the inverse.
+                key, score = "judge_no_hallucination", round(1.0 - score, 3)
+            out[key] = {"label": str(v.get("label")), "score": score, "explanation": str(v.get("explanation") or "")[:300]}
     return out
 
 
