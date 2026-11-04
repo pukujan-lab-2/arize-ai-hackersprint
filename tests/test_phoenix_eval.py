@@ -70,7 +70,7 @@ def test_the_judge_reply_is_parsed_into_named_scores():
     reply = 'Sure:\n```json\n{"groundedness": {"label": "grounded", "score": 0.9, "explanation": "ok"}, "hallucination": {"label": "factual", "score": 7}, "legal_safety": {"label": "safe"}}\n```'
     out = parse(reply)
     assert out["judge_groundedness"] == {"label": "grounded", "score": 0.9, "explanation": "ok"}
-    assert out["judge_hallucination"]["score"] == 1.0  # clamped
+    assert out["judge_no_hallucination"]["score"] == 0.0  # 7 clamps to 1 (hallucinated), reported inverted so higher is better
     assert "judge_legal_safety" not in out and "judge_citation_relevance" not in out  # no numeric score: left out
     assert parse("not json") == {} and parse("") == {}
 
